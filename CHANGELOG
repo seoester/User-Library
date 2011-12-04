@@ -1,0 +1,31 @@
+User Library - 0.6 (Released 2011-11-26)
+========================================
+- 0000023: [General] Upgrade Script for userlib 0.6 - closed.
+- 0000026: [General] getGroups should return an array of groups - closed.
+- 0000025: [General] insertInOlineTable to insertInOnlineTable - closed.
+- 0000024: [General] Adapt install.php for 0.6 - closed.
+- 0000020: [General] Support for anonymous users - closed.
+- 0000015: [General] Security token - closed.
+- 0000013: [General] Add dbcaching to customfields and the group class - closed.
+- 0000014: [General] Add custom fields to the group class - closed.
+- 0000022: [General] Functions for getting all users/groups/users in a group - closed.
+- 0000016: [General] New tables for permissions/groups - closed.
+ - 0000021: [General] Levels in group - closed.
+- 0000019: [General] Lacking check in custom fields - closed.
+[12 issues]
+
+
+User Library - 0.5 (Released 2011-10-23)
+========================================
+- 0000012: [General] Doc with phpdocumentor - closed.
+- 0000011: [General] New install.php - closed.
+- 0000010: [General] Upgrade Script - closed.
+- 0000004: [General] Create functions for modifying the user table in the database - closed.
+- 0000006: [General] Secure sessions - closed.
+- 0000007: [General] Loginattempts - closed.
+- 0000001: [General] Add a setPassword() function - closed.
+- 0000008: [General] Hooks - closed.
+- 0000002: [General] Caching for db values - closed.
+- 0000003: [General] More functions for the DatabaseConnection class - closed.
+- 0000005: [General] hasPermission() - closed.
+- 0000009: [General] install.php: Error on "Registrieren aktiviert?" "Nein" - closed.
