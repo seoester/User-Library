@@ -1,0 +1,3 @@
+The User Library is a (very) small PHP framework, which you can use to manage user of you website.
+It supports groups, permissions and custom fields.
+Passwords are encrypted with md5 and salts.
