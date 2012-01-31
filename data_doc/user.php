@@ -16,6 +16,7 @@
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once "database.php";
+require_once "group.php";
 require_once "settings.php";
 
 /**
@@ -23,7 +24,7 @@ require_once "settings.php";
 * Die meisten Funktionen geben false zurück falls der Benutzer noch nicht mit {@link User::check()}, {@link User::login()} oder {@link User::openWithId()} initalisiert wurde.
 *
 * @package userlib
-* @version 0.6
+* @version 0.61
 */
 class User {
 	
@@ -97,7 +98,7 @@ class User {
 	public function check() {
 		if ($this->created)
 			return false;
-		session_start();
+		@session_start();
 		$this->cleanOnlineTable();
 		if (isset($_SESSION['userid']) && strlen($_SESSION['userid']) > 0 && isset($_COOKIE['USER_cookie_string']) && strlen($_COOKIE['USER_cookie_string']) > 0) {
 			$userid = $_SESSION['userid'];
@@ -544,6 +545,28 @@ class User {
 	}
 	
 	/**
+	* Gibt das Level des aktuellen Benutzers in derGroppe mit der ID $groupId zurück.
+	*/
+	public function getInGroupLevel($groupId) {
+		if (! $this->created || $this->deleted)
+			return false;
+		
+		$dbCon = new DatabaseConnection();
+		
+		$stmt = $dbCon->prepare("SELECT `level` FROM `{dbpre}user_groups` WHERE `userid`=? AND `groupid`=? LIMIT 1;");
+		
+		$stmt->bind_param("ii", $this->id, $groupId);
+		$stmt->execute();
+		$stmt->bind_result($level);
+		if ($stmt->fetch())
+			;
+	  else
+			$level = false;
+		$dbCon->close();
+		return $level;
+	}
+	
+	/**
 	* Setzt das Level des aktuellen Benutzers in der Gruppe mit der ID $groupId.
 	*
 	*/
@@ -669,7 +692,8 @@ class User {
 		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}group_permissions` WHERE `groupid`=? AND `permissionid`=? LIMIT 1;");
 		
 		$groups = $this->getGroups();
-		foreach ($groups as $groupId) {
+		foreach ($groups as $group) {
+			$groupId = $group->getId();
 			$stmt->bind_param("ii", $groupId, $permissionId);
 			$stmt->execute();
 			$stmt->bind_result($mappingId);
@@ -793,9 +817,12 @@ class User {
 		$checkStmt->fetch();
 		
 		if ($activationCode != $correctActivationCode) {
+			$checkStmt->close();
 			$dbCon->close();
 			return self::ACTIVATEEMAIL_ACTIVATIONCODEWRONG;
 		} else {
+			$checkStmt->free_result();
+			$checkStmt->close();
 			$activateStmt = $dbCon->prepare("UPDATE `{dbpre}users` SET `email_activated`='1' WHERE `id`=? LIMIT 1;");
 			
 			$activateStmt->bind_param("i", $this->id);
@@ -813,7 +840,7 @@ class User {
 	*
 	* @static
 	*/
-	public static function create($loginname, $username, $password, $email, $emailActivated=1, $approved="stan") {
+	public static function create($loginname, $username, $password, $email, $emailActivated=1, $approved="stan", &$userid="unset") {
 		$salt = self::genCode(settings\length_salt);
 		$encodedPassword = self::encodePassword($password, $salt);
 		$activationCode = self::genCode(settings\length_activationcode);
@@ -829,7 +856,7 @@ class User {
 				$finalStatus = 1;
 		}
 		
-		self::writeUserIntoDatabase($loginname, $username, $encodedPassword, $salt, $email, $activationCode, $emailActivated, $finalStatus);
+		$userid = self::writeUserIntoDatabase($loginname, $username, $encodedPassword, $salt, $email, $activationCode, $emailActivated, $finalStatus);
 	}
 	
 	/**
@@ -838,7 +865,7 @@ class User {
 	* Gibt eine der REGISTER_ Konstanten zurück.
 	*
 	*/
-	public static function register($loginname, $username, $password, $email, $emailtext, $emailsubject) {
+	public static function register($loginname, $username, $password, $email, $emailtext, $emailsubject, &$userid="unset") {
 		if (! settings\register_enabled)
 			return self::REGISTER_REGISTERDISABLED;
 		elseif (! self::checkLoginname($loginname))
@@ -857,17 +884,7 @@ class User {
 		else
 			$finalStatus = 100;
 		
-		self::writeUserIntoDatabase($loginname, $username, $encodedPassword, $salt, $email, $activationCode, 0, $finalStatus);
-		
-		$dbCon = new DatabaseConnection();
-		
-		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}users` WHERE `login`=? LIMIT 1;");
-		
-		$stmt->bind_param("s", $loginname);
-		$stmt->execute();
-		$stmt->bind_result($userid);
-		$stmt->fetch();
-		$dbCon->close();
+		$userid = self::writeUserIntoDatabase($loginname, $username, $encodedPassword, $salt, $email, $activationCode, 0, $finalStatus);
 		
 		$emailtext = str_replace("[%actcode%]", $activationCode, $emailtext);
 		$emailtext = str_replace("[%username%]", $username, $emailtext);
@@ -1112,7 +1129,7 @@ class User {
 		} else																		//No results found
 			$returnValue = self::LOGIN_USERDOESNOTEXISTS;
 		
-		if ($loginattempts >= settings\maxloginattempts && date('U') < $blockeduntil) {
+		if ($returnValue === 0 && $loginattempts >= settings\maxloginattempts && date('U') < $blockeduntil) {
 			$returnValue = self::LOGIN_TOOMANYATTEMPTS;
 		}
 		
@@ -1268,12 +1285,15 @@ class User {
 	private static function writeUserIntoDatabase($loginname, $username, $encodedPassword, $salt, $email, $activationCode, $emailActivated, $status) {
 		$dbCon = new DatabaseConnection();
 		$cookieString = self::genCode(100);
+		$id = 0;
 		
 		$insertStmt = $dbCon->prepare("INSERT INTO `{dbpre}users` (`login`, `username`, `password`, `salt`, `email`, `activationcode`, `email_activated`, `status`, `secure_cookie_string`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
 		
 		$insertStmt->bind_param("ssssssiis", $loginname, $username, $encodedPassword, $salt, $email, $activationCode, $emailActivated, $status, $cookieString);
 		$insertStmt->execute();
+		$id = $dbCon->insert_id();
 		$dbCon->close();
+		return $id;
 	}
 	
 	private static function sendMail($FROM, $TO, $SUBJECT, $TEXT) {

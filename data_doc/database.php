@@ -14,15 +14,15 @@
 // 
 //     You should have received a copy of the GNU General Public License
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-require_once "settings.php";
-
 /**
 * Die Klasse DatabaseConnection wird von der User Library benutzt, um Datenbank Verbindungen zu verwalten.
-* Die Klasse Cache wird von der User Library benutzt um Datenbank Abfragen cachen zu können.
+* Die Klasse Cache wird von der User Library benutzt um Datenbank Abfragen cachen zu kï¿½nnen.
 *
 * @package userlib
 */
+
+require_once "settings.php";
+
 class DatabaseConnection {
 	private $mysqliObj;
 	private $statements = array();
@@ -63,6 +63,10 @@ class DatabaseConnection {
 	
 	public function affected_rows() {
 		return $this->mysqliObj->affected_rows;
+	}
+	
+	public function insert_id() {
+		return $this->mysqliObj->insert_id;
 	}
 }
 

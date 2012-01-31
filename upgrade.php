@@ -4,153 +4,15 @@ $info = "";
 require_once "data/settings.php";
 require_once "data/database.php";
 if (isset($_POST['upgrade']) && $_POST['upgrade'] == "yes") {
-	$error = formEvaluation();
-	
-	if (empty($error))
-		$info = "Einrichtung erfolgreich";
+	$info = "Einrichtung erfolgreich";
 }
 function formEvaluation() {
-	$error = "";
-	
-	
-	$dbServer = settings\DB_server;
-	$dbName = settings\DB_database;
-	$dbUser = settings\DB_user;
-	$dbPassword = settings\DB_password;
-	$dbPrefix = settings\DB_prefix;
-	
-    //###################################
-    //##################################
-
-	$error = upgradeDatabaseTables($dbServer, $dbName, $dbUser, $dbPassword, $dbPrefix);
-	return $error;
 }
 
-
-
-
-
 function upgradeDatabaseTables($dbServer, $dbName, $dbUser, $dbPassword, $dbPrefix) {
-	$error = "";
-	
-	$mysqli = new mysqli($dbServer, $dbUser, $dbPassword, $dbName);
-	if ($mysqli->connect_error)
-		return "Fehler bei der Datenbankverbindung:<br />" . mysqli_connect_error(). "<br />Bitte &uuml;berpr&uuml;fen Sie Ihre Angaben";
-	
-	$createArray = array( 'CREATE TABLE IF NOT EXISTS `' . $dbPrefix . 'user_groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userid` int(11) NOT NULL,
-  `groupid` int(11) NOT NULL,
-  `level` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
- ) DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;',
- 'CREATE TABLE IF NOT EXISTS `' . $dbPrefix . 'user_permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userid` int(11) NOT NULL,
-  `permissionid` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
- ) DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;',
- 'CREATE TABLE IF NOT EXISTS `' . $dbPrefix . 'group_permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `groupid` int(11) NOT NULL,
-  `permissionid` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
- ) DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;',
- 'ALTER TABLE  `' . $dbPrefix . 'users`
-  ADD `secure_cookie_string` VARCHAR(100) NOT NULL;', );
-	
-	foreach ($createArray as $value) {
-		$result = $mysqli->query($value);
-		if (! $result) {
-			$error = "Fehler beim Anlegen der Tabellen:<br />" . $mysqli->error;
-			break;
-		}
-	}
-	
-	$mysqli->close();
-	
-	convertMissingFields();
-	
-	$mysqli = new mysqli($dbServer, $dbUser, $dbPassword, $dbName);
-	if ($mysqli->connect_error)
-		return "Fehler bei der Datenbankverbindung:<br />" . mysqli_connect_error(). "<br />Bitte &uuml;berpr&uuml;fen Sie Ihre Angaben";
-	
-	$createArray = array( 'ALTER TABLE  `' . $dbPrefix . 'users`
-  DROP `groups`,
-  DROP `permissions`;',
-  'ALTER TABLE  `' . $dbPrefix . 'groups`
-  DROP `permissions`;' );
-	
-	foreach ($createArray as $value) {
-		$result = $mysqli->query($value);
-		if (! $result) {
-			$error = "Fehler beim Anlegen der Tabellen:<br />" . $mysqli->error;
-			break;
-		}
-	}
-	
-	$mysqli->close();
-	return $error;
 }
 
 function convertMissingFields() {
-	$dbCon1 = new DatabaseConnection();
-	$dbCon2 = new DatabaseConnection();
-	$dbCon3 = new DatabaseConnection();
-	$dbCon4 = new DatabaseConnection();
-	$dbCon5 = new DatabaseConnection();
-	$dbCon6 = new DatabaseConnection();
-	$level = 50;
-	
-	$readUsers = $dbCon1->prepare("SELECT `id`, `groups`, `permissions` FROM {dbpre}users;");
-	$writeUserPermissions = $dbCon2->prepare("INSERT INTO {dbpre}user_permissions (`userid`, `permissionid`) VALUES (?, ?);");
-	$writeUserGroups = $dbCon3->prepare("INSERT INTO {dbpre}user_groups (`userid`, `groupid`, `level`) VALUES (?, ?, ?);");
-	$writeCookieString = $dbCon6->prepare("UPDATE `{dbpre}users` SET `secure_cookie_string`=?  WHERE `id`=? LIMIT 1;");
-	$readGroups = $dbCon4->prepare("SELECT `id`, `permissions` FROM {dbpre}groups;");
-	$writeGroupPermissions = $dbCon5->prepare("INSERT INTO {dbpre}group_permissions (`groupid`, `permissionid`) VALUES (?, ?);");
-	
-	$readUsers->execute();
-	$readUsers->bind_result($userid, $userGroups, $userPermissions);
-	while ($readUsers->fetch()) {
-		$permissionIds = preg_split("/;/", $userPermissions);
-		$groupIds = preg_split("/;/", $userGroups);
-		$code = genCode(100);
-		$writeCookieString->bind_param("si", $code, $userid);
-		$writeCookieString->execute();
-		foreach ($permissionIds as $pid) {
-			if (! empty($pid)) {
-				$writeUserPermissions->bind_param("ii", $userid, $pid);
-				$writeUserPermissions->execute();
-			}
-		}
-		
-		foreach ($groupIds as $gid) {
-			if (! empty($gid)) {
-				$writeUserGroups->bind_param("iii", $userid, $gid, $level);
-				$writeUserGroups->execute();
-			}
-		}
-	}
-	
-	$readGroups->execute();
-	$readGroups->bind_result($groupid, $groupPermissions);
-	while ($readGroups->fetch()) {
-		$permissionIds = preg_split("/;/", $groupPermissions);
-		foreach ($permissionIds as $pid) {
-			if (! empty($pid)) {
-				$pid = intval($pid);
-				$writeGroupPermissions->bind_param("ii", $groupid, $pid);
-				$writeGroupPermissions->execute();
-			}
-		}
-	}
-	
-	$dbCon1->close();
-	$dbCon2->close();
-	$dbCon3->close();
-	$dbCon4->close();
-	$dbCon5->close();
-	$dbCon6->close();
 }
 
 function genCode($charNum) {
@@ -213,7 +75,7 @@ function convStringToBool($string) {
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
-  <h1>User Library Upgradeassistent (0.5 => 0.6)</h1>
+  <h1>User Library Upgradeassistent (0.6 => 0.61)</h1>
 
   <?php
 if (! empty($error))

@@ -14,7 +14,7 @@ const DB_server = "localhost";
 /**
 * Die Datenbank, die die User Library zum Speichern von Daten nutzen soll.
 */
-const DB_database = "localhost";
+const DB_database = "userlib";
 /**
 * Der Nutzer, mit dem sich die User Library auf der Datenbank einloggt.
 */
@@ -24,25 +24,25 @@ const DB_user = "root";
 */
 const DB_password = "root";
 /**
-* Das Präfix, das vor die Tabellen der User Library gestellt wird.
+* Das PrÃ¤fix, das vor die Tabellen der User Library gestellt wird.
 */
-const DB_prefix = "site_";
+const DB_prefix = "userlib_";
 
 /**
-* Soll ein Login möglich sein?
+* Soll ein Login mÃ¶glich sein?
 */
 const login_enabled = true;
 /**
-* Soll ein Registrieren mit {@link User::register()} möglich sein?
-* Ein Registrieren mit {@link User::create()} ist weiterhin möglich.
+* Soll ein Registrieren mit {@link User::register()} mÃ¶glich sein?
+* Ein Registrieren mit {@link User::create()} ist weiterhin mÃ¶glich.
 */
 const register_enabled = true;
 /**
-* Benötigen neue Benutzer eine Bestätigung durch die Funktion {@link User::approve()}?
+* BenÃ¶tigen neue Benutzer eine BestÃ¤tigung durch die Funktion {@link User::approve()}?
 */
 const need_approval = false;
 /**
-* Wie lang soll der Salt sein, der für die Verschlüsselung von Passwörtern verwendet wird?
+* Wie lang soll der Salt sein, der fÃ¼r die VerschlÃ¼sselung von PasswÃ¶rtern verwendet wird?
 */
 const length_salt = 20;
 /**
@@ -64,14 +64,14 @@ const autologouttime = 2000;
 */
 const maxloginattempts = 5;
 /**
-* Für wie lange wird ein Account gesperrt, nachdem zu viele fehlerhafte Loginversuche vorgenommen wurden.
+* FÃ¼r wie lange wird ein Account gesperrt, nachdem zu viele fehlerhafte Loginversuche vorgenommen wurden.
 */
 const loginblocktime = 60;
 /**
 * Sollen Securesessions eingeschaltet sein?
-* Bei einer Securesession darf die IP-Adresse eines Benutzers während einer Sitzung nicht wechseln.
-* Securesessions werden für die meisten Webseiten nicht empfohlen, weil zum Beispiel Handys mit mobilen Internet häufig die IP-Adresse wechseln.
-* Bei lange dauernden Sitzungen kann es durch die Knappheit von IP-Adressen auch sein, das über Kabel/WLAN verbundene Computer/Handys ihre öffentliche IP-Adresse wechseln.
+* Bei einer Securesession darf die IP-Adresse eines Benutzers wÃ¤hrend einer Sitzung nicht wechseln.
+* Securesessions werden fÃ¼r die meisten Webseiten nicht empfohlen, weil zum Beispiel Handys mit mobilen Internet hÃ¤ufig die IP-Adresse wechseln.
+* Bei lange dauernden Sitzungen kann es durch die Knappheit von IP-Adressen auch sein, das Ã¼ber Kabel/WLAN verbundene Computer/Handys ihre Ã¶ffentliche IP-Adresse wechseln.
 */
 const securesessions = false;
 ?>

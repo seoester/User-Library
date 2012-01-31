@@ -15,14 +15,15 @@
 //     You should have received a copy of the GNU General Public License
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once "database.php";
-require_once "settings.php";
-
 /**
 * In group.php sind alle Elemente zu finden, die mit Gruppen in der User Library zu tun haben.
 *
 * @package userlib
 */
+
+require_once "database.php";
+require_once "settings.php";
+
 class Group {
 	
 	protected $created = false;
@@ -251,12 +252,13 @@ class Group {
 	*
 	* @static
 	*/
-	public static function create($groupname) {
+	public static function create($groupname, &$groupId="unset") {
 		$dbCon = new DatabaseConnection();
 		
 		$stmt = $dbCon->prepare("INSERT INTO `{dbpre}groups` (`name`) VALUES (?);");
 		$stmt->bind_param("s", $groupname);
 		$stmt->execute();
+		$groupId = $dbCon->insert_id();
 		
 		$dbCon->close();
 	}

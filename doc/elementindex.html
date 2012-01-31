@@ -60,9 +60,9 @@
 							<dt><b>ACTIVATEEMAIL_OK</b></dt>
 				<dd>in file user.php, class constant <a href="userlib/User.html#constACTIVATEEMAIL_OK">User::ACTIVATEEMAIL_OK</a></dd>
 							<dt><b>addCustomField</b></dt>
-				<dd>in file group.php, method <a href="userlib/Group.html#methodaddCustomField">Group::addCustomField()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Fügt ein benutzerdefiniertes Feld mit dem Namen $name und dem $type zu der _groups Tabelle hinzu.</dd>
-							<dt><b>addCustomField</b></dt>
 				<dd>in file user.php, method <a href="userlib/User.html#methodaddCustomField">User::addCustomField()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Fügt ein benutzerdefiniertes Feld mit dem Namen $name und dem $type zu der _users Tabelle hinzu.</dd>
+							<dt><b>addCustomField</b></dt>
+				<dd>in file group.php, method <a href="userlib/Group.html#methodaddCustomField">Group::addCustomField()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Fügt ein benutzerdefiniertes Feld mit dem Namen $name und dem $type zu der _groups Tabelle hinzu.</dd>
 							<dt><b>addGroup</b></dt>
 				<dd>in file user.php, method <a href="userlib/User.html#methodaddGroup">User::addGroup()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Fügt den aktuellen Benutzer als Mitglied zu der Gruppe mit der Id $groupId hinzu.</dd>
 							<dt><b>addPermission</b></dt>
@@ -126,7 +126,7 @@
 							<dt><b>database.php</b></dt>
 				<dd>procedural page <a href="userlib/_database.php.html">database.php</a></dd>
 							<dt><b>DatabaseConnection</b></dt>
-				<dd>in file database.php, class <a href="userlib/DatabaseConnection.html">DatabaseConnection</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Die Klasse DatabaseConnection wird von der User Library benutzt, um Datenbank Verbindungen zu verwalten.</dd>
+				<dd>in file database.php, class <a href="userlib/DatabaseConnection.html">DatabaseConnection</a></dd>
 							<dt><b>deleteGroup</b></dt>
 				<dd>in file group.php, method <a href="userlib/Group.html#methoddeleteGroup">Group::deleteGroup()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Löscht die Gruppe.</dd>
 							<dt><b>deleteUser</b></dt>
@@ -148,9 +148,9 @@
 							<dt><b>getConnection</b></dt>
 				<dd>in file database.php, method <a href="userlib/DatabaseConnection.html#methodgetConnection">DatabaseConnection::getConnection()</a></dd>
 							<dt><b>getCustomField</b></dt>
-				<dd>in file user.php, method <a href="userlib/User.html#methodgetCustomField">User::getCustomField()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Liest den Wert aus dem benutzerdefinierten Feld $name des aktuellen Benutzers.</dd>
-							<dt><b>getCustomField</b></dt>
 				<dd>in file group.php, method <a href="userlib/Group.html#methodgetCustomField">Group::getCustomField()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Liest den Wert aus dem benutzerdefinierten Feld $name der aktuellen Gruppe.</dd>
+							<dt><b>getCustomField</b></dt>
+				<dd>in file user.php, method <a href="userlib/User.html#methodgetCustomField">User::getCustomField()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Liest den Wert aus dem benutzerdefinierten Feld $name des aktuellen Benutzers.</dd>
 							<dt><b>getEmail</b></dt>
 				<dd>in file user.php, method <a href="userlib/User.html#methodgetEmail">User::getEmail()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Gibt die Email Adresse des aktuellen Benutzers zurück.</dd>
 							<dt><b>getField</b></dt>
@@ -161,6 +161,8 @@
 				<dd>in file group.php, method <a href="userlib/Group.html#methodgetId">Group::getId()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Gibt die ID der aktuellen Gruppe zurück.</dd>
 							<dt><b>getId</b></dt>
 				<dd>in file user.php, method <a href="userlib/User.html#methodgetId">User::getId()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Gibt die ID in der _users Tabelle des aktuellen Benutzers zurück.</dd>
+							<dt><b>getInGroupLevel</b></dt>
+				<dd>in file user.php, method <a href="userlib/User.html#methodgetInGroupLevel">User::getInGroupLevel()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Gibt das Level des aktuellen Benutzers in derGroppe mit der ID $groupId zurück.</dd>
 							<dt><b>getLoginname</b></dt>
 				<dd>in file user.php, method <a href="userlib/User.html#methodgetLoginname">User::getLoginname()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Gibt den Loginnamen des aktuellen Benutzers zurück.</dd>
 							<dt><b>getName</b></dt>
@@ -172,7 +174,7 @@
 							<dt><b>getUsername</b></dt>
 				<dd>in file user.php, method <a href="userlib/User.html#methodgetUsername">User::getUsername()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Gibt den Benutzernamen des aktuellen Benutzers zurück.</dd>
 							<dt><b>Group</b></dt>
-				<dd>in file group.php, class <a href="userlib/Group.html">Group</a><br>&nbsp;&nbsp;&nbsp;&nbsp;In group.php sind alle Elemente zu finden, die mit Gruppen in der User Library zu tun haben.</dd>
+				<dd>in file group.php, class <a href="userlib/Group.html">Group</a></dd>
 							<dt><b>group.php</b></dt>
 				<dd>procedural page <a href="userlib/_group.php.html">group.php</a></dd>
 					</dl>
@@ -207,6 +209,8 @@
 				<dd>in file database.php, method <a href="userlib/Cache.html#methodinCache">Cache::inCache()</a></dd>
 							<dt><b>inGroup</b></dt>
 				<dd>in file user.php, method <a href="userlib/User.html#methodinGroup">User::inGroup()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Gibt true zurück, wenn der Benutzer Mitglied der Gruppe mit der Id $groupId, ansonsten false.</dd>
+							<dt><b>insert_id</b></dt>
+				<dd>in file database.php, method <a href="userlib/DatabaseConnection.html#methodinsert_id">DatabaseConnection::insert_id()</a></dd>
 					</dl>
 	</div>
 	<a href="elementindex.html#top">top</a><br>
@@ -290,9 +294,9 @@
 							<dt><b>removeGroup</b></dt>
 				<dd>in file user.php, method <a href="userlib/User.html#methodremoveGroup">User::removeGroup()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Entfernt den aktuellen Benutzer aus der Gruppe mit der Id $groupId.</dd>
 							<dt><b>removePermission</b></dt>
-				<dd>in file group.php, method <a href="userlib/Group.html#methodremovePermission">Group::removePermission()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Entzieht der Gruppe die Permission $name wieder.</dd>
-							<dt><b>removePermission</b></dt>
 				<dd>in file user.php, method <a href="userlib/User.html#methodremovePermission">User::removePermission()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Entfernt die Permission $title vom aktuellen Benutzer.</dd>
+							<dt><b>removePermission</b></dt>
+				<dd>in file group.php, method <a href="userlib/Group.html#methodremovePermission">Group::removePermission()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Entzieht der Gruppe die Permission $name wieder.</dd>
 					</dl>
 	</div>
 	<a href="elementindex.html#top">top</a><br>
@@ -368,7 +372,7 @@
 	<a href="elementindex.html#top">top</a><br>
         <div class="credit">
 		    <hr />
-		    Documentation generated on Sat, 26 Nov 2011 17:47:03 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		    Documentation generated on Tue, 31 Jan 2012 22:17:37 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	      </div>
       </td></tr></table>
     </td>

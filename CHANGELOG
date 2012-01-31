@@ -1,3 +1,16 @@
+User Library - 0.61 (Released 2011-12-16)
+=========================================
+- 0000038: [General] Add method User->getInGroupLevel($groupId) - closed.
+- 0000031: [General] Warning when checking the permissions - closed.
+- 0000030: [General] Use of the insert_id of the database class - closed.
+- 0000032: [General] User::register and User::create with a optional parameter for the id - closed.
+- 0000033: [General] Error when trying to activate user - closed.
+- 0000029: [General] Problem with the activation email - closed.
+- 0000027: [General] Problem with loginattempts by wrong loginname - closed.
+- 0000037: [General] Improve User->check() session_start() - closed.
+[8 issues]
+
+
 User Library - 0.6 (Released 2011-11-26)
 ========================================
 - 0000023: [General] Upgrade Script for userlib 0.6 - closed.

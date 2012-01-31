@@ -131,7 +131,7 @@ function createDatabaseTables($dbServer, $dbName, $dbUser, $dbPassword, $dbPrefi
   `blockeduntil` int(11) NOT NULL,
   `secure_cookie_string` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
- ) DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;'
+ ) DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;',
  'CREATE TABLE IF NOT EXISTS `' . $dbPrefix . 'user_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
@@ -208,7 +208,7 @@ function convStringToBool($string) {
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
-  <h1>User Library Installationsassistent (0.6)</h1>
+  <h1>User Library Installationsassistent (0.61)</h1>
 
   <?php
 if (! empty($error))
