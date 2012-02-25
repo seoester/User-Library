@@ -24,6 +24,7 @@ UPGRADE
 The User Library can be updated with the upgrade.php.
 You cannot skip a version, so if you want to upgrade from 0.41 to 0.6 you first have to upgrade from 0.41 to 0.5 and then from 0.5 to 0.6.
 You can view the history of all User Library versions with the git tags.
+
  1. Backup your settings.php
  2. Upload the new data directory and the upgrade.php to your server
  3. Call the upgrade.php with your web browser
