@@ -17,7 +17,7 @@ Download a version of the User Library.
  3. Call the install.php file with your web browser
  4. Now fill in all fields and click on "Install", the install.php will inform you about errors.
  5. When the creation of the database tables and the settings file was finished successfully you can delete the install.php and maybe rename the data directory to any other name.
- 6. Now you can use the User Library, start with including the user.php file.
+ 6. Now you can use the User Library, start with including the class.user.php file.
 
 UPGRADE
 --------

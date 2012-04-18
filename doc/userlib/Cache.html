@@ -30,13 +30,13 @@
             <br /><br />
                         <b>Files:</b><br />
       	  <div class="package">
-			<a href="../userlib/_database.php.html">		database.php
+			<a href="../userlib/_class.databaseconnection.php.html">		class.databaseconnection.php
 		</a><br>
-			<a href="../userlib/_group.php.html">		group.php
+			<a href="../userlib/_class.group.php.html">		class.group.php
+		</a><br>
+			<a href="../userlib/_class.user.php.html">		class.user.php
 		</a><br>
 			<a href="../userlib/_settings.php.html">		settings.php
-		</a><br>
-			<a href="../userlib/_user.php.html">		user.php
 		</a><br>
 	  </div><br />
       
@@ -45,16 +45,18 @@
         <div class="package">
 		    		<a href="../userlib/Cache.html">Cache</a><br />
 	    		<a href="../userlib/DatabaseConnection.html">DatabaseConnection</a><br />
+	    		<a href="../userlib/DatabaseSettings.html">DatabaseSettings</a><br />
 	    		<a href="../userlib/Group.html">Group</a><br />
 	    		<a href="../userlib/User.html">User</a><br />
 	    		<a href="../userlib/UserHooks.html">UserHooks</a><br />
+	    		<a href="../userlib/UserLibrarySettings.html">UserLibrarySettings</a><br />
 	  </div>
                 </td>
     <td>
       <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
 
 <h1>Class: Cache</h1>
-Source Location: /database.php<br /><br />
+Source Location: /class.databaseconnection.php<br /><br />
 
 
 <table width="100%" border="0">
@@ -80,6 +82,7 @@ Source Location: /database.php<br /><br />
     <li><a href="../userlib/Cache.html#methodgetField">getField</a></li>
     <li><a href="../userlib/Cache.html#methodinCache">inCache</a></li>
     <li><a href="../userlib/Cache.html#methodsetField">setField</a></li>
+    <li><a href="../userlib/Cache.html#methodunsetField">unsetField</a></li>
   </ul>
 </td>
 
@@ -99,7 +102,7 @@ Source Location: /database.php<br /><br />
 <a name="class_details"></a>
 <h3>Class Details</h3>
 <div class="tags">
-[line 73]<br />
+[line 100]<br />
 </div><br /><br />
 <div class="top">[ <a href="#top">Top</a> ]</div><br />
 
@@ -111,7 +114,7 @@ Source Location: /database.php<br /><br />
 
   <hr />
 	<a name="methodgetField"></a>
-	<h3>method getField <span class="smalllinenumber">[line 92]</span></h3>
+	<h3>method getField <span class="smalllinenumber">[line 111]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -153,7 +156,7 @@ $default = null])</code>
   </div>
   <hr />
 	<a name="methodinCache"></a>
-	<h3>method inCache <span class="smalllinenumber">[line 77]</span></h3>
+	<h3>method inCache <span class="smalllinenumber">[line 103]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -189,7 +192,7 @@ $field)</code>
   </div>
   <hr />
 	<a name="methodsetField"></a>
-	<h3>method setField <span class="smalllinenumber">[line 81]</span></h3>
+	<h3>method setField <span class="smalllinenumber">[line 107]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -229,12 +232,48 @@ $value)</code>
     </div><br />
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
+  <hr />
+	<a name="methodunsetField"></a>
+	<h3>method unsetField <span class="smalllinenumber">[line 118]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void unsetField(
+
+$field)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$field</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
 </div><br />
 
 
         <div class="credit">
 		    <hr />
-		    Documentation generated on Tue, 31 Jan 2012 22:17:37 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		    Documentation generated on Wed, 18 Apr 2012 22:02:16 +0200 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	      </div>
       </td></tr></table>
     </td>

@@ -26,10 +26,16 @@ require_once "settings.php";
 class DatabaseConnection {
 	private $mysqliObj;
 	private $statements = array();
+	private $dbPrefix;
+	private static $connections = array();
 	
-	public function __construct () {
+	public function __construct($settings=null) {
 		$this->mysqliObj = new mysqli();
-		$this->mysqliObj->real_connect(settings\DB_server, settings\DB_user, settings\DB_password, settings\DB_database);
+		if ($settings === null)
+			$settings = new UserLibrarySettings();
+		
+		$this->mysqliObj->real_connect($settings::DB_server, $settings::DB_user, $settings::DB_password, $settings::DB_database);
+		$this->dbPrefix = $settings::DB_prefix;
 	}
 	
 	public function getConnection() {
@@ -40,9 +46,7 @@ class DatabaseConnection {
 	}
 	
 	public function prepare($sql) {
-		$dbPrefix = settings\DB_prefix;
-		
-		$correctSQL = str_replace("{dbpre}", $dbPrefix, $sql);
+		$correctSQL = str_replace("{dbpre}", $this->dbPrefix, $sql);
 		if ($stmt = $this->mysqliObj->prepare($correctSQL)) {
 		} else
 			throw new Exception("DataBase Error: " . $this->mysqliObj->error);
@@ -52,12 +56,6 @@ class DatabaseConnection {
 	}
 	
 	public function close($freeResult = false) {
-		foreach ($this->statements as $stmt) {
-			if ($freeResult)
-				$stmt->free_result();
-			$stmt->close();
-		}
-		
 		$this->mysqliObj->close();
 	}
 	
@@ -68,41 +66,65 @@ class DatabaseConnection {
 	public function insert_id() {
 		return $this->mysqliObj->insert_id;
 	}
+	
+	public static function getDatabaseConnection($settings=null) {
+		$connection = null;
+		if ($settings === null)
+			$settings = new UserLibrarySettings();
+		
+		foreach (self::$connections as $connectionItem) {
+			if ($connectionItem["server"] == $settings::DB_server &&
+				$connectionItem["user"] == $settings::DB_user &&
+				$connectionItem["password"] == $settings::DB_password &&
+				$connectionItem["database"] == $settings::DB_database &&
+				$connectionItem["prefix"] == $settings::DB_prefix) {
+				$connection = $connectionItem["connection"];
+				break;
+			}
+		}
+		
+		if ($connection === null) {
+			$connection = new DatabaseConnection($settings);
+			$connectionItem = array("server" => $settings::DB_server,
+			"user" => $settings::DB_user,
+			"password" => $settings::DB_password,
+			"database" => $settings::DB_database,
+			"prefix" => $settings::DB_prefix,
+			"connection" => $connection);
+			self::$connections[] = $connectionItem;
+		}
+		return $connection;
+	}
 }
 
 class Cache {
-	private $fields = array();
-	private $values = array();
+	private $cache = array();
 	
 	public function inCache($field) {
-		return in_array($field, $this->fields);
+		return isset($this->cache[$field]);
 	}
 	
 	public function setField($field, $value) {
-		if ($this->inCache($field)) {
-			$this->cleanArrays($field);
-			$this->fields[] = $field;
-			$this->values[] = $value;
-		} else {
-			$this->fields[] = $field;
-			$this->values[] = $value;
-		}
+		$this->cache[$field] = $value;
 	}
 	
 	public function getField($field, $default = null) {
-		if ($this->inCache($field)) {
-			$index = array_search($field, $this->fields);
-			return $this->values[$index];
-		} else
+		if ($this->inCache($field))
+			return $this->cache[$field];
+		else
 			return $default;
 	}
 	
-	private function cleanArrays($field) {
-		$index = array_search($field, $this->fields);
-		unset($this->fields[$index]);
-		unset($this->values[$index]);
-		$this->fields = array_values($this->fields);
-		$this->values = array_values($this->values);
+	public function unsetField($field) {
+		unset($this->cache[$field]);
 	}
+}
+
+class DatabaseSettings {
+	const DB_server = null;
+	const DB_user = null;
+	const DB_password = null;
+	const DB_database = null;
+	const DB_prefix = null;
 }
 ?>

@@ -30,13 +30,13 @@
             <br /><br />
                         <b>Files:</b><br />
       	  <div class="package">
-			<a href="../userlib/_database.php.html">		database.php
+			<a href="../userlib/_class.databaseconnection.php.html">		class.databaseconnection.php
 		</a><br>
-			<a href="../userlib/_group.php.html">		group.php
+			<a href="../userlib/_class.group.php.html">		class.group.php
+		</a><br>
+			<a href="../userlib/_class.user.php.html">		class.user.php
 		</a><br>
 			<a href="../userlib/_settings.php.html">		settings.php
-		</a><br>
-			<a href="../userlib/_user.php.html">		user.php
 		</a><br>
 	  </div><br />
       
@@ -45,16 +45,18 @@
         <div class="package">
 		    		<a href="../userlib/Cache.html">Cache</a><br />
 	    		<a href="../userlib/DatabaseConnection.html">DatabaseConnection</a><br />
+	    		<a href="../userlib/DatabaseSettings.html">DatabaseSettings</a><br />
 	    		<a href="../userlib/Group.html">Group</a><br />
 	    		<a href="../userlib/User.html">User</a><br />
 	    		<a href="../userlib/UserHooks.html">UserHooks</a><br />
+	    		<a href="../userlib/UserLibrarySettings.html">UserLibrarySettings</a><br />
 	  </div>
                 </td>
     <td>
       <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
 
 <h1>Class: Group</h1>
-Source Location: /group.php<br /><br />
+Source Location: /class.group.php<br /><br />
 
 
 <table width="100%" border="0">
@@ -121,7 +123,7 @@ Source Location: /group.php<br /><br />
 <a name="class_details"></a>
 <h3>Class Details</h3>
 <div class="tags">
-[line 27]<br />
+[line 28]<br />
 </div><br /><br />
 <div class="top">[ <a href="#top">Top</a> ]</div><br />
 
@@ -132,7 +134,7 @@ Source Location: /group.php<br /><br />
 	<a name="var$created"></a>
 	<p></p>
 	<h4>$created = <span class="value">&nbsp;false</span></h4>
-	<p>[line 29]</p>
+	<p>[line 30]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -156,7 +158,7 @@ Source Location: /group.php<br /><br />
 	<a name="var$dbCache"></a>
 	<p></p>
 	<h4>$dbCache = <span class="value"></span></h4>
-	<p>[line 32]</p>
+	<p>[line 33]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -180,7 +182,7 @@ Source Location: /group.php<br /><br />
 	<a name="var$deleted"></a>
 	<p></p>
 	<h4>$deleted = <span class="value">&nbsp;false</span></h4>
-	<p>[line 31]</p>
+	<p>[line 32]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -204,7 +206,7 @@ Source Location: /group.php<br /><br />
 	<a name="var$id"></a>
 	<p></p>
 	<h4>$id = <span class="value"></span></h4>
-	<p>[line 30]</p>
+	<p>[line 31]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -233,7 +235,7 @@ Source Location: /group.php<br /><br />
 <div class="tags">
   <hr />
 	<a name="methodcreate"></a>
-	<h3>static method create <span class="smalllinenumber">[line 255]</span></h3>
+	<h3>static method create <span class="smalllinenumber">[line 278]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -275,12 +277,14 @@ $groupname, [
   </div>
   <hr />
 	<a name="methodgetAllGroups"></a>
-	<h3>static method getAllGroups <span class="smalllinenumber">[line 272]</span></h3>
+	<h3>static method getAllGroups <span class="smalllinenumber">[line 295]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
 		<code>static void getAllGroups(
-)</code>
+[
+$limit = null], [
+$skip = null])</code>
     </td></tr></table>
     </td></tr></table><br />
 	
@@ -296,12 +300,27 @@ $groupname, [
 <br /><br />
 
 	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$limit</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$skip</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
 
   <hr />
 	<a name="method__construct"></a>
-	<h3>constructor __construct <span class="smalllinenumber">[line 38]</span></h3>
+	<h3>constructor __construct <span class="smalllinenumber">[line 39]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -326,7 +345,7 @@ $groupname, [
   </div>
   <hr />
 	<a name="methodaddCustomField"></a>
-	<h3>method addCustomField <span class="smalllinenumber">[line 295]</span></h3>
+	<h3>method addCustomField <span class="smalllinenumber">[line 329]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -368,7 +387,7 @@ $type)</code>
   </div>
   <hr />
 	<a name="methodaddPermission"></a>
-	<h3>method addPermission <span class="smalllinenumber">[line 111]</span></h3>
+	<h3>method addPermission <span class="smalllinenumber">[line 115]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -404,7 +423,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methoddeleteGroup"></a>
-	<h3>method deleteGroup <span class="smalllinenumber">[line 234]</span></h3>
+	<h3>method deleteGroup <span class="smalllinenumber">[line 247]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -429,12 +448,14 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodgetAllUsersInGroup"></a>
-	<h3>method getAllUsersInGroup <span class="smalllinenumber">[line 209]</span></h3>
+	<h3>method getAllUsersInGroup <span class="smalllinenumber">[line 216]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
 		<code>void getAllUsersInGroup(
-)</code>
+[
+$limit = null], [
+$skip = null])</code>
     </td></tr></table>
     </td></tr></table><br />
 	
@@ -450,11 +471,26 @@ $name)</code>
 <br /><br />
 
 	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$limit</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$skip</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
   <hr />
 	<a name="methodgetCustomField"></a>
-	<h3>method getCustomField <span class="smalllinenumber">[line 354]</span></h3>
+	<h3>method getCustomField <span class="smalllinenumber">[line 388]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -490,7 +526,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodgetId"></a>
-	<h3>method getId <span class="smalllinenumber">[line 74]</span></h3>
+	<h3>method getId <span class="smalllinenumber">[line 75]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -515,7 +551,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodgetName"></a>
-	<h3>method getName <span class="smalllinenumber">[line 162]</span></h3>
+	<h3>method getName <span class="smalllinenumber">[line 168]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -540,7 +576,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodhasPermission"></a>
-	<h3>method hasPermission <span class="smalllinenumber">[line 82]</span></h3>
+	<h3>method hasPermission <span class="smalllinenumber">[line 83]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -576,7 +612,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodopenWithId"></a>
-	<h3>method openWithId <span class="smalllinenumber">[line 46]</span></h3>
+	<h3>method openWithId <span class="smalllinenumber">[line 47]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -612,7 +648,7 @@ $groupId)</code>
   </div>
   <hr />
 	<a name="methodremoveCustomField"></a>
-	<h3>method removeCustomField <span class="smalllinenumber">[line 311]</span></h3>
+	<h3>method removeCustomField <span class="smalllinenumber">[line 345]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -648,7 +684,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodremovePermission"></a>
-	<h3>method removePermission <span class="smalllinenumber">[line 137]</span></h3>
+	<h3>method removePermission <span class="smalllinenumber">[line 142]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -684,7 +720,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodsaveCustomField"></a>
-	<h3>method saveCustomField <span class="smalllinenumber">[line 328]</span></h3>
+	<h3>method saveCustomField <span class="smalllinenumber">[line 362]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -726,7 +762,7 @@ $value)</code>
   </div>
   <hr />
 	<a name="methodsetName"></a>
-	<h3>method setName <span class="smalllinenumber">[line 190]</span></h3>
+	<h3>method setName <span class="smalllinenumber">[line 196]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -765,7 +801,7 @@ $name)</code>
 
         <div class="credit">
 		    <hr />
-		    Documentation generated on Tue, 31 Jan 2012 22:17:38 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		    Documentation generated on Wed, 18 Apr 2012 22:02:16 +0200 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	      </div>
       </td></tr></table>
     </td>

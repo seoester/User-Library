@@ -1,6 +1,6 @@
 <?php
-require_once "../data/user.php";
-require_once "../data/group.php";
+require_once "../data/class.user.php";
+require_once "../data/class.group.php";
 
 class GroupTest extends PHPUnit_Framework_TestCase {
 	/**

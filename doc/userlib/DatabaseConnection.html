@@ -30,13 +30,13 @@
             <br /><br />
                         <b>Files:</b><br />
       	  <div class="package">
-			<a href="../userlib/_database.php.html">		database.php
+			<a href="../userlib/_class.databaseconnection.php.html">		class.databaseconnection.php
 		</a><br>
-			<a href="../userlib/_group.php.html">		group.php
+			<a href="../userlib/_class.group.php.html">		class.group.php
+		</a><br>
+			<a href="../userlib/_class.user.php.html">		class.user.php
 		</a><br>
 			<a href="../userlib/_settings.php.html">		settings.php
-		</a><br>
-			<a href="../userlib/_user.php.html">		user.php
 		</a><br>
 	  </div><br />
       
@@ -45,16 +45,18 @@
         <div class="package">
 		    		<a href="../userlib/Cache.html">Cache</a><br />
 	    		<a href="../userlib/DatabaseConnection.html">DatabaseConnection</a><br />
+	    		<a href="../userlib/DatabaseSettings.html">DatabaseSettings</a><br />
 	    		<a href="../userlib/Group.html">Group</a><br />
 	    		<a href="../userlib/User.html">User</a><br />
 	    		<a href="../userlib/UserHooks.html">UserHooks</a><br />
+	    		<a href="../userlib/UserLibrarySettings.html">UserLibrarySettings</a><br />
 	  </div>
                 </td>
     <td>
       <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
 
 <h1>Class: DatabaseConnection</h1>
-Source Location: /database.php<br /><br />
+Source Location: /class.databaseconnection.php<br /><br />
 
 
 <table width="100%" border="0">
@@ -81,6 +83,7 @@ Source Location: /database.php<br /><br />
     <li><a href="../userlib/DatabaseConnection.html#methodaffected_rows">affected_rows</a></li>
     <li><a href="../userlib/DatabaseConnection.html#methodclose">close</a></li>
     <li><a href="../userlib/DatabaseConnection.html#methodgetConnection">getConnection</a></li>
+    <li><a href="../userlib/DatabaseConnection.html#methodgetDatabaseConnection">getDatabaseConnection</a></li>
     <li><a href="../userlib/DatabaseConnection.html#methodinsert_id">insert_id</a></li>
     <li><a href="../userlib/DatabaseConnection.html#methodprepare">prepare</a></li>
   </ul>
@@ -111,15 +114,15 @@ Source Location: /database.php<br /><br />
 <a name="class_methods"></a>
 <h3>Class Methods</h3>
 <div class="tags">
-
   <hr />
-	<a name="method__construct"></a>
-	<h3>constructor __construct <span class="smalllinenumber">[line 30]</span></h3>
+	<a name="methodgetDatabaseConnection"></a>
+	<h3>static method getDatabaseConnection <span class="smalllinenumber">[line 70]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
-		<code>DatabaseConnection __construct(
-)</code>
+		<code>static void getDatabaseConnection(
+[
+$settings = null])</code>
     </td></tr></table>
     </td></tr></table><br />
 	
@@ -135,11 +138,58 @@ Source Location: /database.php<br /><br />
 <br /><br />
 
 	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$settings</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+
+  <hr />
+	<a name="method__construct"></a>
+	<h3>constructor __construct <span class="smalllinenumber">[line 32]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>DatabaseConnection __construct(
+[
+$settings = null])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$settings</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
   <hr />
 	<a name="methodaffected_rows"></a>
-	<h3>method affected_rows <span class="smalllinenumber">[line 64]</span></h3>
+	<h3>method affected_rows <span class="smalllinenumber">[line 62]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -164,7 +214,7 @@ Source Location: /database.php<br /><br />
   </div>
   <hr />
 	<a name="methodclose"></a>
-	<h3>method close <span class="smalllinenumber">[line 54]</span></h3>
+	<h3>method close <span class="smalllinenumber">[line 58]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -200,7 +250,7 @@ $freeResult = false])</code>
   </div>
   <hr />
 	<a name="methodgetConnection"></a>
-	<h3>method getConnection <span class="smalllinenumber">[line 35]</span></h3>
+	<h3>method getConnection <span class="smalllinenumber">[line 41]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -225,7 +275,7 @@ $freeResult = false])</code>
   </div>
   <hr />
 	<a name="methodinsert_id"></a>
-	<h3>method insert_id <span class="smalllinenumber">[line 68]</span></h3>
+	<h3>method insert_id <span class="smalllinenumber">[line 66]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -250,7 +300,7 @@ $freeResult = false])</code>
   </div>
   <hr />
 	<a name="methodprepare"></a>
-	<h3>method prepare <span class="smalllinenumber">[line 42]</span></h3>
+	<h3>method prepare <span class="smalllinenumber">[line 48]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -289,7 +339,7 @@ $sql)</code>
 
         <div class="credit">
 		    <hr />
-		    Documentation generated on Tue, 31 Jan 2012 22:17:37 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		    Documentation generated on Wed, 18 Apr 2012 22:02:16 +0200 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	      </div>
       </td></tr></table>
     </td>

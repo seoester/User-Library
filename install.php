@@ -90,13 +90,13 @@ function createDatabaseTables($dbServer, $dbName, $dbUser, $dbPassword, $dbPrefi
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;',
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 ;',
 'CREATE TABLE IF NOT EXISTS `' . $dbPrefix . 'group_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `groupid` int(11) NOT NULL,
   `permissionid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;',
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 ;',
  'CREATE TABLE IF NOT EXISTS `' . $dbPrefix . 'onlineusers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
@@ -104,19 +104,32 @@ function createDatabaseTables($dbServer, $dbName, $dbUser, $dbPassword, $dbPrefi
   `ipaddress` varchar(100) NOT NULL,
   `lastact` int(11) NOT NULL,
   PRIMARY KEY (`id`)
- ) DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;',
+ ) DEFAULT CHARSET=latin1 ;',
  'CREATE TABLE IF NOT EXISTS `' . $dbPrefix . 'permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(250) NOT NULL,
   PRIMARY KEY (`id`)
- ) DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;',
+ ) DEFAULT CHARSET=latin1 ;',
+ 'CREATE TABLE IF NOT EXISTS `' . $dbPrefix . 'registrations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `login` varchar(50) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(300) NOT NULL,
+  `salt` varchar(50) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `status` int(11) NOT NULL,
+  `activationcode` varchar(50) NOT NULL,
+  `secure_cookie_string` varchar(100) NOT NULL,
+  `registerdate` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+ ) DEFAULT CHARSET=latin1 ;',
  'CREATE TABLE IF NOT EXISTS `' . $dbPrefix . 'sessionsvars` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `onlineid` int(11) NOT NULL,
   `title` varchar(100) NOT NULL,
   `value` varchar(3000) NOT NULL,
   PRIMARY KEY (`id`)
- ) DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;',
+ ) DEFAULT CHARSET=latin1 ;',
  'CREATE TABLE IF NOT EXISTS `' . $dbPrefix . 'users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `login` varchar(50) NOT NULL,
@@ -124,27 +137,27 @@ function createDatabaseTables($dbServer, $dbName, $dbUser, $dbPassword, $dbPrefi
   `password` varchar(300) NOT NULL,
   `salt` varchar(50) NOT NULL,
   `email` varchar(150) NOT NULL,
-  `activationcode` varchar(50) NOT NULL,
-  `email_activated` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `loginattempts` int(11) NOT NULL,
   `blockeduntil` int(11) NOT NULL,
   `secure_cookie_string` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
- ) DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;',
+  `registerdate` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `login` (`login`)
+ ) DEFAULT CHARSET=latin1 ;',
  'CREATE TABLE IF NOT EXISTS `' . $dbPrefix . 'user_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `groupid` int(11) NOT NULL,
   `level` int(11) NOT NULL,
   PRIMARY KEY (`id`)
- ) DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;',
+ ) DEFAULT CHARSET=latin1 ;',
  'CREATE TABLE IF NOT EXISTS `' . $dbPrefix . 'user_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `permissionid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
- ) DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;' );
+ ) DEFAULT CHARSET=latin1 ;' );
 	
 	foreach ($createArray as $value) {
 		$result = $mysqli->query($value);
@@ -165,7 +178,7 @@ function createSettingFile($dbServer, $dbName, $dbUser, $dbPassword, $dbPrefix, 
 	$needApproval = convStringToBoolString($needApproval);
 	$securesessions = convStringToBoolString($securesessions);
 	
-	$settingString = "<?php\nnamespace settings;\n\nconst DB_server = \"" . $dbServer . "\";\nconst DB_database = \"" . $dbName . "\";\nconst DB_user = \"" . $dbUser . "\";\nconst DB_password = \"" . $dbPassword . "\";\nconst DB_prefix = \"" . $dbPrefix . "\";\n\nconst login_enabled = " . $loginEnabled . ";\nconst register_enabled = " . $registerEnabled . ";\nconst need_approval = " . $needApproval . ";\nconst length_salt = " . $lengthSalt . ";\nconst length_activationcode = " . $lengthActivationcode . ";\nconst send_mailaddress = \"" . $sendEmail . "\";\n\n#After how many seconds will a user be kicked?\nconst autologouttime = " . $autologouttime . ";\nconst maxloginattempts = " . $maxLoginAttempts . ";\nconst loginblocktime = " . $loginBlockTime . ";\nconst securesessions = " . $securesessions . ";\n?>";
+	$settingString = "<?php\nclass UserLibrarySettings {\n\tconst DB_server = \"" . $dbServer . "\";\n\tconst DB_database = \"" . $dbName . "\";\n\tconst DB_user = \"" . $dbUser . "\";\n\tconst DB_password = \"" . $dbPassword . "\";\n\tconst DB_prefix = \"" . $dbPrefix . "\";\n\n\tconst login_enabled = " . $loginEnabled . ";\n\tconst register_enabled = " . $registerEnabled . ";\n\tconst need_approval = " . $needApproval . ";\n\tconst length_salt = " . $lengthSalt . ";\n\tconst length_activationcode = " . $lengthActivationcode . ";\n\tconst send_mailaddress = \"" . $sendEmail . "\";\n\n\t#After how many seconds will a user be kicked?\n\tconst autologouttime = " . $autologouttime . ";\n\tconst maxloginattempts = " . $maxLoginAttempts . ";\n\tconst loginblocktime = " . $loginBlockTime . ";\n\tconst securesessions = " . $securesessions . ";\n}\n?>";
 	$file = "data/settings.php";
 	
 	$numberOfBytes = file_put_contents($file, $settingString);
@@ -208,7 +221,7 @@ function convStringToBool($string) {
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
-  <h1>User Library Installationsassistent (0.61)</h1>
+  <h1>User Library Installationsassistent (0.7)</h1>
 
   <?php
 if (! empty($error))

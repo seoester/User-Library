@@ -1,6 +1,6 @@
 <?php
-require_once "../data/user.php";
-require_once "../data/group.php";
+require_once "../data/class.user.php";
+require_once "../data/class.group.php";
 
 class UserTest extends PHPUnit_Framework_TestCase {
 	/**
@@ -10,9 +10,9 @@ class UserTest extends PHPUnit_Framework_TestCase {
 	public function testCreate() {
 		User::create("test1", "Test User 1", "password", "test1@example.com");
 		
-		User::create("test2", "Test User 2", "password", "test2@example.com", 0, false);
+		User::create("test2", "Test User 2", "password", "test2@example.com", false, false);
 		
-		User::create("test3", "Test User 3", "password", "test3@example.com", 1, "stan", $userid);
+		User::create("test3", "Test User 3", "password", "test3@example.com", true, "stan", $userid);
 		$this->assertEquals(3, $userid);
 	}
 	
@@ -108,7 +108,7 @@ class UserTest extends PHPUnit_Framework_TestCase {
 		
 		$user = new User();
 		$user->openWithId(2);
-		$this->assertEquals(User::STATUS_EMAILUNACTIVATED, $user->getStatus());
+		$this->assertFalse($user->getEmailactivated());
 	}
 	
 	/**
@@ -124,7 +124,7 @@ class UserTest extends PHPUnit_Framework_TestCase {
 		
 		$userid = 2;
 		$dbCon = new DatabaseConnection();
-		$stmt = $dbCon->prepare("SELECT `activationcode` FROM `{dbpre}users` WHERE `id`=? LIMIT 1;");
+		$stmt = $dbCon->prepare("SELECT `activationcode` FROM `{dbpre}registrations` WHERE `id`=? LIMIT 1;");
 		$stmt->bind_param("i", $userid);
 		$stmt->execute();
 		$stmt->bind_result($activationCode);
@@ -145,12 +145,12 @@ class UserTest extends PHPUnit_Framework_TestCase {
 	public function testApprove() {
 		$user = new User();
 		$user->openWithId(1);
-		$this->assertTrue($user->approve() !== false);
+		$this->assertFalse($user->approve());
 		$this->assertEquals(User::STATUS_NORMAL, $user->getStatus());
 		
 		$user = new User();
 		$user->openWithId(2);
-		$this->assertTrue($user->approve() !== false);
+		$this->assertTrue($user->approve());
 		$this->assertEquals(User::STATUS_NORMAL, $user->getStatus());
 	}
 	
@@ -166,7 +166,7 @@ class UserTest extends PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals(User::STATUS_NORMAL, $user->getStatus());
 		$this->assertTrue($user->block());
-// 		$this->assertFalse($user->block());//Remove comments when bug #42 is fixed
+ 		$this->assertFalse($user->block());
 		
 		$this->assertEquals(User::STATUS_BLOCK, $user->getStatus());
 		
@@ -220,13 +220,13 @@ class UserTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($user->getInGroupLevel($testGroup1Id));
 		
 		$this->assertTrue($user->addGroup($testGroup1Id));
-		$this->assertEquals(50, $user->inGroup($testGroup1Id));//Change when bug #44 is fixed
+		$this->assertTrue($user->inGroup($testGroup1Id));
 		$this->assertTrue($user->setInGroupLevel($testGroup1Id, 51));
 		$this->assertEquals(51, $user->getInGroupLevel($testGroup1Id));
 		
 		$this->assertFalse($user->inGroup($testGroup2Id));
 		$this->assertTrue($user->addGroup($testGroup2Id, 55));
-		$this->assertEquals(55, $user->inGroup($testGroup2Id));//Change when bug #44 is fixed
+		$this->assertTrue($user->inGroup($testGroup2Id));
 		
 		$userGroups = $user->getGroups();
 		$this->assertEquals(2, count($userGroups));
@@ -332,10 +332,13 @@ class UserTest extends PHPUnit_Framework_TestCase {
 		$dbCon = new DatabaseConnection();
 		$stmt = $dbCon->prepare("TRUNCATE TABLE `{dbpre}users`");
 		$stmt->execute();
-		$stmt->free_result();
+		$stmt->close();
 		$stmt = $dbCon->prepare("TRUNCATE TABLE `{dbpre}groups`");
 		$stmt->execute();
-		$stmt->free_result();
+		$stmt->close();
+		$stmt = $dbCon->prepare("TRUNCATE TABLE `{dbpre}registrations`");
+		$stmt->execute();
+		$stmt->close();
 		$dbCon->close();
 	}
 }

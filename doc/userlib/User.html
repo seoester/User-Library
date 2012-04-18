@@ -30,13 +30,13 @@
             <br /><br />
                         <b>Files:</b><br />
       	  <div class="package">
-			<a href="../userlib/_database.php.html">		database.php
+			<a href="../userlib/_class.databaseconnection.php.html">		class.databaseconnection.php
 		</a><br>
-			<a href="../userlib/_group.php.html">		group.php
+			<a href="../userlib/_class.group.php.html">		class.group.php
+		</a><br>
+			<a href="../userlib/_class.user.php.html">		class.user.php
 		</a><br>
 			<a href="../userlib/_settings.php.html">		settings.php
-		</a><br>
-			<a href="../userlib/_user.php.html">		user.php
 		</a><br>
 	  </div><br />
       
@@ -45,16 +45,18 @@
         <div class="package">
 		    		<a href="../userlib/Cache.html">Cache</a><br />
 	    		<a href="../userlib/DatabaseConnection.html">DatabaseConnection</a><br />
+	    		<a href="../userlib/DatabaseSettings.html">DatabaseSettings</a><br />
 	    		<a href="../userlib/Group.html">Group</a><br />
 	    		<a href="../userlib/User.html">User</a><br />
 	    		<a href="../userlib/UserHooks.html">UserHooks</a><br />
+	    		<a href="../userlib/UserLibrarySettings.html">UserLibrarySettings</a><br />
 	  </div>
                 </td>
     <td>
       <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
 
 <h1>Class: User</h1>
-Source Location: /user.php<br /><br />
+Source Location: /class.user.php<br /><br />
 
 
 <table width="100%" border="0">
@@ -74,7 +76,7 @@ Source Location: /user.php<br /><br />
     
 <h4>Version:</h4>
 <ul>
-  <li>0.61</li>
+  <li>0.7</li>
 </ul>
 
         
@@ -88,6 +90,8 @@ Source Location: /user.php<br /><br />
     <li><a href="../userlib/User.html#var$deleted">$deleted</a></li>
     <li><a href="../userlib/User.html#var$hookClasses">$hookClasses</a></li>
     <li><a href="../userlib/User.html#var$id">$id</a></li>
+    <li><a href="../userlib/User.html#var$registeredOnly">$registeredOnly</a></li>
+    <li><a href="../userlib/User.html#var$settings">$settings</a></li>
     <li><a href="../userlib/User.html#var$userLoggedIn">$userLoggedIn</a></li>
   </ul>
 </td>
@@ -112,7 +116,6 @@ Source Location: /user.php<br /><br />
     <li><a href="../userlib/User.html#constREGISTER_REGISTERDISABLED">REGISTER_REGISTERDISABLED</a></li>
     <li><a href="../userlib/User.html#constREGISTER_USERNAMEEXISTSALREADY">REGISTER_USERNAMEEXISTSALREADY</a></li>
     <li><a href="../userlib/User.html#constSTATUS_BLOCK">STATUS_BLOCK</a></li>
-    <li><a href="../userlib/User.html#constSTATUS_EMAILUNACTIVATED">STATUS_EMAILUNACTIVATED</a></li>
     <li><a href="../userlib/User.html#constSTATUS_NORMAL">STATUS_NORMAL</a></li>
     <li><a href="../userlib/User.html#constSTATUS_UNAPPROVED">STATUS_UNAPPROVED</a></li>
   </ul>
@@ -130,11 +133,14 @@ Source Location: /user.php<br /><br />
     <li><a href="../userlib/User.html#methodapprove">approve</a></li>
     <li><a href="../userlib/User.html#methodblock">block</a></li>
     <li><a href="../userlib/User.html#methodcheck">check</a></li>
+    <li><a href="../userlib/User.html#methodcheckPassword">checkPassword</a></li>
     <li><a href="../userlib/User.html#methodcreate">create</a></li>
     <li><a href="../userlib/User.html#methoddeleteUser">deleteUser</a></li>
+    <li><a href="../userlib/User.html#methodgetAllOnlineUsers">getAllOnlineUsers</a></li>
     <li><a href="../userlib/User.html#methodgetAllUsers">getAllUsers</a></li>
     <li><a href="../userlib/User.html#methodgetCustomField">getCustomField</a></li>
     <li><a href="../userlib/User.html#methodgetEmail">getEmail</a></li>
+    <li><a href="../userlib/User.html#methodgetEmailactivated">getEmailactivated</a></li>
     <li><a href="../userlib/User.html#methodgetGroups">getGroups</a></li>
     <li><a href="../userlib/User.html#methodgetId">getId</a></li>
     <li><a href="../userlib/User.html#methodgetInGroupLevel">getInGroupLevel</a></li>
@@ -186,7 +192,7 @@ Die User Klasse ist die zentrale Klasse der User Library.<br /><br /><p>Die meis
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>version:</b>&nbsp;&nbsp;</td><td>0.61</td>
+    <td><b>version:</b>&nbsp;&nbsp;</td><td>0.7</td>
   </tr>
 </table>
 </div>
@@ -200,7 +206,7 @@ Die User Klasse ist die zentrale Klasse der User Library.<br /><br /><p>Die meis
 	<a name="var$created"></a>
 	<p></p>
 	<h4>$created = <span class="value">&nbsp;false</span></h4>
-	<p>[line 58]</p>
+	<p>[line 57]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -317,10 +323,58 @@ Die User Klasse ist die zentrale Klasse der User Library.<br /><br /><p>Die meis
       </table>
 	</div><br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$registeredOnly"></a>
+	<p></p>
+	<h4>$registeredOnly = <span class="value">&nbsp;false</span></h4>
+	<p>[line 59]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$settings"></a>
+	<p></p>
+	<h4>$settings = <span class="value"></span></h4>
+	<p>[line 64]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="var$userLoggedIn"></a>
 	<p></p>
 	<h4>$userLoggedIn = <span class="value">&nbsp;false</span></h4>
-	<p>[line 59]</p>
+	<p>[line 58]</p>
   <br /><br />
 <h4>Tags:</h4>
 <div class="tags">
@@ -349,7 +403,7 @@ Die User Klasse ist die zentrale Klasse der User Library.<br /><br /><p>Die meis
 <div class="tags">
   <hr />
 	<a name="methodcreate"></a>
-	<h3>static method create <span class="smalllinenumber">[line 843]</span></h3>
+	<h3>static method create <span class="smalllinenumber">[line 964]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -359,13 +413,14 @@ $loginname,
 $username, 
 $password, 
 $email, [
-$emailActivated = 1], [
+$emailActivated = true], [
 $approved = &quot;stan&quot;], [
-&$userid = &quot;unset&quot;])</code>
+&$userid = &quot;unset&quot;], [
+$check = false])</code>
     </td></tr></table>
     </td></tr></table><br />
 	
-		Erstellt einen neuen Benutzer mit den übergebenen Werten.<br /><br /><p>Dabei wird keine Mail verschickt.  Wenn $approved nicht angegeben wird, werden die Einstellungen verwendet.</p><br /><br /><br />
+		Erstellt einen neuen Benutzer mit den übergebenen Werten.<br /><br /><p>Dabei wird keine Mail verschickt.  Wenn $approved nicht angegeben wird, werden die Einstellungen verwendet.  Wenn $check true ist, werden Login-, Username und Emailadresse überprüft bevor der Benutzer in die Datenbank geschrieben wird, es wird hingegen nicht überprüft ob das Registrieren deaktiviert ist.  Die Methode kann deswegen auch eine der REGISTER_ Konstanten zurückgeben.</p><br /><br /><br />
 <h4>Tags:</h4>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
@@ -415,18 +470,67 @@ $approved = &quot;stan&quot;], [
         <td><b>&$userid</b>&nbsp;&nbsp;</td>
         <td></td>
       </tr>
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$check</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetAllOnlineUsers"></a>
+	<h3>static method getAllOnlineUsers <span class="smalllinenumber">[line 1065]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>static void getAllOnlineUsers(
+[
+$limit = null], [
+$skip = null])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Gibt alle Benutzer zurück die aktuell online sind.<br /><br /><p>Benutzer werden in Form eines Array von User Objekten zurückgegeben.</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$limit</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$skip</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
         </table>
     </div><br />
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
   <hr />
 	<a name="methodgetAllUsers"></a>
-	<h3>static method getAllUsers <span class="smalllinenumber">[line 906]</span></h3>
+	<h3>static method getAllUsers <span class="smalllinenumber">[line 1031]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
 		<code>static void getAllUsers(
-)</code>
+[
+$limit = null], [
+$skip = null])</code>
     </td></tr></table>
     </td></tr></table><br />
 	
@@ -442,11 +546,26 @@ $approved = &quot;stan&quot;], [
 <br /><br />
 
 	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$limit</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$skip</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
   <hr />
 	<a name="methodregister"></a>
-	<h3>static method register <span class="smalllinenumber">[line 868]</span></h3>
+	<h3>static method register <span class="smalllinenumber">[line 998]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -462,7 +581,7 @@ $emailsubject, [
     </td></tr></table>
     </td></tr></table><br />
 	
-		Legt einen neuen Benutzer an.<br /><br /><p>Im $emailtext wird [%actcode%] durch den Aktivierungslink, [%username%] durch den Benutzername, [%loginname%] durch den Loginnamen und [%password%] durch das Passwort ersetzt.  Gibt eine der REGISTER_ Konstanten zurück.</p><br /><br /><br />
+		Legt einen neuen Benutzer an.<br /><br /><p>Im $emailtext wird [%id%] durch die ID des Benutzers, [%actcode%] durch den Aktivierungslink, [%username%] durch den Benutzername, [%loginname%] durch den Loginnamen und [%password%] durch das Passwort ersetzt.  Gibt eine der REGISTER_ Konstanten zurück.</p><br /><br /><br />
 <h4>Tags:</h4>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
@@ -519,7 +638,7 @@ $emailsubject, [
 
   <hr />
 	<a name="method__construct"></a>
-	<h3>constructor __construct <span class="smalllinenumber">[line 68]</span></h3>
+	<h3>constructor __construct <span class="smalllinenumber">[line 69]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -544,7 +663,7 @@ $emailsubject, [
   </div>
   <hr />
 	<a name="methodactivateEmail"></a>
-	<h3>method activateEmail <span class="smalllinenumber">[line 803]</span></h3>
+	<h3>method activateEmail <span class="smalllinenumber">[line 915]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -580,7 +699,7 @@ $activationCode)</code>
   </div>
   <hr />
 	<a name="methodaddCustomField"></a>
-	<h3>method addCustomField <span class="smalllinenumber">[line 939]</span></h3>
+	<h3>method addCustomField <span class="smalllinenumber">[line 1108]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -622,7 +741,7 @@ $type)</code>
   </div>
   <hr />
 	<a name="methodaddGroup"></a>
-	<h3>method addGroup <span class="smalllinenumber">[line 505]</span></h3>
+	<h3>method addGroup <span class="smalllinenumber">[line 582]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -664,7 +783,7 @@ $level = 50])</code>
   </div>
   <hr />
 	<a name="methodaddPermission"></a>
-	<h3>method addPermission <span class="smalllinenumber">[line 627]</span></h3>
+	<h3>method addPermission <span class="smalllinenumber">[line 717]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -700,7 +819,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodappendHook"></a>
-	<h3>method appendHook <span class="smalllinenumber">[line 930]</span></h3>
+	<h3>method appendHook <span class="smalllinenumber">[line 1099]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -736,7 +855,7 @@ $hookClass)</code>
   </div>
   <hr />
 	<a name="methodapprove"></a>
-	<h3>method approve <span class="smalllinenumber">[line 255]</span></h3>
+	<h3>method approve <span class="smalllinenumber">[line 280]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -761,7 +880,7 @@ $hookClass)</code>
   </div>
   <hr />
 	<a name="methodblock"></a>
-	<h3>method block <span class="smalllinenumber">[line 171]</span></h3>
+	<h3>method block <span class="smalllinenumber">[line 196]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -786,7 +905,7 @@ $hookClass)</code>
   </div>
   <hr />
 	<a name="methodcheck"></a>
-	<h3>method check <span class="smalllinenumber">[line 98]</span></h3>
+	<h3>method check <span class="smalllinenumber">[line 110]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -810,8 +929,44 @@ $hookClass)</code>
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
   <hr />
+	<a name="methodcheckPassword"></a>
+	<h3>method checkPassword <span class="smalllinenumber">[line 490]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void checkPassword(
+
+$password)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Überprüft ob das angegebene Passwort das Passwort des Benutzers ist.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$password</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
 	<a name="methoddeleteUser"></a>
-	<h3>method deleteUser <span class="smalllinenumber">[line 782]</span></h3>
+	<h3>method deleteUser <span class="smalllinenumber">[line 883]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -836,7 +991,7 @@ $hookClass)</code>
   </div>
   <hr />
 	<a name="methodgetCustomField"></a>
-	<h3>method getCustomField <span class="smalllinenumber">[line 997]</span></h3>
+	<h3>method getCustomField <span class="smalllinenumber">[line 1166]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -872,7 +1027,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodgetEmail"></a>
-	<h3>method getEmail <span class="smalllinenumber">[line 295]</span></h3>
+	<h3>method getEmail <span class="smalllinenumber">[line 327]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -896,13 +1051,51 @@ $name)</code>
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
   <hr />
+	<a name="methodgetEmailactivated"></a>
+	<h3>method getEmailactivated <span class="smalllinenumber">[line 949]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void getEmailactivated(
+[
+$echo = false])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Gibt zurück, ob die Email Adresse des Benutzers aktiviert ist.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$echo</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
 	<a name="methodgetGroups"></a>
-	<h3>method getGroups <span class="smalllinenumber">[line 454]</span></h3>
+	<h3>method getGroups <span class="smalllinenumber">[line 516]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
 		<code>void getGroups(
-)</code>
+[
+$limit = null], [
+$skip = null])</code>
     </td></tr></table>
     </td></tr></table><br />
 	
@@ -918,11 +1111,26 @@ $name)</code>
 <br /><br />
 
 	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$limit</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$skip</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
   <hr />
 	<a name="methodgetId"></a>
-	<h3>method getId <span class="smalllinenumber">[line 284]</span></h3>
+	<h3>method getId <span class="smalllinenumber">[line 316]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -947,7 +1155,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodgetInGroupLevel"></a>
-	<h3>method getInGroupLevel <span class="smalllinenumber">[line 550]</span></h3>
+	<h3>method getInGroupLevel <span class="smalllinenumber">[line 632]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -983,7 +1191,7 @@ $groupId)</code>
   </div>
   <hr />
 	<a name="methodgetLoginname"></a>
-	<h3>method getLoginname <span class="smalllinenumber">[line 386]</span></h3>
+	<h3>method getLoginname <span class="smalllinenumber">[line 420]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1008,7 +1216,7 @@ $groupId)</code>
   </div>
   <hr />
 	<a name="methodgetSessionVar"></a>
-	<h3>method getSessionVar <span class="smalllinenumber">[line 753]</span></h3>
+	<h3>method getSessionVar <span class="smalllinenumber">[line 851]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1044,7 +1252,7 @@ $title)</code>
   </div>
   <hr />
 	<a name="methodgetStatus"></a>
-	<h3>method getStatus <span class="smalllinenumber">[line 232]</span></h3>
+	<h3>method getStatus <span class="smalllinenumber">[line 260]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1069,7 +1277,7 @@ $title)</code>
   </div>
   <hr />
 	<a name="methodgetUsername"></a>
-	<h3>method getUsername <span class="smalllinenumber">[line 340]</span></h3>
+	<h3>method getUsername <span class="smalllinenumber">[line 373]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1094,7 +1302,7 @@ $title)</code>
   </div>
   <hr />
 	<a name="methodhasOwnPermission"></a>
-	<h3>method hasOwnPermission <span class="smalllinenumber">[line 598]</span></h3>
+	<h3>method hasOwnPermission <span class="smalllinenumber">[line 685]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1130,7 +1338,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodhasPermission"></a>
-	<h3>method hasPermission <span class="smalllinenumber">[line 678]</span></h3>
+	<h3>method hasPermission <span class="smalllinenumber">[line 773]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1166,7 +1374,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodinGroup"></a>
-	<h3>method inGroup <span class="smalllinenumber">[line 479]</span></h3>
+	<h3>method inGroup <span class="smalllinenumber">[line 551]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1202,7 +1410,7 @@ $groupId)</code>
   </div>
   <hr />
 	<a name="methodloggedIn"></a>
-	<h3>method loggedIn <span class="smalllinenumber">[line 273]</span></h3>
+	<h3>method loggedIn <span class="smalllinenumber">[line 305]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1227,14 +1435,15 @@ $groupId)</code>
   </div>
   <hr />
 	<a name="methodlogin"></a>
-	<h3>method login <span class="smalllinenumber">[line 77]</span></h3>
+	<h3>method login <span class="smalllinenumber">[line 79]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
 		<code>void login(
 
-$givenLoginname, 
-$givenPassword)</code>
+$loginname, 
+$password, [
+$force = false])</code>
     </td></tr></table>
     </td></tr></table><br />
 	
@@ -1255,12 +1464,17 @@ $givenPassword)</code>
     <table border="0" cellspacing="0" cellpadding="0">
           <tr>
         <td class="type">&nbsp;&nbsp;</td>
-        <td><b>$givenLoginname</b>&nbsp;&nbsp;</td>
+        <td><b>$loginname</b>&nbsp;&nbsp;</td>
         <td></td>
       </tr>
           <tr>
         <td class="type">&nbsp;&nbsp;</td>
-        <td><b>$givenPassword</b>&nbsp;&nbsp;</td>
+        <td><b>$password</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$force</b>&nbsp;&nbsp;</td>
         <td></td>
       </tr>
         </table>
@@ -1269,7 +1483,7 @@ $givenPassword)</code>
   </div>
   <hr />
 	<a name="methodlogout"></a>
-	<h3>method logout <span class="smalllinenumber">[line 154]</span></h3>
+	<h3>method logout <span class="smalllinenumber">[line 179]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1294,7 +1508,7 @@ $givenPassword)</code>
   </div>
   <hr />
 	<a name="methodopenWithId"></a>
-	<h3>method openWithId <span class="smalllinenumber">[line 125]</span></h3>
+	<h3>method openWithId <span class="smalllinenumber">[line 141]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1330,7 +1544,7 @@ $userid)</code>
   </div>
   <hr />
 	<a name="methodremoveCustomField"></a>
-	<h3>method removeCustomField <span class="smalllinenumber">[line 955]</span></h3>
+	<h3>method removeCustomField <span class="smalllinenumber">[line 1124]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1366,7 +1580,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodremoveGroup"></a>
-	<h3>method removeGroup <span class="smalllinenumber">[line 530]</span></h3>
+	<h3>method removeGroup <span class="smalllinenumber">[line 610]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1402,7 +1616,7 @@ $groupId)</code>
   </div>
   <hr />
 	<a name="methodremovePermission"></a>
-	<h3>method removePermission <span class="smalllinenumber">[line 653]</span></h3>
+	<h3>method removePermission <span class="smalllinenumber">[line 745]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1438,7 +1652,7 @@ $name)</code>
   </div>
   <hr />
 	<a name="methodsaveCustomField"></a>
-	<h3>method saveCustomField <span class="smalllinenumber">[line 971]</span></h3>
+	<h3>method saveCustomField <span class="smalllinenumber">[line 1140]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1480,7 +1694,7 @@ $value)</code>
   </div>
   <hr />
 	<a name="methodsaveSessionVar"></a>
-	<h3>method saveSessionVar <span class="smalllinenumber">[line 715]</span></h3>
+	<h3>method saveSessionVar <span class="smalllinenumber">[line 810]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1522,7 +1736,7 @@ $value)</code>
   </div>
   <hr />
 	<a name="methodsetEmail"></a>
-	<h3>method setEmail <span class="smalllinenumber">[line 322]</span></h3>
+	<h3>method setEmail <span class="smalllinenumber">[line 355]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1558,7 +1772,7 @@ $email)</code>
   </div>
   <hr />
 	<a name="methodsetInGroupLevel"></a>
-	<h3>method setInGroupLevel <span class="smalllinenumber">[line 573]</span></h3>
+	<h3>method setInGroupLevel <span class="smalllinenumber">[line 659]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1600,7 +1814,7 @@ $level)</code>
   </div>
   <hr />
 	<a name="methodsetLoginname"></a>
-	<h3>method setLoginname <span class="smalllinenumber">[line 413]</span></h3>
+	<h3>method setLoginname <span class="smalllinenumber">[line 448]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1636,7 +1850,7 @@ $loginname)</code>
   </div>
   <hr />
 	<a name="methodsetPassword"></a>
-	<h3>method setPassword <span class="smalllinenumber">[line 433]</span></h3>
+	<h3>method setPassword <span class="smalllinenumber">[line 468]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1672,7 +1886,7 @@ $password)</code>
   </div>
   <hr />
 	<a name="methodsetUsername"></a>
-	<h3>method setUsername <span class="smalllinenumber">[line 367]</span></h3>
+	<h3>method setUsername <span class="smalllinenumber">[line 401]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1708,7 +1922,7 @@ $username)</code>
   </div>
   <hr />
 	<a name="methodunblock"></a>
-	<h3>method unblock <span class="smalllinenumber">[line 199]</span></h3>
+	<h3>method unblock <span class="smalllinenumber">[line 227]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -1740,112 +1954,112 @@ $username)</code>
 	<a name="constACTIVATEEMAIL_ACTIVATIONCODEWRONG"></a>
 	<p></p>
 	<h4>ACTIVATEEMAIL_ACTIVATIONCODEWRONG = <span class="value">&nbsp;3</span></h4>
-	<p>[line 54]</p>
+	<p>[line 53]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constACTIVATEEMAIL_ALREADYACTIVATED"></a>
 	<p></p>
 	<h4>ACTIVATEEMAIL_ALREADYACTIVATED = <span class="value">&nbsp;2</span></h4>
-	<p>[line 53]</p>
+	<p>[line 52]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constACTIVATEEMAIL_OK"></a>
 	<p></p>
 	<h4>ACTIVATEEMAIL_OK = <span class="value">&nbsp;1</span></h4>
-	<p>[line 52]</p>
+	<p>[line 51]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constLOGIN_BLOCKED"></a>
 	<p></p>
 	<h4>LOGIN_BLOCKED = <span class="value">&nbsp;4</span></h4>
-	<p>[line 40]</p>
+	<p>[line 39]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constLOGIN_EMAILUNACTIVATED"></a>
 	<p></p>
 	<h4>LOGIN_EMAILUNACTIVATED = <span class="value">&nbsp;6</span></h4>
-	<p>[line 42]</p>
+	<p>[line 41]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constLOGIN_LOGINDISABLED"></a>
 	<p></p>
 	<h4>LOGIN_LOGINDISABLED = <span class="value">&nbsp;5</span></h4>
-	<p>[line 41]</p>
+	<p>[line 40]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constLOGIN_OK"></a>
 	<p></p>
 	<h4>LOGIN_OK = <span class="value">&nbsp;1</span></h4>
-	<p>[line 37]</p>
+	<p>[line 36]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constLOGIN_TOOMANYATTEMPTS"></a>
 	<p></p>
 	<h4>LOGIN_TOOMANYATTEMPTS = <span class="value">&nbsp;8</span></h4>
-	<p>[line 44]</p>
+	<p>[line 43]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constLOGIN_UNAPPROVED"></a>
 	<p></p>
 	<h4>LOGIN_UNAPPROVED = <span class="value">&nbsp;7</span></h4>
-	<p>[line 43]</p>
+	<p>[line 42]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constLOGIN_USERDOESNOTEXISTS"></a>
 	<p></p>
 	<h4>LOGIN_USERDOESNOTEXISTS = <span class="value">&nbsp;3</span></h4>
-	<p>[line 39]</p>
+	<p>[line 38]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constLOGIN_WRONGPASSWORD"></a>
 	<p></p>
 	<h4>LOGIN_WRONGPASSWORD = <span class="value">&nbsp;2</span></h4>
-	<p>[line 38]</p>
+	<p>[line 37]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constREGISTER_EMAILEXISTSALREADY"></a>
 	<p></p>
 	<h4>REGISTER_EMAILEXISTSALREADY = <span class="value">&nbsp;5</span></h4>
-	<p>[line 50]</p>
+	<p>[line 49]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constREGISTER_LOGINNAMEEXISTSALREADY"></a>
 	<p></p>
 	<h4>REGISTER_LOGINNAMEEXISTSALREADY = <span class="value">&nbsp;3</span></h4>
-	<p>[line 48]</p>
+	<p>[line 47]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constREGISTER_OK"></a>
 	<p></p>
 	<h4>REGISTER_OK = <span class="value">&nbsp;1</span></h4>
-	<p>[line 46]</p>
+	<p>[line 45]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constREGISTER_REGISTERDISABLED"></a>
 	<p></p>
 	<h4>REGISTER_REGISTERDISABLED = <span class="value">&nbsp;2</span></h4>
-	<p>[line 47]</p>
+	<p>[line 46]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constREGISTER_USERNAMEEXISTSALREADY"></a>
 	<p></p>
 	<h4>REGISTER_USERNAMEEXISTSALREADY = <span class="value">&nbsp;4</span></h4>
-	<p>[line 49]</p>
+	<p>[line 48]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
@@ -1853,13 +2067,6 @@ $username)</code>
 	<p></p>
 	<h4>STATUS_BLOCK = <span class="value">&nbsp;2</span></h4>
 	<p>[line 33]</p>
-  
-  <br />
-	<div class="top">[ <a href="#top">Top</a> ]</div><br />
-	<a name="constSTATUS_EMAILUNACTIVATED"></a>
-	<p></p>
-	<h4>STATUS_EMAILUNACTIVATED = <span class="value">&nbsp;3</span></h4>
-	<p>[line 34]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
@@ -1872,8 +2079,8 @@ $username)</code>
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
 	<a name="constSTATUS_UNAPPROVED"></a>
 	<p></p>
-	<h4>STATUS_UNAPPROVED = <span class="value">&nbsp;4</span></h4>
-	<p>[line 35]</p>
+	<h4>STATUS_UNAPPROVED = <span class="value">&nbsp;3</span></h4>
+	<p>[line 34]</p>
   
   <br />
 	<div class="top">[ <a href="#top">Top</a> ]</div><br />
@@ -1881,7 +2088,7 @@ $username)</code>
 
         <div class="credit">
 		    <hr />
-		    Documentation generated on Tue, 31 Jan 2012 22:17:38 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		    Documentation generated on Wed, 18 Apr 2012 22:02:16 +0200 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	      </div>
       </td></tr></table>
     </td>

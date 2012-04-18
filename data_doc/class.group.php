@@ -21,7 +21,8 @@
 * @package userlib
 */
 
-require_once "database.php";
+require_once "class.databaseconnection.php";
+require_once "class.user.php";
 require_once "settings.php";
 
 class Group {
@@ -45,10 +46,10 @@ class Group {
 	*/
 	public function openWithId($groupId) {
 		if ($this->created)
-			return false;
+			throw new Exception("There is already a group assigned");
 		
 		$returnValue = false;
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
 		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}groups` WHERE `id`=?");
 		$stmt->bind_param("i", $groupId);
@@ -59,7 +60,7 @@ class Group {
 			$this->created = true;
 			$returnValue = true;
 		}
-		$dbCon->close();
+		$stmt->close();
 		return $returnValue;
 	}
 	
@@ -81,15 +82,17 @@ class Group {
 	*/
 	public function hasPermission($name) {
 		if (! $this->created || $this->deleted)
-			return false;
+			throw new Exception("There is no group assigned");
+		
+		if ($this->dbCache->inCache("haspermission_$name"))
+			return $this->dbCache->getField("haspermission_$name");
 		
 		$permissionId = $this->convertPermissionTitleToId($name);
 		if ($permissionId === null)
 			return false;
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$dbCon = new DatabaseConnection();
-		
-		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}group_permissions` WHERE `groupid`=? AND `permissionid`=? LIMIT 1;");
+		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}group_permissions` WHERE `groupid`=? AND `permissionid`=? LIMIT 1");
 		
 		$stmt->bind_param("ii", $this->id, $permissionId);
 		$stmt->execute();
@@ -98,8 +101,9 @@ class Group {
 			$hasPermission = true;
 		else
 			$hasPermission = false;
-		$dbCon->close();
+		$stmt->close();
 		
+		$this->dbCache->setField("haspermission_$name", $hasPermission);
 		return $hasPermission;
 	}
 	
@@ -110,7 +114,7 @@ class Group {
 	*/
 	public function addPermission($name) {
 		if (! $this->created || $this->deleted)
-			return false;
+			throw new Exception("There is no group assigned");
 		
 		if ($this->hasPermission($name))
 			return false;
@@ -119,13 +123,14 @@ class Group {
 		if ($permissionId === null)
 			return false;
 		
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$stmt = $dbCon->prepare("INSERT INTO `{dbpre}group_permissions` (`groupid`, `permissionid`) VALUES (?, ?);");
+		$stmt = $dbCon->prepare("INSERT INTO `{dbpre}group_permissions` (`groupid`, `permissionid`) VALUES (?, ?)");
 		
 		$stmt->bind_param("ii", $this->id, $permissionId);
 		$stmt->execute();
-		$dbCon->close();
+		$stmt->close();
+		$this->dbCache->setField("haspermission_$name", true);
 		return true;
 	}
 	
@@ -136,7 +141,7 @@ class Group {
 	*/
 	public function removePermission($name) {
 		if (! $this->created || $this->deleted)
-			return false;
+			throw new Exception("There is no group assigned");
 		
 		if (! $this->hasPermission($name))
 			return false;
@@ -145,13 +150,14 @@ class Group {
 		if ($permissionId === null)
 			return false;
 		
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$stmt = $dbCon->prepare("DELETE FROM `{dbpre}group_permissions` WHERE `groupid`=? AND `permissionid`=? LIMIT 1;");
+		$stmt = $dbCon->prepare("DELETE FROM `{dbpre}group_permissions` WHERE `groupid`=? AND `permissionid`=? LIMIT 1");
 		
 		$stmt->bind_param("ii", $this->id, $permissionId);
 		$stmt->execute();
-		$dbCon->close();
+		$stmt->close();
+		$this->dbCache->setField("haspermission_$name", false);
 		return true;
 	}
 	
@@ -161,12 +167,12 @@ class Group {
 	*/
 	public function getName() {
 		if (! $this->created || $this->deleted)
-			return false;
+			throw new Exception("There is no group assigned");
 		
 		if ($this->dbCache->inCache("name"))
 			return $this->dbCache->getField("name");
 		
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		$returnValue;
 		
 		$stmt = $dbCon->prepare("SELECT `name` FROM `{dbpre}groups` WHERE `id`=?");
@@ -178,7 +184,7 @@ class Group {
 		else
 			$returnValue = false;
 		
-		$dbCon->close();
+		$stmt->close();
 		$this->dbCache->setField("name", $returnValue);
 		return $returnValue;
 	}
@@ -189,15 +195,15 @@ class Group {
 	*/
 	public function setName($name) {
 		if (! $this->created || $this->deleted)
-			return false;
+			throw new Exception("There is no group assigned");
 		
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
 		$stmt = $dbCon->prepare("UPDATE `{dbpre}groups` SET `name`=? WHERE `id`=?");
 		$stmt->bind_param("si", $name, $this->id);
 		$stmt->execute();
 		
-		$dbCon->close();
+		$stmt->close();
 		$this->dbCache->setField("name", $name);
 	}
 	
@@ -205,15 +211,22 @@ class Group {
 	* Gibt alle Benutzer zurück, die in der aktuellen Gruppe sind.
 	* Diese werden als ein Array von User Objekten zurückgegeben.
 	*
+	* @NOCACHING
 	*/
-	public function getAllUsersInGroup() {
+	public function getAllUsersInGroup($limit=null, $skip=null) {
 		if (! $this->created || $this->deleted)
-			return false;
+			throw new Exception("There is no group assigned");
+		
+		$limitCommand = "";
+		if (is_int($limit))
+			$limitCommand = is_int($skip)? " LIMIT $skip, $limit" : " LIMIT $limit";
+		elseif (is_int($skip))
+			throw new Exception("Cannot skip without limiting");
 		
 		$users = array();
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$stmt = $dbCon->prepare("SELECT `userid` FROM `{dbpre}user_groups` WHERE `groupid`=?;");
+		$stmt = $dbCon->prepare("SELECT `userid` FROM `{dbpre}user_groups` WHERE `groupid`=?$limitCommand");
 		$stmt->bind_param("i", $this->id);
 		$stmt->execute();
 		$stmt->bind_result($userId);
@@ -222,7 +235,7 @@ class Group {
 			$user->openWithId($userId);
 			$users[] = $user;
 		}
-		$dbCon->close();
+		$stmt->close();
 		
 		return $users;
 	}
@@ -233,15 +246,25 @@ class Group {
 	*/
 	public function deleteGroup() {
 		if (! $this->created || $this->deleted)
-			return false;
+			throw new Exception("There is no group assigned");
 		
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$stmt = $dbCon->prepare("DELETE FROM `{dbpre}groups` WHERE `id`=? LIMIT 1;");
-		$stmt->bind_param("i", $this->id);
-		$stmt->execute();
+		$delGroupStmt = $dbCon->prepare("DELETE FROM `{dbpre}groups` WHERE `id`=? LIMIT 1");
+		$delGroupStmt->bind_param("i", $this->id);
+		$delGroupStmt->execute();
+		$delGroupStmt->close();
 		
-		$dbCon->close();
+		$delUserConnectionsStmt = $dbCon->prepare("DELETE FROM `{dbpre}user_groups` WHERE `groupid`=? LIMIT 1");
+		$delUserConnectionsStmt->bind_param("i", $this->id);
+		$delUserConnectionsStmt->execute();
+		$delUserConnectionsStmt->close();
+		
+		$delPermissionConnectionsStmt = $dbCon->prepare("DELETE FROM `{dbpre}group_permissions` WHERE `groupid`=? LIMIT 1");
+		$delPermissionConnectionsStmt->bind_param("i", $this->id);
+		$delPermissionConnectionsStmt->execute();
+		$delPermissionConnectionsStmt->close();
+		
 		$this->deleted = true;
 		
 		return true;
@@ -253,14 +276,14 @@ class Group {
 	* @static
 	*/
 	public static function create($groupname, &$groupId="unset") {
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$stmt = $dbCon->prepare("INSERT INTO `{dbpre}groups` (`name`) VALUES (?);");
+		$stmt = $dbCon->prepare("INSERT INTO `{dbpre}groups` (`name`) VALUES (?)");
 		$stmt->bind_param("s", $groupname);
 		$stmt->execute();
 		$groupId = $dbCon->insert_id();
 		
-		$dbCon->close();
+		$stmt->close();
 	}
 	
 	/**
@@ -269,20 +292,31 @@ class Group {
 	*
 	* @static
 	*/
-	public static function getAllGroups() {
-		$groups = array();
-		$dbCon = new DatabaseConnection();
+	public static function getAllGroups($limit=null, $skip=null) {
+		$limitCommand = "";
+		$groupIds = array();
+		if (is_int($limit))
+			$limitCommand = is_int($skip)? " LIMIT $skip, $limit" : " LIMIT $limit";
+		elseif (is_int($skip))
+			throw new Exception("Cannot skip without limiting");
 		
-		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}groups`;");
+		$groups = array();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
+		
+		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}groups`");
 		
 		$stmt->execute();
 		$stmt->bind_result($groupId);
-		while ($stmt->fetch()) {
+		while ($stmt->fetch())
+			$groupIds[] = $groupId;
+		
+		$stmt->close();
+		
+		foreach ($groupIds as $groupId) {
 			$group = new Group();
 			$group->openWithId($groupId);
 			$groups[] = $group;
 		}
-		$dbCon->close();
 		
 		return $groups;
 	}
@@ -294,14 +328,14 @@ class Group {
 	*/
 	public function addCustomField($name, $type) {
 		if (! $this->created || $this->deleted)
-			return false;
+			throw new Exception("There is no group assigned");
 		
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$stmt = $dbCon->prepare("ALTER TABLE `{dbpre}groups` ADD `custom_$name` $type;");
+		$stmt = $dbCon->prepare("ALTER TABLE `{dbpre}groups` ADD `custom_$name` $type");
 		$stmt->execute();
 		
-		$dbCon->close();
+		$stmt->close();
 	}
 	
 	/**
@@ -310,14 +344,14 @@ class Group {
 	*/
 	public function removeCustomField($name) {
 		if (! $this->created || $this->deleted)
-			return false;
+			throw new Exception("There is no group assigned");
 		
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$stmt = $dbCon->prepare("ALTER TABLE `{dbpre}groups` DROP `custom_$name`;");
+		$stmt = $dbCon->prepare("ALTER TABLE `{dbpre}groups` DROP `custom_$name`");
 		$stmt->execute();
 		
-		$dbCon->close();
+		$stmt->close();
 	}
 	
 	/**
@@ -327,7 +361,7 @@ class Group {
 	*/
 	public function saveCustomField($name, $value) {
 		if (! $this->created || $this->deleted)
-			return false;
+			throw new Exception("There is no group assigned");
 		
 		if (is_integer($value))
 			$typeAbb ='i';
@@ -337,12 +371,12 @@ class Group {
 			$typeAbb = 's';
 		else
 			$typeAbb = 'b';
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$stmt = $dbCon->prepare("UPDATE `{dbpre}groups` SET `custom_$name`=? WHERE `id`=?;");
+		$stmt = $dbCon->prepare("UPDATE `{dbpre}groups` SET `custom_$name`=? WHERE `id`=?");
 		$stmt->bind_param($typeAbb . "i", $value, $this->id);
 		$stmt->execute();
-		$dbCon->close();
+		$stmt->close();
 		$this->dbCache->setField("custom_$name", $value);
 		return true;
 	}
@@ -353,15 +387,15 @@ class Group {
 	*/
 	public function getCustomField($name) {
 		if (! $this->created || $this->deleted)
-			return false;
+			throw new Exception("There is no group assigned");
 		
 		if ($this->dbCache->inCache("custom_$name"))
 			return $this->dbCache->getField("custom_$name");
 		
 		$returnValue = false;
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$stmt = $dbCon->prepare("SELECT `custom_$name` FROM `{dbpre}groups` WHERE `id`=?;");
+		$stmt = $dbCon->prepare("SELECT `custom_$name` FROM `{dbpre}groups` WHERE `id`=?");
 		$stmt->bind_param("i", $this->id);
 		$stmt->execute();
 		$stmt->bind_result($result);
@@ -369,7 +403,7 @@ class Group {
 			$returnValue = $result;
 		else
 			$returnValue = false;
-		$dbCon->close();
+		$stmt->close();
 		$this->dbCache->setField("custom_$name", $returnValue);
 		return $returnValue;
 	}
@@ -377,28 +411,26 @@ class Group {
 	//##################################################################
 	//######################    Private methods   ######################
 	//##################################################################
-	private function removeFromArray($value, array $array) {
-		$newArray = array();
-		
-		foreach ($array as $ar) {
-			if ($ar != $value)
-				$newArray[] = $ar;
-		}
-		
-		return $newArray;
-	}
-	
 	private function convertPermissionTitleToId($title) {
-		$dbCon = new DatabaseConnection();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}permissions` WHERE `name`=? LIMIT 1;");
+		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}permissions` WHERE `name`=? LIMIT 1");
+		
 		$stmt->bind_param("s", $title);
 		$stmt->execute();
 		$stmt->bind_result($id);
-		$stmt->fetch();
-		
-		$dbCon->close();
-		return $id;
+		if ($stmt->fetch()) {
+			$stmt->close();
+			return $id;
+		} else {
+			$stmt->close();
+			$insertStmt = $dbCon->prepare("INSERT INTO `{dbpre}permissions` (`name`) VALUES (?)");
+			$insertStmt->bind_param("s", $title);
+			$insertStmt->execute();
+			$id = $dbCon->insert_id();
+			$insertStmt->close();
+			return $id;
+		}
 	}
 }
 ?>

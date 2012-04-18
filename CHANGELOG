@@ -1,3 +1,27 @@
+User Library - 0.7 (Released 2011-12-31)
+========================================
+- 0000045: [General] Registrations and users in different tables - closed.
+- 0000054: [General] Saving the date and time of a registration in the database - closed.
+- 0000056: [General] Parameter for force login without password - closed.
+- 0000055: [General] Method User::approve() doesn't check anything - closed.
+- 0000052: [General] Creation of a new permission by trying to assign a unknown permission - closed.
+- 0000053: [General] Method for getting all online users - closed.
+- 0000048: [General] Only one database connection - closed.
+- 0000046: [General] Caching in all methods - closed.
+- 0000050: [General] Parameters for limit and skip - closed.
+- 0000039: [General] Parameter for parameter checking in User::create() - closed.
+- 0000035: [General] Problem with autologout - closed.
+- 0000036: [General] checkPassword() function - closed.
+- 0000040: [General] Delete the permission and group assignments when deleting a user - closed.
+- 0000042: [General] User::block() - closed.
+- 0000047: [General] Exceptions instead of 'return false' - closed.
+- 0000041: [General] Move the userlib files to class.classname.php - closed.
+- 0000044: [General] User::inGroup() should return a boolean - closed.
+- 0000043: [General] Same 'if' in User::setInGroupLevel() and User::addGroup() - closed.
+- 0000028: [General] Oo Settings - closed.
+[19 issues]
+
+
 User Library - 0.61 (Released 2011-12-16)
 =========================================
 - 0000038: [General] Add method User->getInGroupLevel($groupId) - closed.
