@@ -24,7 +24,7 @@ require_once "settings.php";
 * Die meisten Funktionen geben false zurück falls der Benutzer noch nicht mit {@link User::check()}, {@link User::login()} oder {@link User::openWithId()} initalisiert wurde.
 *
 * @package userlib
-* @version 0.7
+* @version 0.71
 */
 class User {
 	
@@ -55,13 +55,14 @@ class User {
 	
 	//Protected Vars
 	protected $created = false;
-	protected $userLoggedIn = false;
+	protected $hasOpenedOnlineId = false;
 	protected $registeredOnly = false;
-	protected $id;
 	protected $deleted = false;
+	protected $id;
+	protected $onlineId;
+	protected $settings;
 	protected $dbCache;
 	protected $hookClasses = array();
-	protected $settings;
 	
 	//##################################################################
 	//######################   Initial methods    ######################
@@ -110,25 +111,22 @@ class User {
 	public function check() {
 		if ($this->created)
 			throw new Exception("There is already a user assigned");
+
 		$this->cleanOnlineTable();
 		if (isset($_COOKIE["USER_sessionid"]) && strlen($_COOKIE["USER_sessionid"]) > 0) {
  			if (isset($_COOKIE['USER_cookie_string']) && strlen($_COOKIE['USER_cookie_string']) > 0 && $this->isUserInDataBase($_COOKIE["USER_sessionid"], false, $userid) && $this->checkCookieString($userid, $_COOKIE['USER_cookie_string'])) {
-				$this->userLoggedIn = true;
+				$this->hasOpenedOnlineId = true;
 				$this->id = $userid;
 				$this->updateOnlineTable();
+				$this->onlineId = $this->getOnlineIdFromDatabase();
 			}
 		} else {
 			$sessionId = self::genCode(100);
 			setcookie("USER_sessionid", $sessionId, 0, "/");
 			$_COOKIE["USER_sessionid"] = $sessionId;
-			$this->dbCache->unsetField("onlineid");
-		}
-		if (! $this->userLoggedIn) {
-			if ($this->isUserInDatabase($_COOKIE["USER_sessionid"], true))
-				$this->updateOnlineTable(true);
-			else {
-				$this->insertInOnlineTable(true);
-			}
+
+			($this->isUserInDatabase($_COOKIE["USER_sessionid"], true))? $this->updateOnlineTable(true)
+				: $this->insertInOnlineTable(true);
 			$this->id = 0;
 		}
 		$this->created = true;
@@ -177,7 +175,7 @@ class User {
 	*
 	*/
 	public function logout() {
-		if (! $this->created || $this->deleted || ! $this->userLoggedIn)
+		if (! $this->created || $this->deleted || ! $this->hasOpenedOnlineId)
 			throw new Exception("There is no user assigned");
 		
 		$this->deleteFromOnlineTable();
@@ -302,11 +300,11 @@ class User {
 	* Gibt true zurück, wenn der Besucher eingeloggt ist, false, wenn nicht.
 	*
 	*/
-	public function loggedIn() {
+	public function hasOpenedOnlineId() {
 		if (! $this->created || $this->deleted)
 			throw new Exception("There is no user assigned");
 		
-		return $this->userLoggedIn;
+		return $this->hasOpenedOnlineId;
 	}
 	
 	/**
@@ -583,7 +581,7 @@ class User {
 		if (! $this->created || $this->deleted || $this->registeredOnly)
 			throw new Exception("There is no user assigned");
 		
-		if (!( $level >= 0 && $level <= 100 ))
+		if (!( $level >= 0 && $level <= 100))
 			return false;
 		
 		if ($this->inGroup($groupId))
@@ -660,7 +658,7 @@ class User {
 		if (! $this->created || $this->deleted || $this->registeredOnly)
 			throw new Exception("There is no user assigned");
 		
-		if (!( $level >= 0 && $level <= 100 ))
+		if (!( $level >= 0 && $level <= 100))
 			return false;
 		
 		if (!$this->inGroup($groupId))
@@ -808,7 +806,7 @@ class User {
 	*
 	*/
 	public function saveSessionVar($title, $value) {
-		if (! $this->created || $this->deleted || ! $this->userLoggedIn)
+		if (! $this->created || $this->deleted || ! $this->hasOpenedOnlineId)
 			throw new Exception("There is no user assigned");
 		
 		$onlineId = $this->getOnlineId();
@@ -849,7 +847,7 @@ class User {
 	*
 	*/
 	public function getSessionVar($title) {
-		if (! $this->created || $this->deleted || ! $this->userLoggedIn)
+		if (! $this->created || $this->deleted || ! $this->hasOpenedOnlineId)
 			throw new Exception("There is no user assigned");
 		
 		if ($this->dbCache->inCache("sessionvar_$title"))
@@ -951,7 +949,45 @@ class User {
 			throw new Exception("There is no user assigned");
 		return ! $this->registeredOnly;
 	}
-	
+
+	/**
+	* Gibt alle aktuellen online Ids des aktuellen Benutzers als Array zurück
+	*/
+	public function getAllOnlineIds() {
+		if (! $this->created || $this->deleted)
+			return false;
+		
+		if ($this->dbCache->inCache("allonlineids"))
+			return $this->dbCache->getField("allonlineids");
+		
+		$allOnlineIds = array();
+		$dbCon = DatabaseConnection::getDatabaseConnection();
+		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}onlineusers` WHERE `userid`=?");
+		
+		$stmt->bind_param("i", $this->id);
+		$stmt->execute();
+		$stmt->bind_result($onlineId);
+		while ($stmt->fetch())
+			$allOnlineIds[] = $onlineId;
+		
+		$stmt->close();
+		$this->dbCache->setField("allonlineids", $allOnlineIds);
+		return $allOnlineIds;
+	}
+
+	/**
+	* Öffnet die angegebene online Id, wenn diese nicht existiert wird eine Exception geworfen
+	*/
+	public function openOnlineId($onlineId) {
+		if (! $this->created || $this->deleted)
+			return false;
+		
+		if (in_array($onlineId, $this->getAllOnlineIds))
+			$this->onlineId = $onlineId;
+		else
+			throw new Exception("There isn't such an online Id");
+	}
+
 	/**
 	* Erstellt einen neuen Benutzer mit den übergebenen Werten.
 	* Dabei wird keine Mail verschickt.
@@ -1083,7 +1119,7 @@ class User {
 		
 		foreach ($userIds as $userId) {
 			$user = new User();
-			$user->openWithId($userId);
+			$user->openWithId($userId);//TODO
 			$users[] = $user;
 		}
 		
@@ -1184,6 +1220,13 @@ class User {
 		$stmt->close();
 		$this->dbCache->setField("custom_$name", $returnValue);
 		return $returnValue;
+	}
+
+	public function getOnlineId() {
+		if (! $this->created || $this->deleted || ! $this->hasOpenedOnlineId)
+			throw new Exception("There is no user assigned");
+
+		return $this->onlineId;
 	}
 	
 	//##################################################################
@@ -1358,16 +1401,17 @@ class User {
 		$_COOKIE["USER_sessionid"] = $sessionId;
 		setcookie("USER_cookie_string", $db_cookieString, 0, "/");
 		$this->dbCache->unsetField("onlineid");
-		$this->userLoggedIn = true;
 		$this->created = true;
 		$this->id = $db_userid;
 		
 		$this->insertInOnlineTable();
-		$this->callLoginHooks($this->id);
+		$this->hasOpenedOnlineId = true;
+		$this->onlineId = $this->getOnlineIdFromDatabase();
+		$this->callPostLoginHooks($this->id, $this->onlineId);
 	}
 	
 	private function getIp() {
-		if(getenv("HTTP_X_FORWARDED_FOR")) 
+		if (getenv("HTTP_X_FORWARDED_FOR")) 
 			$ip = getenv("HTTP_X_FORWARDED_FOR");
 		else
 			$ip = getenv("REMOTE_ADDR");
@@ -1413,10 +1457,7 @@ class User {
 		}
 	}
 	
-	private function getOnlineId() {
-		if (! $this->created || $this->deleted )
-			return false;
-		
+	private function getOnlineIdFromDatabase() {
 		if ($this->dbCache->inCache("onlineid"))
 			return $this->dbCache->getField("onlineid");
 		
@@ -1507,18 +1548,23 @@ class User {
 		return max($latestUserId, $latestRegistrationId);
 	}
 	
-	private function callLoginHooks($userid) {
+	private function callPostLoginHooks($userId, $onlineId) {
 		foreach ($this->hookClasses as $hookClass) {
-			$hookClass->login($userid);
+			$hookClass->login($userId, $onlineId);
 		}
 	}
 	
-	private function callLogoutHooks($userid) {
+	private function callPreLogoutHooks($userId, $onlineId) {
 		foreach ($this->hookClasses as $hookClass) {
-			$hookClass->logout($userid);
+			$hookClass->preLogout($userId, $onlineId);
 		}
 	}
 	
+	private function callPostLogoutHooks($userId, $onlineId) {
+		foreach ($this->hookClasses as $hookClass) {
+			$hookClass->postLogout($userId, $onlineId);
+		}
+	}
 	//##################################################################
 	//######################     Online table     ######################
 	//##################################################################
@@ -1537,6 +1583,7 @@ class User {
 		$stmt->bind_param("issi", $userid, $sessionId, $ipAddress, $actTime);
 		$stmt->execute();
 		
+		$this->onlineId = $dbCon->insert_id();
 		$stmt->close();
 	}
 	
@@ -1559,21 +1606,7 @@ class User {
 	}
 	
 	private function deleteFromOnlineTable() {
-		$dbCon = DatabaseConnection::getDatabaseConnection();
-		
-		$userid = $this->id;
-		$sessionId = $_COOKIE["USER_sessionid"];
-		
-		$searchStmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}onlineusers` WHERE `userid`=? AND `session`=? LIMIT 1");
-		
-		$searchStmt->bind_param("is", $userid, $sessionId);
-		$searchStmt->execute();
-		$searchStmt->bind_result($onlineId);
-		
-		if ($searchStmt->fetch()) {
-			$searchStmt->close();
-			$this->deleteAllUserDataFromOnlineTable($onlineId, $userid);
-		}
+		$this->deleteAllUserDataFromOnlineTable($this->getOnlineId(), $this->getId());
 	}
 	
 	private function cleanOnlineTable() {
@@ -1597,6 +1630,7 @@ class User {
 	}
 	
 	private function deleteAllUserDataFromOnlineTable($onlineid, $userid) {
+		$this->callPreLogoutHooks($userid, $onlineid);
 		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
 		$delVarstmt = $dbCon->prepare("DELETE FROM `{dbpre}sessionsvars` WHERE `onlineid`=? LIMIT 1");
@@ -1609,7 +1643,7 @@ class User {
 		$delVarstmt->close();
 		$delStmt->execute();
 		$delStmt->close();
-		$this->callLogoutHooks($userid);
+		$this->callPostLogoutHooks($userid, $onlineid);
 	}
 	
 	private function isUserInDataBase($session, $anon=false, &$userid=null) {
@@ -1629,7 +1663,9 @@ class User {
 		
 		$searchStmt->execute();
 		$searchStmt->bind_result($onlineid, $userid);
-		
+
+		$this->onlineId = $onlineid;
+
 		if ($searchStmt->fetch()) {
 			$returnValue = true;
 		} else
@@ -1640,9 +1676,10 @@ class User {
 	}
 }
 
-abstract class UserHooks {
-	abstract public function login($userid);
+interface UserHooks {
+	public function postLogin($userId, $onlineId);
 	
-	abstract public function logout($userid);
+	public function preLogout($userId, $onlineId);
+	public function postLogout($userId, $onlineId);
 }
 ?>
