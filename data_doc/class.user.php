@@ -982,7 +982,7 @@ class User {
 		if (! $this->created || $this->deleted)
 			return false;
 		
-		if (in_array($onlineId, $this->getAllOnlineIds))
+		if (in_array($onlineId, $this->getAllOnlineIds()))
 			$this->onlineId = $onlineId;
 		else
 			throw new Exception("There isn't such an online Id");
