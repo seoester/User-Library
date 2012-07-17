@@ -21,7 +21,7 @@ require_once "settings.php";
 
 /**
 * Die User Klasse ist die zentrale Klasse der User Library.
-* Die meisten Funktionen geben false zurück falls der Benutzer noch nicht mit {@link User::check()}, {@link User::login()} oder {@link User::openWithId()} initalisiert wurde.
+* Die meisten Funktionen geben false zurï¿½ck falls der Benutzer noch nicht mit {@link User::check()}, {@link User::login()} oder {@link User::openWithId()} initalisiert wurde.
 *
 * @package userlib
 * @version 0.71
@@ -73,7 +73,7 @@ class User {
 	}
 	
 	/**
-	* Versucht einen Login mit den übergebenen Daten. Es wird eine der LOGIN_ Konstanten zurückgegeben.
+	* Versucht einen Login mit den ï¿½bergebenen Daten. Es wird eine der LOGIN_ Konstanten zurï¿½ckgegeben.
 	* Die Methode erstellt auch alle notwendigen Sessions die {@link User::check()} braucht. Nach dem Login wird die User Klasse initialisiert.
 	*
 	*/
@@ -133,7 +133,7 @@ class User {
 	}
 	
 	/**
-	* Öffnet einen Benutzer mithilfe seiner ID in der Datenbank. Gibt es keinen Benutzer mit der angegebenen ID, wird false zurückgegeben.
+	* ï¿½ffnet einen Benutzer mithilfe seiner ID in der Datenbank. Gibt es keinen Benutzer mit der angegebenen ID, wird false zurï¿½ckgegeben.
 	*
 	*/
 	public function openWithId($userid) {
@@ -171,7 +171,7 @@ class User {
 	//######################    Public methods    ######################
 	//##################################################################
 	/**
-	* Vor der logout() Methode muss erst {@link check()} ausgeführt werden. logout() löscht wieder alle Sessions.
+	* Vor der logout() Methode muss erst {@link check()} ausgefï¿½hrt werden. logout() lï¿½scht wieder alle Sessions.
 	*
 	*/
 	public function logout() {
@@ -188,7 +188,7 @@ class User {
 	}
 	
 	/**
-	* Blockiert den aktuellen Benutzer. Gibt false zurück, falls es einen Fehler gab.
+	* Blockiert den aktuellen Benutzer. Gibt false zurï¿½ck, falls es einen Fehler gab.
 	*
 	*/
 	public function block() {
@@ -219,7 +219,7 @@ class User {
 	}
 	
 	/**
-	* Hebt die Blockierung des aktuellen Benutzers auf. Gibt false zurück, wenn es einen Fehler gab.
+	* Hebt die Blockierung des aktuellen Benutzers auf. Gibt false zurï¿½ck, wenn es einen Fehler gab.
 	*
 	*/
 	public function unblock() {
@@ -252,7 +252,7 @@ class User {
 	}
 	
 	/**
-	* Gibt den Status des aktuellen Benutzer zurück in Form einer STATUS_ Konstante zurück.
+	* Gibt den Status des aktuellen Benutzer zurï¿½ck in Form einer STATUS_ Konstante zurï¿½ck.
 	*
 	*/
 	public function getStatus() {
@@ -272,7 +272,7 @@ class User {
 	}
 	
 	/**
-	* Bestätigt den aktuellen Benutzer. Gibt false zurück, wenn es einen Fehler gab.
+	* Bestï¿½tigt den aktuellen Benutzer. Gibt false zurï¿½ck, wenn es einen Fehler gab.
 	*
 	*/
 	public function approve() {
@@ -297,7 +297,7 @@ class User {
 	}
 	
 	/**
-	* Gibt true zurück, wenn der Besucher eingeloggt ist, false, wenn nicht.
+	* Gibt true zurï¿½ck, wenn der Besucher eingeloggt ist, false, wenn nicht.
 	*
 	*/
 	public function hasOpenedOnlineId() {
@@ -308,7 +308,7 @@ class User {
 	}
 	
 	/**
-	* Gibt die ID in der _users Tabelle des aktuellen Benutzers zurück.
+	* Gibt die ID in der _users Tabelle des aktuellen Benutzers zurï¿½ck.
 	*
 	*/
 	public function getId() {
@@ -319,7 +319,7 @@ class User {
 	}
 	
 	/**
-	* Gibt die Email Adresse des aktuellen Benutzers zurück.
+	* Gibt die Email Adresse des aktuellen Benutzers zurï¿½ck.
 	*
 	*/
 	public function getEmail() {
@@ -365,7 +365,7 @@ class User {
 	}
 	
 	/**
-	* Gibt den Benutzernamen des aktuellen Benutzers zurück.
+	* Gibt den Benutzernamen des aktuellen Benutzers zurï¿½ck.
 	*
 	*/
 	public function getUsername() {
@@ -412,7 +412,7 @@ class User {
 	}
 	
 	/**
-	* Gibt den Loginnamen des aktuellen Benutzers zurück.
+	* Gibt den Loginnamen des aktuellen Benutzers zurï¿½ck.
 	*
 	*/
 	public function getLoginname() {
@@ -459,7 +459,7 @@ class User {
 	}
 	
 	/**
-	* Setzt das Password für den aktuellen Benutzer neu.
+	* Setzt das Password fï¿½r den aktuellen Benutzer neu.
 	* Dabei wird auch ein neuer Salt erzeugt
 	*
 	*/
@@ -483,7 +483,7 @@ class User {
 	}
 	
 	/**
-	* Überprüft ob das angegebene Passwort das Passwort des Benutzers ist.
+	* ï¿½berprï¿½ft ob das angegebene Passwort das Passwort des Benutzers ist.
 	*/
 	public function checkPassword($password) {
 		if (! $this->created || $this->deleted)
@@ -507,7 +507,7 @@ class User {
 	}
 	
 	/**
-	* Gibt ein Array mit den Ids aller Gruppen des Benutzers zurück.
+	* Gibt ein Array mit den Ids aller Gruppen des Benutzers zurï¿½ck.
 	*
 	* @NOCACHING
 	*/
@@ -543,7 +543,7 @@ class User {
 	}
 	
 	/**
-	* Gibt true zurück, wenn der Benutzer Mitglied der Gruppe mit der Id $groupId, ansonsten false.
+	* Gibt true zurï¿½ck, wenn der Benutzer Mitglied der Gruppe mit der Id $groupId, ansonsten false.
 	*
 	*/
 	public function inGroup($groupId) {
@@ -571,10 +571,10 @@ class User {
 	}
 	
 	/**
-	* Fügt den aktuellen Benutzer als Mitglied zu der Gruppe mit der Id $groupId hinzu.
-	* Wenn der Benutzer bereits in der Gruppe $groupId ist, wird false zurückgegeben.
-	* Zusätzlich kann das Level angegeben werden, das der Benutzer in der Gruppe hat.
-	* Wenn kein Level angegeben wird, wird es standardmäßig auf 50 gesetzt.
+	* Fï¿½gt den aktuellen Benutzer als Mitglied zu der Gruppe mit der Id $groupId hinzu.
+	* Wenn der Benutzer bereits in der Gruppe $groupId ist, wird false zurï¿½ckgegeben.
+	* Zusï¿½tzlich kann das Level angegeben werden, das der Benutzer in der Gruppe hat.
+	* Wenn kein Level angegeben wird, wird es standardmï¿½ï¿½ig auf 50 gesetzt.
 	*
 	*/
 	public function addGroup($groupId, $level=50) {
@@ -602,7 +602,7 @@ class User {
 	
 	/**
 	* Entfernt den aktuellen Benutzer aus der Gruppe mit der Id $groupId.
-	* Wenn der Benutzer nicht in der Gruppe $groupId ist, wird false zurückgegeben.
+	* Wenn der Benutzer nicht in der Gruppe $groupId ist, wird false zurï¿½ckgegeben.
 	*
 	*/
 	public function removeGroup($groupId) {
@@ -625,7 +625,7 @@ class User {
 	}
 	
 	/**
-	* Gibt das Level des aktuellen Benutzers in derGroppe mit der ID $groupId zurück.
+	* Gibt das Level des aktuellen Benutzers in derGroppe mit der ID $groupId zurï¿½ck.
 	*/
 	public function getInGroupLevel($groupId) {
 		if (! $this->created || $this->deleted || $this->registeredOnly)
@@ -676,8 +676,8 @@ class User {
 	}
 	
 	/**
-	* Gibt true zurück, wenn der Benutzer die Permission $name hat, ansonsten false.
-	* Die Gruppen des aktuellen Benutzers werden dabei nicht berücksichtigt.
+	* Gibt true zurï¿½ck, wenn der Benutzer die Permission $name hat, ansonsten false.
+	* Die Gruppen des aktuellen Benutzers werden dabei nicht berï¿½cksichtigt.
 	*
 	*/
 	public function hasOwnPermission($name) {
@@ -708,8 +708,8 @@ class User {
 	}
 	
 	/**
-	* Fügt dem Nutzer die Permission $name hinzu.
-	* Wenn der Nutzer die Permission mit dem Titel $name bereits hat, wird false zurückgegeben.
+	* Fï¿½gt dem Nutzer die Permission $name hinzu.
+	* Wenn der Nutzer die Permission mit dem Titel $name bereits hat, wird false zurï¿½ckgegeben.
 	*
 	*/
 	public function addPermission($name) {
@@ -737,7 +737,7 @@ class User {
 	
 	/**
 	* Entfernt die Permission $title vom aktuellen Benutzer.
-	* Wenn der Nutzer die Permission mit dem Titel $name nicht hat, wird false zurückgegeben.
+	* Wenn der Nutzer die Permission mit dem Titel $name nicht hat, wird false zurï¿½ckgegeben.
 	*
 	*/
 	public function removePermission($name) {
@@ -764,7 +764,7 @@ class User {
 	}
 	
 	/**
-	* Gibt true zurück, wenn der Benutzer oder eine Gruppe des Benutzers die Permission $name hat, ansonsten false.
+	* Gibt true zurï¿½ck, wenn der Benutzer oder eine Gruppe des Benutzers die Permission $name hat, ansonsten false.
 	*
 	* @NOCACHING
 	*/
@@ -801,8 +801,8 @@ class User {
 	}
 	
 	/**
-	* Speichert die übergebene Variable unter dem Titel $title für die aktuelle Session ab.
-	* Ist bereits eine Variable mit dem Titel $title vorhanden, wird deren Inhalt überschrieben.
+	* Speichert die ï¿½bergebene Variable unter dem Titel $title fï¿½r die aktuelle Session ab.
+	* Ist bereits eine Variable mit dem Titel $title vorhanden, wird deren Inhalt ï¿½berschrieben.
 	*
 	*/
 	public function saveSessionVar($title, $value) {
@@ -842,8 +842,8 @@ class User {
 	}
 	
 	/**
-	* Gibt den Inhalt der zuvor gespeicherten Variable unter dem Titel $title zurück.
-	* Wenn es keine Variable mit dem Titel $title gibt, wird NULL zurückgegeben.
+	* Gibt den Inhalt der zuvor gespeicherten Variable unter dem Titel $title zurï¿½ck.
+	* Wenn es keine Variable mit dem Titel $title gibt, wird NULL zurï¿½ckgegeben.
 	*
 	*/
 	public function getSessionVar($title) {
@@ -875,7 +875,7 @@ class User {
 	}
 	
 	/**
-	* Löscht den aktuellen Benutzer.
+	* Lï¿½scht den aktuellen Benutzer.
 	*
 	*/
 	public function deleteUser() {
@@ -907,7 +907,7 @@ class User {
 	}
 	
 	/**
-	* Versucht die Email Adresse mit den übergebenen Daten zu aktivieren. Gibt eine ACTIVATEEMAIL_ Konstante zurück.
+	* Versucht die Email Adresse mit den ï¿½bergebenen Daten zu aktivieren. Gibt eine ACTIVATEEMAIL_ Konstante zurï¿½ck.
 	*
 	*/
 	public function activateEmail($activationCode) {
@@ -942,7 +942,7 @@ class User {
 	}
 	
 	/**
-	* Gibt zurück, ob die Email Adresse des Benutzers aktiviert ist.
+	* Gibt zurï¿½ck, ob die Email Adresse des Benutzers aktiviert ist.
 	*/
 	public function getEmailactivated($echo = false) {
 		if (! $this->created || $this->deleted)
@@ -951,7 +951,7 @@ class User {
 	}
 
 	/**
-	* Gibt alle aktuellen online Ids des aktuellen Benutzers als Array zurück
+	* Gibt alle aktuellen online Ids des aktuellen Benutzers als Array zurï¿½ck
 	*/
 	public function getAllOnlineIds() {
 		if (! $this->created || $this->deleted)
@@ -976,7 +976,7 @@ class User {
 	}
 
 	/**
-	* Öffnet die angegebene online Id, wenn diese nicht existiert wird eine Exception geworfen
+	* ï¿½ffnet die angegebene online Id, wenn diese nicht existiert wird eine Exception geworfen
 	*/
 	public function openOnlineId($onlineId) {
 		if (! $this->created || $this->deleted)
@@ -985,16 +985,16 @@ class User {
 		if (in_array($onlineId, $this->getAllOnlineIds())){
 			$this->onlineId = $onlineId;
 			$this->hasOpenedOnlineId = true;
-		}else
+		} else
 			throw new Exception("There isn't such an online Id");
 	}
 
 	/**
-	* Erstellt einen neuen Benutzer mit den übergebenen Werten.
+	* Erstellt einen neuen Benutzer mit den ï¿½bergebenen Werten.
 	* Dabei wird keine Mail verschickt.
 	* Wenn $approved nicht angegeben wird, werden die Einstellungen verwendet.
-	* Wenn $check true ist, werden Login-, Username und Emailadresse überprüft bevor der Benutzer in die Datenbank geschrieben wird, es wird hingegen nicht überprüft ob das Registrieren deaktiviert ist.
-	* Die Methode kann deswegen auch eine der REGISTER_ Konstanten zurückgeben.
+	* Wenn $check true ist, werden Login-, Username und Emailadresse ï¿½berprï¿½ft bevor der Benutzer in die Datenbank geschrieben wird, es wird hingegen nicht ï¿½berprï¿½ft ob das Registrieren deaktiviert ist.
+	* Die Methode kann deswegen auch eine der REGISTER_ Konstanten zurï¿½ckgeben.
 	*
 	* @static
 	*/
@@ -1028,7 +1028,7 @@ class User {
 	/**
 	* Legt einen neuen Benutzer an.
 	* Im $emailtext wird [%id%] durch die ID des Benutzers, [%actcode%] durch den Aktivierungslink, [%username%] durch den Benutzername, [%loginname%] durch den Loginnamen und [%password%] durch das Passwort ersetzt.
-	* Gibt eine der REGISTER_ Konstanten zurück.
+	* Gibt eine der REGISTER_ Konstanten zurï¿½ck.
 	*
 	* @static
 	*/
@@ -1060,8 +1060,8 @@ class User {
 	}
 	
 	/**
-	* Gibt alle existierenden Benutzer zurück.
-	* Benutzer werden in Form eines Array von User Objekten zurückgegeben.
+	* Gibt alle existierenden Benutzer zurï¿½ck.
+	* Benutzer werden in Form eines Array von User Objekten zurï¿½ckgegeben.
 	*
 	* @static
 	*/
@@ -1094,8 +1094,8 @@ class User {
 	}
 	
 	/**
-	* Gibt alle Benutzer zurück die aktuell online sind.
-	* Benutzer werden in Form eines Array von User Objekten zurückgegeben.
+	* Gibt alle Benutzer zurï¿½ck die aktuell online sind.
+	* Benutzer werden in Form eines Array von User Objekten zurï¿½ckgegeben.
 	*
 	* @static
 	*/
@@ -1128,9 +1128,9 @@ class User {
 	}
 	
 	/**
-	* Fügt einen Hook hinzu.
+	* Fï¿½gt einen Hook hinzu.
 	* Die $hookClass muss von {@link UserHooks} abgeleitet werden.
-	* Es können mehre Hook Klassen hinzugefügt werden.
+	* Es kï¿½nnen mehre Hook Klassen hinzugefï¿½gt werden.
 	*
 	*/
 	public function appendHook(UserHooks $hookClass) {
@@ -1138,7 +1138,7 @@ class User {
 	}
 	
 	/**
-	* Fügt ein benutzerdefiniertes Feld mit dem Namen $name und dem $type zu der _users Tabelle hinzu.
+	* Fï¿½gt ein benutzerdefiniertes Feld mit dem Namen $name und dem $type zu der _users Tabelle hinzu.
 	* $type ist dabei reines SQL.
 	*
 	*/
