@@ -46,10 +46,22 @@ class UserLibrarySettings {
 	const need_approval = false;
 	
 	/**
-	* Wie lang soll der Salt sein, der für die Verschlüsselung von Passwörtern verwendet wird?
+	* Password algorithm and options
 	*/
-	const length_salt = 20;
+	const password_algorithm = 'bcrypt';
+
+	const password_salt_length = 20;
 	
+	const password_cpu_difficulty = 16384;
+
+	const password_mem_difficulty = 8;
+
+	const password_parallel_difficulty = 1;
+
+	const password_key_length = 32;
+
+	const password_rounds = 10;
+
 	/**
 	* Wie lang soll der Aktivierungscode sein, der in der Email durch {@link User::register()} verschickt wird?
 	*/

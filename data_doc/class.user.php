@@ -85,11 +85,11 @@ class User {
 		if (! $settings::login_enabled)
 			return self::LOGIN_LOGINDISABLED;
 		
-		$status = $this->preCheck($loginname, $db_userid, $db_password, $db_salt, $db_status, $db_loginattempts, $db_cookieString);
+		$status = $this->preCheck($loginname, $db_userid, $db_password, $db_status, $db_loginattempts, $db_cookieString);
 		if ($status != self::LOGIN_OK)
 			return $status;
 		if (!$force) {
-			$status = $this->passwordCheck($password, $db_password, $db_salt);
+			$status = $this->passwordCheck($password, $db_password);
 			if ($status != self::LOGIN_OK) {
 				$this->finishFaiLogin($db_userid, $db_loginattempts);
 				return $status;
@@ -468,14 +468,13 @@ class User {
 			throw new Exception("There is no user assigned");
 		
 		$settings = $this->settings;
-		$salt = $this->genCode($settings::length_salt);
-		$encodedPassword = $this->encodePassword($password, $salt);
+		$encodedPassword = $this->encodePassword($password, null);
 		
 		$dbCon = DatabaseConnection::getDatabaseConnection();
 		$table = ($this->getEmailactivated())? "users" : "registrations";
-		$stmt = $dbCon->prepare("UPDATE `{dbpre}$table` SET `password`=?, `salt`=? WHERE `id`=?");
+		$stmt = $dbCon->prepare("UPDATE `{dbpre}$table` SET `password`=? WHERE `id`=?");
 		
-		$stmt->bind_param("ssi", $encodedPassword, $salt, $this->id);
+		$stmt->bind_param("si", $encodedPassword, $this->id);
 		$stmt->execute();
 		$stmt->close();
 		$this->dbCache->setField("checkpassword_$password", true);
@@ -494,14 +493,14 @@ class User {
 		
 		$dbCon = DatabaseConnection::getDatabaseConnection();
 		$table = ($this->getEmailactivated())? "users" : "registrations";
-		$stmt = $dbCon->prepare("SELECT `salt`, `password` FROM `{dbpre}$table` WHERE id=? LIMIT 1");
+		$stmt = $dbCon->prepare("SELECT `password` FROM `{dbpre}$table` WHERE id=? LIMIT 1");
 		$stmt->bind_param("i", $this->id);
 		$stmt->execute();
-		$stmt->bind_result($salt, $realPassword);
+		$stmt->bind_result($realPassword);
 		$stmt->fetch();
 		$stmt->close();
 		
-		$encodedGivenPassword = self::encodePassword($password, $salt);
+		$encodedGivenPassword = self::encodePassword($password, $realPassword);
 		$this->dbCache->setField("checkpassword_$password", $isCorrect = ($encodedGivenPassword === $realPassword));
 		return $isCorrect;
 	}
@@ -920,19 +919,19 @@ class User {
 		$settings = new UserLibrarySettings();
 		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$checkStmt = $dbCon->prepare("SELECT `login`, `username`, `password`, `salt`, `email`, `status`, `activationcode`, `secure_cookie_string`, `registerdate` FROM `{dbpre}registrations` WHERE `id`=? LIMIT 1");
+		$checkStmt = $dbCon->prepare("SELECT `login`, `username`, `password`, `email`, `status`, `activationcode`, `secure_cookie_string`, `registerdate` FROM `{dbpre}registrations` WHERE `id`=? LIMIT 1");
 		
 		$checkStmt->bind_param("i", $this->id);
 		$checkStmt->execute();
-		$checkStmt->bind_result($db_loginname, $db_username, $db_password, $db_salt, $db_email, $db_status, $db_activationCode, $db_cookieString, $db_registerDate);
+		$checkStmt->bind_result($db_loginname, $db_username, $db_password, $db_email, $db_status, $db_activationCode, $db_cookieString, $db_registerDate);
 		$checkStmt->fetch();
 		$checkStmt->close();
 		if ($activationCode != $db_activationCode)
 			return self::ACTIVATEEMAIL_ACTIVATIONCODEWRONG;
 		else {
-			$activateStmt = $dbCon->prepare("INSERT INTO `{dbpre}users` (`id`, `login`, `username`, `password`, `salt`, `email`, `status`, `secure_cookie_string`, `registerdate`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			$activateStmt = $dbCon->prepare("INSERT INTO `{dbpre}users` (`id`, `login`, `username`, `password`, `email`, `status`, `secure_cookie_string`, `registerdate`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			
-			$activateStmt->bind_param("isssssisi", $this->id, $db_loginname, $db_username, $db_password, $db_salt, $db_email, $db_status, $db_cookieString, $db_registerDate);
+			$activateStmt->bind_param("issssisi", $this->id, $db_loginname, $db_username, $db_password, $db_email, $db_status, $db_cookieString, $db_registerDate);
 			$activateStmt->execute();
 			$activateStmt->close();
 			
@@ -982,7 +981,7 @@ class User {
 		if (! $this->created || $this->deleted)
 			return false;
 		
-		if (in_array($onlineId, $this->getAllOnlineIds())){
+		if (in_array($onlineId, $this->getAllOnlineIds())) {
 			$this->onlineId = $onlineId;
 			$this->hasOpenedOnlineId = true;
 		} else
@@ -1233,14 +1232,37 @@ class User {
 	//##################################################################
 	//######################    Private methods   ######################
 	//##################################################################
-	private static function encodePassword($password, $salt) {
-		$finalpassword = $password;
-		
-		for ($i = 0; $i < 10; $i++) {
-			$finalpassword = md5($finalpassword . $salt);
+	private static function encodePassword($password, $passwordHash=null) {
+		switch (UserLibrarySettings::password_algorithm) {
+			case 'scrypt':
+				$keyLength = UserLibrarySettings::password_key_length;
+				if ($passwordHash == null) {
+					$cpuDifficulty = UserLibrarySettings::password_cpu_difficulty;
+					$memDifficulty = UserLibrarySettings::password_mem_difficulty;
+					$parallelDifficulty = UserLibrarySettings::password_parallel_difficulty;
+					$salt = self::genCode(UserLibrarySettings::password_salt_length);
+				} else
+					list($cpuDifficulty, $memDifficulty, $parallelDifficulty, $salt) = explode('$', $passwordHash);
+				
+				$hash = scrypt($password, $salt, $cpuDifficulty, $memDifficulty, $parallelDifficulty, $keyLength);
+				return $cpuDifficulty . '$' . $memDifficulty . '$' . $parallelDifficulty . '$' . $salt . '$' . $hash;
+				break;
+			case 'bcrypt':
+				$keyLength = UserLibrarySettings::password_key_length;
+				if ($passwordHash == null) {
+					$roundInt = UserLibrarySettings::password_rounds;
+					$rounds = (strlen($roundInt) == 1)? "0$roundInt" : $roundInt;
+					$salt = self::genCode(22);
+					$options = '$2a$' . $rounds . '$' . $salt;
+				} else
+					$options = substr($passwordHash, 0, 30);
+				
+				return crypt($password, $options);
+				break;
+			default:
+				throw new Exception("Unsupported password encryption algorithm", 1);
+				break;
 		}
-		
-		return $finalpassword;
 	}
 	
 	private static function genCode($charNum) {
@@ -1324,14 +1346,14 @@ class User {
 		return true;
 	}
 	
-	private function preCheck($loginname, &$db_userid, &$db_password, &$db_salt, &$db_status, &$db_loginattempts, &$db_cookieString) {
+	private function preCheck($loginname, &$db_userid, &$db_password, &$db_status, &$db_loginattempts, &$db_cookieString) {
 		$settings = $this->settings;
 		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
-		$stmt = $dbCon->prepare("SELECT `id`, `password`, `salt`, `status`, `loginattempts`, `blockeduntil`, `secure_cookie_string` FROM `{dbpre}users` WHERE `login`=? LIMIT 1");
+		$stmt = $dbCon->prepare("SELECT `id`, `password`, `status`, `loginattempts`, `blockeduntil`, `secure_cookie_string` FROM `{dbpre}users` WHERE `login`=? LIMIT 1");
 		$stmt->bind_param("s", $loginname);
 		$stmt->execute();
-		$stmt->bind_result($db_userid, $db_password, $db_salt, $db_status, $db_loginattempts, $db_blockeduntil, $db_cookieString);
+		$stmt->bind_result($db_userid, $db_password, $db_status, $db_loginattempts, $db_blockeduntil, $db_cookieString);
 		if ($stmt->fetch()) {
 			$stmt->close();
 			if ($db_loginattempts >= $settings::maxloginattempts && time() < $db_blockeduntil)
@@ -1353,8 +1375,8 @@ class User {
 		}
 	}
 	
-	private function passwordCheck($password, $db_password, $db_salt) {
-		$encodedPassword = self::encodePassword($password, $db_salt);
+	private function passwordCheck($password, $db_password) {
+		$encodedPassword = self::encodePassword($password, $db_password);
 		if ($encodedPassword == $db_password)
 			return self::LOGIN_OK;
 		return self::LOGIN_WRONGPASSWORD;
@@ -1510,19 +1532,18 @@ class User {
 		$cookieString = self::genCode(100);
 		$id = self::getLatestId() + 1;
 		$registerDate = time();
-		$salt = self::genCode($settings::length_salt);
-		$encodedPassword = self::encodePassword($password, $salt);
+		$encodedPassword = self::encodePassword($password, null);
 		
 		if ($emailActivated) {
-			$insertStmt = $dbCon->prepare("INSERT INTO `{dbpre}users` (`id`, `login`, `username`, `password`, `salt`, `email`, `status`, `secure_cookie_string`, `registerdate`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			$insertStmt = $dbCon->prepare("INSERT INTO `{dbpre}users` (`id`, `login`, `username`, `password`, `email`, `status`, `secure_cookie_string`, `registerdate`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			
-			$insertStmt->bind_param("isssssisi", $id, $loginname, $username, $encodedPassword, $salt, $email, $status, $cookieString, $registerDate);
+			$insertStmt->bind_param("issssisi", $id, $loginname, $username, $encodedPassword, $email, $status, $cookieString, $registerDate);
 		} else {
-			$insertStmt = $dbCon->prepare("INSERT INTO `{dbpre}registrations` (`id`, `login`, `username`, `password`, `salt`, `email`, `status`, `activationcode`, `secure_cookie_string`, `registerdate`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			$insertStmt = $dbCon->prepare("INSERT INTO `{dbpre}registrations` (`id`, `login`, `username`, `password`, `email`, `status`, `activationcode`, `secure_cookie_string`, `registerdate`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			if ($activationCode === null)
 				$activationCode = "";
 			
-			$insertStmt->bind_param("isssssissi", $id, $loginname, $username, $encodedPassword, $salt, $email, $status, $activationCode, $cookieString, $registerDate);
+			$insertStmt->bind_param("issssissi", $id, $loginname, $username, $encodedPassword, $email, $status, $activationCode, $cookieString, $registerDate);
 		}
 		$insertStmt->execute();
 		$insertStmt->close();
