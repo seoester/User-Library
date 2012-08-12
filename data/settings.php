@@ -8,7 +8,13 @@ class UserLibrarySettings {
 	const login_enabled = true;
 	const register_enabled = true;
 	const need_approval = false;
-	const length_salt = 20;
+	const password_algorithm = 'bcrypt';
+	const password_salt_length = 20;
+	const password_cpu_difficulty = 16384;
+	const password_mem_difficulty = 8;
+	const password_parallel_difficulty = 1;
+	const password_key_length = 32;
+	const password_rounds = 10;
 	const length_activationcode = 20;
 	const send_mailaddress = "noreply@localhost";
 	const autologouttime = 50000;

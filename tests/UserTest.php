@@ -45,13 +45,13 @@ class UserTest extends PHPUnit_Framework_TestCase {
 	
 	/**
 	* @depends testOpenWithId
-	* @covers User::loggedIn
+	* @covers User::hasOpenedOnlineId
 	* @test
 	*/
-	public function testLoggedIn() {
+	public function testhasOpenedOnlineId() {
 		$user = new User();
 		$user->openWithId(1);
-		$this->assertFalse($user->loggedIn());
+		$this->assertFalse($user->hasOpenedOnlineId());
 	}
 	
 	/**
@@ -138,7 +138,7 @@ class UserTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
-	* @depends testGetStatus
+	* @depends testActivateEmail
 	* @covers User::approve
 	* @test
 	*/
