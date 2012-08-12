@@ -7,6 +7,7 @@ REQUIREMENTS
  * PHP 5.3 or higher
  * MySQL 4.1 or higher
  * The mysqli extension installed on your server
+ * If you want to use scrypt to encrypt passwords, you need to have the [php-scrypt extension](https://github.com/DomBlack/php-scrypt) installed
 
 INSTALLATION
 ------------
@@ -21,6 +22,8 @@ Download a version of the User Library.
 
 UPGRADE
 --------
+*Attention:* It is not possible to upgrade from version 0.7 to 0.72 due to changes of the password encryption
+
 The User Library can be updated with the upgrade.php.
 You cannot skip a version, so if you want to upgrade from 0.41 to 0.6 you first have to upgrade from 0.41 to 0.5 and then from 0.5 to 0.6.
 You can view the history of all User Library versions with the git tags.
