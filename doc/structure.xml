@@ -1,0 +1,1979 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project version="2.0.0a8" title="">
+  <file path="class.group.php" hash="628cc87c1b74b5fa30a725cf6e430873" package="userlib">
+    <docblock line="18">
+      <description><![CDATA[In group.php sind alle Elemente zu finden, die mit Gruppen in der User Library zu tun haben.]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="18" name="package" description="userlib"/>
+    </docblock>
+    <include line="24" type="Require Once" package="Default">
+      <name>class.databaseconnection.php</name>
+    </include>
+    <include line="25" type="Require Once" package="Default">
+      <name>class.user.php</name>
+    </include>
+    <include line="26" type="Require Once" package="Default">
+      <name>settings.php</name>
+    </include>
+    <class final="false" abstract="false" namespace="global" line="28" package="Default">
+      <extends/>
+      <name>Group</name>
+      <full_name>\Group</full_name>
+      <property final="false" static="false" visibility="protected" line="30" namespace="global" package="Default">
+        <name>$created</name>
+        <default><![CDATA[false]]></default>
+      </property>
+      <property final="false" static="false" visibility="protected" line="31" namespace="global" package="Default">
+        <name>$id</name>
+        <default><![CDATA[]]></default>
+      </property>
+      <property final="false" static="false" visibility="protected" line="32" namespace="global" package="Default">
+        <name>$deleted</name>
+        <default><![CDATA[false]]></default>
+      </property>
+      <property final="false" static="false" visibility="protected" line="33" namespace="global" package="Default">
+        <name>$dbCache</name>
+        <default><![CDATA[]]></default>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="39" package="Default">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="47" package="Default">
+        <name>openWithId</name>
+        <full_name>openWithId</full_name>
+        <docblock line="43">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="47">
+          <name>$groupId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="75" package="Default">
+        <name>getId</name>
+        <full_name>getId</full_name>
+        <docblock line="71">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="83" package="Default">
+        <name>hasPermission</name>
+        <full_name>hasPermission</full_name>
+        <docblock line="79">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="83">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="115" package="Default">
+        <name>addPermission</name>
+        <full_name>addPermission</full_name>
+        <docblock line="110">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="115">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="142" package="Default">
+        <name>removePermission</name>
+        <full_name>removePermission</full_name>
+        <docblock line="137">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="142">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="168" package="Default">
+        <name>getName</name>
+        <full_name>getName</full_name>
+        <docblock line="164">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="196" package="Default">
+        <name>setName</name>
+        <full_name>setName</full_name>
+        <docblock line="192">
+          <description><![CDATA[Setzt den Namen der Gruppe.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="196">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="216" package="Default">
+        <name>getAllUsersInGroup</name>
+        <full_name>getAllUsersInGroup</full_name>
+        <docblock line="210">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="216">
+          <name>$limit</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="216">
+          <name>$skip</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="247" package="Default">
+        <name>deleteGroup</name>
+        <full_name>deleteGroup</full_name>
+        <docblock line="243">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="278" package="Default">
+        <name>create</name>
+        <full_name>create</full_name>
+        <docblock line="273">
+          <description><![CDATA[Erstellt eine neue Gruppe mit dem Namen $groupname]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="273" name="static" description=""/>
+        </docblock>
+        <argument line="278">
+          <name>$groupname</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="278">
+          <name>$groupId</name>
+          <default><![CDATA["unset"]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="295" package="Default">
+        <name>getAllGroups</name>
+        <full_name>getAllGroups</full_name>
+        <docblock line="289">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="295">
+          <name>$limit</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="295">
+          <name>$skip</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="329" package="Default">
+        <name>addCustomField</name>
+        <full_name>addCustomField</full_name>
+        <docblock line="324">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="329">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="329">
+          <name>$type</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="345" package="Default">
+        <name>removeCustomField</name>
+        <full_name>removeCustomField</full_name>
+        <docblock line="341">
+          <description><![CDATA[Entfernt ein benuterdefiniertes Feld wieder.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="345">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="362" package="Default">
+        <name>saveCustomField</name>
+        <full_name>saveCustomField</full_name>
+        <docblock line="357">
+          <description><![CDATA[Speichert den Wert $value in dem benutzerdefinierten Feld $name der aktuellen Gruppe.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="362">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="362">
+          <name>$value</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="388" package="Default">
+        <name>getCustomField</name>
+        <full_name>getCustomField</full_name>
+        <docblock line="384">
+          <description><![CDATA[Liest den Wert aus dem benutzerdefinierten Feld $name der aktuellen Gruppe.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="388">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="414" package="Default">
+        <name>convertPermissionTitleToId</name>
+        <full_name>convertPermissionTitleToId</full_name>
+        <argument line="414">
+          <name>$title</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="28" code="50000">No DocBlock was found for \Group</error>
+      <error line="30" code="50018">No DocBlock was found for property $created</error>
+      <error line="31" code="50018">No DocBlock was found for property $id</error>
+      <error line="32" code="50018">No DocBlock was found for property $deleted</error>
+      <error line="33" code="50018">No DocBlock was found for property $dbCache</error>
+      <error line="39" code="50010">No DocBlock was found for method __construct()</error>
+      <error line="43" code="50012">No short description for method openWithId()</error>
+      <error line="43" code="50015">Argument $groupId is missing from the Docblock of openWithId()</error>
+      <error line="71" code="50012">No short description for method getId()</error>
+      <error line="79" code="50012">No short description for method hasPermission()</error>
+      <error line="79" code="50015">Argument $name is missing from the Docblock of hasPermission()</error>
+      <error line="110" code="50012">No short description for method addPermission()</error>
+      <error line="110" code="50015">Argument $name is missing from the Docblock of addPermission()</error>
+      <error line="137" code="50012">No short description for method removePermission()</error>
+      <error line="137" code="50015">Argument $name is missing from the Docblock of removePermission()</error>
+      <error line="164" code="50012">No short description for method getName()</error>
+      <error line="192" code="50015">Argument $name is missing from the Docblock of setName()</error>
+      <error line="210" code="50012">No short description for method getAllUsersInGroup()</error>
+      <error line="210" code="50015">Argument $limit is missing from the Docblock of getAllUsersInGroup()</error>
+      <error line="210" code="50015">Argument $skip is missing from the Docblock of getAllUsersInGroup()</error>
+      <error line="243" code="50012">No short description for method deleteGroup()</error>
+      <error line="273" code="50015">Argument $groupname is missing from the Docblock of create()</error>
+      <error line="273" code="50015">Argument $groupId is missing from the Docblock of create()</error>
+      <error line="289" code="50012">No short description for method getAllGroups()</error>
+      <error line="289" code="50015">Argument $limit is missing from the Docblock of getAllGroups()</error>
+      <error line="289" code="50015">Argument $skip is missing from the Docblock of getAllGroups()</error>
+      <error line="324" code="50012">No short description for method addCustomField()</error>
+      <error line="324" code="50015">Argument $name is missing from the Docblock of addCustomField()</error>
+      <error line="324" code="50015">Argument $type is missing from the Docblock of addCustomField()</error>
+      <error line="341" code="50015">Argument $name is missing from the Docblock of removeCustomField()</error>
+      <error line="357" code="50015">Argument $name is missing from the Docblock of saveCustomField()</error>
+      <error line="357" code="50015">Argument $value is missing from the Docblock of saveCustomField()</error>
+      <error line="384" code="50015">Argument $name is missing from the Docblock of getCustomField()</error>
+      <error line="414" code="50010">No DocBlock was found for method convertPermissionTitleToId()</error>
+    </parse_markers>
+  </file>
+  <file path="class.user.php" hash="24a85985ff8327c871bec20c4a37585f" package="Default">
+    <include line="18" type="Require Once" package="Default">
+      <name>class.databaseconnection.php</name>
+    </include>
+    <include line="19" type="Require Once" package="Default">
+      <name>class.group.php</name>
+    </include>
+    <include line="20" type="Require Once" package="Default">
+      <name>settings.php</name>
+    </include>
+    <interface namespace="global" line="1701" package="Default">
+      <name>UserHooks</name>
+      <full_name>\UserHooks</full_name>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1702" package="Default">
+        <name>postLogin</name>
+        <full_name>postLogin</full_name>
+        <argument line="1702">
+          <name>$userId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1702">
+          <name>$onlineId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1704" package="Default">
+        <name>preLogout</name>
+        <full_name>preLogout</full_name>
+        <argument line="1704">
+          <name>$userId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1704">
+          <name>$onlineId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1705" package="Default">
+        <name>postLogout</name>
+        <full_name>postLogout</full_name>
+        <argument line="1705">
+          <name>$userId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1705">
+          <name>$onlineId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </interface>
+    <class final="false" abstract="false" namespace="global" line="29" package="Default">
+      <extends/>
+      <name>User</name>
+      <full_name>\User</full_name>
+      <docblock line="22">
+        <description><![CDATA[]]></description>
+        <long-description><![CDATA[]]></long-description>
+      </docblock>
+      <constant namespace="global" line="32" package="Default">
+        <name>STATUS_NORMAL</name>
+        <full_name>STATUS_NORMAL</full_name>
+        <value><![CDATA[1]]></value>
+      </constant>
+      <constant namespace="global" line="33" package="Default">
+        <name>STATUS_BLOCK</name>
+        <full_name>STATUS_BLOCK</full_name>
+        <value><![CDATA[2]]></value>
+      </constant>
+      <constant namespace="global" line="34" package="Default">
+        <name>STATUS_UNAPPROVED</name>
+        <full_name>STATUS_UNAPPROVED</full_name>
+        <value><![CDATA[3]]></value>
+      </constant>
+      <constant namespace="global" line="36" package="Default">
+        <name>LOGIN_OK</name>
+        <full_name>LOGIN_OK</full_name>
+        <value><![CDATA[1]]></value>
+      </constant>
+      <constant namespace="global" line="37" package="Default">
+        <name>LOGIN_WRONGPASSWORD</name>
+        <full_name>LOGIN_WRONGPASSWORD</full_name>
+        <value><![CDATA[2]]></value>
+      </constant>
+      <constant namespace="global" line="38" package="Default">
+        <name>LOGIN_USERDOESNOTEXISTS</name>
+        <full_name>LOGIN_USERDOESNOTEXISTS</full_name>
+        <value><![CDATA[3]]></value>
+      </constant>
+      <constant namespace="global" line="39" package="Default">
+        <name>LOGIN_BLOCKED</name>
+        <full_name>LOGIN_BLOCKED</full_name>
+        <value><![CDATA[4]]></value>
+      </constant>
+      <constant namespace="global" line="40" package="Default">
+        <name>LOGIN_LOGINDISABLED</name>
+        <full_name>LOGIN_LOGINDISABLED</full_name>
+        <value><![CDATA[5]]></value>
+      </constant>
+      <constant namespace="global" line="41" package="Default">
+        <name>LOGIN_EMAILUNACTIVATED</name>
+        <full_name>LOGIN_EMAILUNACTIVATED</full_name>
+        <value><![CDATA[6]]></value>
+      </constant>
+      <constant namespace="global" line="42" package="Default">
+        <name>LOGIN_UNAPPROVED</name>
+        <full_name>LOGIN_UNAPPROVED</full_name>
+        <value><![CDATA[7]]></value>
+      </constant>
+      <constant namespace="global" line="43" package="Default">
+        <name>LOGIN_TOOMANYATTEMPTS</name>
+        <full_name>LOGIN_TOOMANYATTEMPTS</full_name>
+        <value><![CDATA[8]]></value>
+      </constant>
+      <constant namespace="global" line="45" package="Default">
+        <name>REGISTER_OK</name>
+        <full_name>REGISTER_OK</full_name>
+        <value><![CDATA[1]]></value>
+      </constant>
+      <constant namespace="global" line="46" package="Default">
+        <name>REGISTER_REGISTERDISABLED</name>
+        <full_name>REGISTER_REGISTERDISABLED</full_name>
+        <value><![CDATA[2]]></value>
+      </constant>
+      <constant namespace="global" line="47" package="Default">
+        <name>REGISTER_LOGINNAMEEXISTSALREADY</name>
+        <full_name>REGISTER_LOGINNAMEEXISTSALREADY</full_name>
+        <value><![CDATA[3]]></value>
+      </constant>
+      <constant namespace="global" line="48" package="Default">
+        <name>REGISTER_USERNAMEEXISTSALREADY</name>
+        <full_name>REGISTER_USERNAMEEXISTSALREADY</full_name>
+        <value><![CDATA[4]]></value>
+      </constant>
+      <constant namespace="global" line="49" package="Default">
+        <name>REGISTER_EMAILEXISTSALREADY</name>
+        <full_name>REGISTER_EMAILEXISTSALREADY</full_name>
+        <value><![CDATA[5]]></value>
+      </constant>
+      <constant namespace="global" line="51" package="Default">
+        <name>ACTIVATEEMAIL_OK</name>
+        <full_name>ACTIVATEEMAIL_OK</full_name>
+        <value><![CDATA[1]]></value>
+      </constant>
+      <constant namespace="global" line="52" package="Default">
+        <name>ACTIVATEEMAIL_ALREADYACTIVATED</name>
+        <full_name>ACTIVATEEMAIL_ALREADYACTIVATED</full_name>
+        <value><![CDATA[2]]></value>
+      </constant>
+      <constant namespace="global" line="53" package="Default">
+        <name>ACTIVATEEMAIL_ACTIVATIONCODEWRONG</name>
+        <full_name>ACTIVATEEMAIL_ACTIVATIONCODEWRONG</full_name>
+        <value><![CDATA[3]]></value>
+      </constant>
+      <property final="false" static="false" visibility="protected" line="57" namespace="global" package="Default">
+        <name>$created</name>
+        <default><![CDATA[false]]></default>
+      </property>
+      <property final="false" static="false" visibility="protected" line="58" namespace="global" package="Default">
+        <name>$hasOpenedOnlineId</name>
+        <default><![CDATA[false]]></default>
+      </property>
+      <property final="false" static="false" visibility="protected" line="59" namespace="global" package="Default">
+        <name>$registeredOnly</name>
+        <default><![CDATA[false]]></default>
+      </property>
+      <property final="false" static="false" visibility="protected" line="60" namespace="global" package="Default">
+        <name>$deleted</name>
+        <default><![CDATA[false]]></default>
+      </property>
+      <property final="false" static="false" visibility="protected" line="61" namespace="global" package="Default">
+        <name>$id</name>
+        <default><![CDATA[]]></default>
+      </property>
+      <property final="false" static="false" visibility="protected" line="62" namespace="global" package="Default">
+        <name>$onlineId</name>
+        <default><![CDATA[]]></default>
+      </property>
+      <property final="false" static="false" visibility="protected" line="63" namespace="global" package="Default">
+        <name>$settings</name>
+        <default><![CDATA[]]></default>
+      </property>
+      <property final="false" static="false" visibility="protected" line="64" namespace="global" package="Default">
+        <name>$dbCache</name>
+        <default><![CDATA[]]></default>
+      </property>
+      <property final="false" static="false" visibility="protected" line="65" namespace="global" package="Default">
+        <name>$hookClasses</name>
+        <default><![CDATA[array()]]></default>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="70" package="Default">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="80" package="Default">
+        <name>login</name>
+        <full_name>login</full_name>
+        <docblock line="75">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="80">
+          <name>$loginname</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="80">
+          <name>$password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="80">
+          <name>$force</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="111" package="Default">
+        <name>check</name>
+        <full_name>check</full_name>
+        <docblock line="107">
+          <description><![CDATA[Liest Session Daten ein, die von der {@link User::login()} Methode erstellt werden.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="139" package="Default">
+        <name>openWithId</name>
+        <full_name>openWithId</full_name>
+        <docblock line="135">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="139">
+          <name>$userid</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="177" package="Default">
+        <name>logout</name>
+        <full_name>logout</full_name>
+        <docblock line="173">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="194" package="Default">
+        <name>block</name>
+        <full_name>block</full_name>
+        <docblock line="190">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="225" package="Default">
+        <name>unblock</name>
+        <full_name>unblock</full_name>
+        <docblock line="221">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="258" package="Default">
+        <name>getStatus</name>
+        <full_name>getStatus</full_name>
+        <docblock line="254">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="278" package="Default">
+        <name>approve</name>
+        <full_name>approve</full_name>
+        <docblock line="274">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="303" package="Default">
+        <name>hasOpenedOnlineId</name>
+        <full_name>hasOpenedOnlineId</full_name>
+        <docblock line="299">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="314" package="Default">
+        <name>getId</name>
+        <full_name>getId</full_name>
+        <docblock line="310">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="325" package="Default">
+        <name>getEmail</name>
+        <full_name>getEmail</full_name>
+        <docblock line="321">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="353" package="Default">
+        <name>setEmail</name>
+        <full_name>setEmail</full_name>
+        <docblock line="349">
+          <description><![CDATA[Setzt die Email Adresse des aktuellen Benutzers.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="353">
+          <name>$email</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="371" package="Default">
+        <name>getUsername</name>
+        <full_name>getUsername</full_name>
+        <docblock line="367">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="399" package="Default">
+        <name>setUsername</name>
+        <full_name>setUsername</full_name>
+        <docblock line="395">
+          <description><![CDATA[Setzt den Benutzernamen des aktuellen Benutzers.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="399">
+          <name>$username</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="418" package="Default">
+        <name>getLoginname</name>
+        <full_name>getLoginname</full_name>
+        <docblock line="414">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="446" package="Default">
+        <name>setLoginname</name>
+        <full_name>setLoginname</full_name>
+        <docblock line="442">
+          <description><![CDATA[Setzt den Loginnamen des aktuellen Benutzers.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="446">
+          <name>$loginname</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="466" package="Default">
+        <name>setPassword</name>
+        <full_name>setPassword</full_name>
+        <docblock line="461">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="466">
+          <name>$password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="487" package="Default">
+        <name>checkPassword</name>
+        <full_name>checkPassword</full_name>
+        <docblock line="484">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="487">
+          <name>$password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="513" package="Default">
+        <name>getGroups</name>
+        <full_name>getGroups</full_name>
+        <docblock line="508">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="513">
+          <name>$limit</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="513">
+          <name>$skip</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="548" package="Default">
+        <name>inGroup</name>
+        <full_name>inGroup</full_name>
+        <docblock line="544">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="548">
+          <name>$groupId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="579" package="Default">
+        <name>addGroup</name>
+        <full_name>addGroup</full_name>
+        <docblock line="572">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="579">
+          <name>$groupId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="579">
+          <name>$level</name>
+          <default><![CDATA[50]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="607" package="Default">
+        <name>removeGroup</name>
+        <full_name>removeGroup</full_name>
+        <docblock line="602">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="607">
+          <name>$groupId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="629" package="Default">
+        <name>getInGroupLevel</name>
+        <full_name>getInGroupLevel</full_name>
+        <docblock line="626">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="629">
+          <name>$groupId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="656" package="Default">
+        <name>setInGroupLevel</name>
+        <full_name>setInGroupLevel</full_name>
+        <docblock line="652">
+          <description><![CDATA[Setzt das Level des aktuellen Benutzers in der Gruppe mit der ID $groupId.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="656">
+          <name>$groupId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="656">
+          <name>$level</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="682" package="Default">
+        <name>hasOwnPermission</name>
+        <full_name>hasOwnPermission</full_name>
+        <docblock line="677">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="682">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="714" package="Default">
+        <name>addPermission</name>
+        <full_name>addPermission</full_name>
+        <docblock line="709">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="714">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="742" package="Default">
+        <name>removePermission</name>
+        <full_name>removePermission</full_name>
+        <docblock line="737">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="742">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="770" package="Default">
+        <name>hasPermission</name>
+        <full_name>hasPermission</full_name>
+        <docblock line="765">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="770">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="807" package="Default">
+        <name>saveSessionVar</name>
+        <full_name>saveSessionVar</full_name>
+        <docblock line="802">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="807">
+          <name>$title</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="807">
+          <name>$value</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="848" package="Default">
+        <name>getSessionVar</name>
+        <full_name>getSessionVar</full_name>
+        <docblock line="843">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="848">
+          <name>$title</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="880" package="Default">
+        <name>deleteUser</name>
+        <full_name>deleteUser</full_name>
+        <docblock line="876">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="912" package="Default">
+        <name>activateEmail</name>
+        <full_name>activateEmail</full_name>
+        <docblock line="908">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="912">
+          <name>$activationCode</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="946" package="Default">
+        <name>getEmailactivated</name>
+        <full_name>getEmailactivated</full_name>
+        <docblock line="943">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="946">
+          <name>$echo</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="955" package="Default">
+        <name>getAllOnlineIds</name>
+        <full_name>getAllOnlineIds</full_name>
+        <docblock line="952">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="980" package="Default">
+        <name>openOnlineId</name>
+        <full_name>openOnlineId</full_name>
+        <docblock line="977">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="980">
+          <name>$onlineId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1000" package="Default">
+        <name>create</name>
+        <full_name>create</full_name>
+        <docblock line="991">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="1000">
+          <name>$loginname</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1000">
+          <name>$username</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1000">
+          <name>$password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1000">
+          <name>$email</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1000">
+          <name>$emailActivated</name>
+          <default><![CDATA[true]]></default>
+          <type/>
+        </argument>
+        <argument line="1000">
+          <name>$approved</name>
+          <default><![CDATA["stan"]]></default>
+          <type/>
+        </argument>
+        <argument line="1000">
+          <name>$userid</name>
+          <default><![CDATA["unset"]]></default>
+          <type/>
+        </argument>
+        <argument line="1000">
+          <name>$check</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1034" package="Default">
+        <name>register</name>
+        <full_name>register</full_name>
+        <docblock line="1027">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="1034">
+          <name>$loginname</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1034">
+          <name>$username</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1034">
+          <name>$password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1034">
+          <name>$email</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1034">
+          <name>$emailtext</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1034">
+          <name>$emailsubject</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1034">
+          <name>$userid</name>
+          <default><![CDATA["unset"]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1067" package="Default">
+        <name>getAllUsers</name>
+        <full_name>getAllUsers</full_name>
+        <docblock line="1061">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="1067">
+          <name>$limit</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="1067">
+          <name>$skip</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1101" package="Default">
+        <name>getAllOnlineUsers</name>
+        <full_name>getAllOnlineUsers</full_name>
+        <docblock line="1095">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="1101">
+          <name>$limit</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="1101">
+          <name>$skip</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1135" package="Default">
+        <name>appendHook</name>
+        <full_name>appendHook</full_name>
+        <docblock line="1129">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="1135">
+          <name>$hookClass</name>
+          <default><![CDATA[]]></default>
+          <type>\UserHooks</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1144" package="Default">
+        <name>addCustomField</name>
+        <full_name>addCustomField</full_name>
+        <docblock line="1139">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="1144">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1144">
+          <name>$type</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1160" package="Default">
+        <name>removeCustomField</name>
+        <full_name>removeCustomField</full_name>
+        <docblock line="1156">
+          <description><![CDATA[Entfernt ein benuterdefiniertes Feld wieder.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="1160">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1176" package="Default">
+        <name>saveCustomField</name>
+        <full_name>saveCustomField</full_name>
+        <docblock line="1172">
+          <description><![CDATA[Speichert den Wert $value in dem benutzerdefinierten Feld $name des aktuellen Benutzers.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="1176">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1176">
+          <name>$value</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1202" package="Default">
+        <name>getCustomField</name>
+        <full_name>getCustomField</full_name>
+        <docblock line="1198">
+          <description><![CDATA[Liest den Wert aus dem benutzerdefinierten Feld $name des aktuellen Benutzers.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+        <argument line="1202">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1225" package="Default">
+        <name>getOnlineId</name>
+        <full_name>getOnlineId</full_name>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="global" line="1235" package="Default">
+        <name>encodePassword</name>
+        <full_name>encodePassword</full_name>
+        <argument line="1235">
+          <name>$password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1235">
+          <name>$passwordHash</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="global" line="1268" package="Default">
+        <name>genCode</name>
+        <full_name>genCode</full_name>
+        <argument line="1268">
+          <name>$charNum</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="global" line="1280" package="Default">
+        <name>checkUsername</name>
+        <full_name>checkUsername</full_name>
+        <argument line="1280">
+          <name>$username</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="global" line="1303" package="Default">
+        <name>checkLoginname</name>
+        <full_name>checkLoginname</full_name>
+        <argument line="1303">
+          <name>$loginname</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="global" line="1326" package="Default">
+        <name>checkEmail</name>
+        <full_name>checkEmail</full_name>
+        <argument line="1326">
+          <name>$email</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1349" package="Default">
+        <name>preCheck</name>
+        <full_name>preCheck</full_name>
+        <argument line="1349">
+          <name>$loginname</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1349">
+          <name>$db_userid</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1349">
+          <name>$db_password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1349">
+          <name>$db_status</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1349">
+          <name>$db_loginattempts</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1349">
+          <name>$db_cookieString</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1378" package="Default">
+        <name>passwordCheck</name>
+        <full_name>passwordCheck</full_name>
+        <argument line="1378">
+          <name>$password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1378">
+          <name>$db_password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1385" package="Default">
+        <name>finishFaiLogin</name>
+        <full_name>finishFaiLogin</full_name>
+        <argument line="1385">
+          <name>$db_userid</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1385">
+          <name>$db_loginattempts</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1396" package="Default">
+        <name>postCheck</name>
+        <full_name>postCheck</full_name>
+        <argument line="1396">
+          <name>$db_status</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1407" package="Default">
+        <name>finishUnaLogin</name>
+        <full_name>finishUnaLogin</full_name>
+        <argument line="1407">
+          <name>$db_userid</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1415" package="Default">
+        <name>finishSucLogin</name>
+        <full_name>finishSucLogin</full_name>
+        <argument line="1415">
+          <name>$db_userid</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1415">
+          <name>$db_cookieString</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1436" package="Default">
+        <name>getIp</name>
+        <full_name>getIp</full_name>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1444" package="Default">
+        <name>getRawStatus</name>
+        <full_name>getRawStatus</full_name>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1461" package="Default">
+        <name>convertPermissionTitleToId</name>
+        <full_name>convertPermissionTitleToId</full_name>
+        <argument line="1461">
+          <name>$title</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1483" package="Default">
+        <name>getOnlineIdFromDatabase</name>
+        <full_name>getOnlineIdFromDatabase</full_name>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1510" package="Default">
+        <name>checkCookieString</name>
+        <full_name>checkCookieString</full_name>
+        <argument line="1510">
+          <name>$id</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1510">
+          <name>$cookieString</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="global" line="1529" package="Default">
+        <name>writeUserIntoDatabase</name>
+        <full_name>writeUserIntoDatabase</full_name>
+        <argument line="1529">
+          <name>$loginname</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1529">
+          <name>$username</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1529">
+          <name>$password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1529">
+          <name>$email</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1529">
+          <name>$status</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1529">
+          <name>$emailActivated</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+        <argument line="1529">
+          <name>$activationCode</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="global" line="1553" package="Default">
+        <name>sendMail</name>
+        <full_name>sendMail</full_name>
+        <argument line="1553">
+          <name>$FROM</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1553">
+          <name>$TO</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1553">
+          <name>$SUBJECT</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1553">
+          <name>$TEXT</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="global" line="1557" package="Default">
+        <name>getLatestId</name>
+        <full_name>getLatestId</full_name>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1573" package="Default">
+        <name>callPostLoginHooks</name>
+        <full_name>callPostLoginHooks</full_name>
+        <argument line="1573">
+          <name>$userId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1573">
+          <name>$onlineId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1579" package="Default">
+        <name>callPreLogoutHooks</name>
+        <full_name>callPreLogoutHooks</full_name>
+        <argument line="1579">
+          <name>$userId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1579">
+          <name>$onlineId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1585" package="Default">
+        <name>callPostLogoutHooks</name>
+        <full_name>callPostLogoutHooks</full_name>
+        <argument line="1585">
+          <name>$userId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1585">
+          <name>$onlineId</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1593" package="Default">
+        <name>insertInOnlineTable</name>
+        <full_name>insertInOnlineTable</full_name>
+        <argument line="1593">
+          <name>$anon</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1612" package="Default">
+        <name>updateOnlineTable</name>
+        <full_name>updateOnlineTable</full_name>
+        <argument line="1612">
+          <name>$anon</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1630" package="Default">
+        <name>deleteFromOnlineTable</name>
+        <full_name>deleteFromOnlineTable</full_name>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1634" package="Default">
+        <name>cleanOnlineTable</name>
+        <full_name>cleanOnlineTable</full_name>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1654" package="Default">
+        <name>deleteAllUserDataFromOnlineTable</name>
+        <full_name>deleteAllUserDataFromOnlineTable</full_name>
+        <argument line="1654">
+          <name>$onlineid</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1654">
+          <name>$userid</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="1671" package="Default">
+        <name>isUserInDataBase</name>
+        <full_name>isUserInDataBase</full_name>
+        <argument line="1671">
+          <name>$session</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="1671">
+          <name>$anon</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+        <argument line="1671">
+          <name>$userid</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <markers>
+      <todo line="1122"/>
+    </markers>
+    <parse_markers>
+      <error line="0" code="50007">No page-level DocBlock was found in file class.user.php</error>
+      <error line="1702" code="50010">No DocBlock was found for method postLogin()</error>
+      <error line="1704" code="50010">No DocBlock was found for method preLogout()</error>
+      <error line="1705" code="50010">No DocBlock was found for method postLogout()</error>
+      <critical line="22" code="50005">No short description for class \User</critical>
+      <error line="57" code="50018">No DocBlock was found for property $created</error>
+      <error line="58" code="50018">No DocBlock was found for property $hasOpenedOnlineId</error>
+      <error line="59" code="50018">No DocBlock was found for property $registeredOnly</error>
+      <error line="60" code="50018">No DocBlock was found for property $deleted</error>
+      <error line="61" code="50018">No DocBlock was found for property $id</error>
+      <error line="62" code="50018">No DocBlock was found for property $onlineId</error>
+      <error line="63" code="50018">No DocBlock was found for property $settings</error>
+      <error line="64" code="50018">No DocBlock was found for property $dbCache</error>
+      <error line="65" code="50018">No DocBlock was found for property $hookClasses</error>
+      <error line="70" code="50010">No DocBlock was found for method __construct()</error>
+      <error line="75" code="50012">No short description for method login()</error>
+      <error line="75" code="50015">Argument $loginname is missing from the Docblock of login()</error>
+      <error line="75" code="50015">Argument $password is missing from the Docblock of login()</error>
+      <error line="75" code="50015">Argument $force is missing from the Docblock of login()</error>
+      <error line="135" code="50012">No short description for method openWithId()</error>
+      <error line="135" code="50015">Argument $userid is missing from the Docblock of openWithId()</error>
+      <error line="173" code="50012">No short description for method logout()</error>
+      <error line="190" code="50012">No short description for method block()</error>
+      <error line="221" code="50012">No short description for method unblock()</error>
+      <error line="254" code="50012">No short description for method getStatus()</error>
+      <error line="274" code="50012">No short description for method approve()</error>
+      <error line="299" code="50012">No short description for method hasOpenedOnlineId()</error>
+      <error line="310" code="50012">No short description for method getId()</error>
+      <error line="321" code="50012">No short description for method getEmail()</error>
+      <error line="349" code="50015">Argument $email is missing from the Docblock of setEmail()</error>
+      <error line="367" code="50012">No short description for method getUsername()</error>
+      <error line="395" code="50015">Argument $username is missing from the Docblock of setUsername()</error>
+      <error line="414" code="50012">No short description for method getLoginname()</error>
+      <error line="442" code="50015">Argument $loginname is missing from the Docblock of setLoginname()</error>
+      <error line="461" code="50012">No short description for method setPassword()</error>
+      <error line="461" code="50015">Argument $password is missing from the Docblock of setPassword()</error>
+      <error line="484" code="50012">No short description for method checkPassword()</error>
+      <error line="484" code="50015">Argument $password is missing from the Docblock of checkPassword()</error>
+      <error line="508" code="50012">No short description for method getGroups()</error>
+      <error line="508" code="50015">Argument $limit is missing from the Docblock of getGroups()</error>
+      <error line="508" code="50015">Argument $skip is missing from the Docblock of getGroups()</error>
+      <error line="544" code="50012">No short description for method inGroup()</error>
+      <error line="544" code="50015">Argument $groupId is missing from the Docblock of inGroup()</error>
+      <error line="572" code="50012">No short description for method addGroup()</error>
+      <error line="572" code="50015">Argument $groupId is missing from the Docblock of addGroup()</error>
+      <error line="572" code="50015">Argument $level is missing from the Docblock of addGroup()</error>
+      <error line="602" code="50012">No short description for method removeGroup()</error>
+      <error line="602" code="50015">Argument $groupId is missing from the Docblock of removeGroup()</error>
+      <error line="626" code="50012">No short description for method getInGroupLevel()</error>
+      <error line="626" code="50015">Argument $groupId is missing from the Docblock of getInGroupLevel()</error>
+      <error line="652" code="50015">Argument $groupId is missing from the Docblock of setInGroupLevel()</error>
+      <error line="652" code="50015">Argument $level is missing from the Docblock of setInGroupLevel()</error>
+      <error line="677" code="50012">No short description for method hasOwnPermission()</error>
+      <error line="677" code="50015">Argument $name is missing from the Docblock of hasOwnPermission()</error>
+      <error line="709" code="50012">No short description for method addPermission()</error>
+      <error line="709" code="50015">Argument $name is missing from the Docblock of addPermission()</error>
+      <error line="737" code="50012">No short description for method removePermission()</error>
+      <error line="737" code="50015">Argument $name is missing from the Docblock of removePermission()</error>
+      <error line="765" code="50012">No short description for method hasPermission()</error>
+      <error line="765" code="50015">Argument $name is missing from the Docblock of hasPermission()</error>
+      <error line="802" code="50012">No short description for method saveSessionVar()</error>
+      <error line="802" code="50015">Argument $title is missing from the Docblock of saveSessionVar()</error>
+      <error line="802" code="50015">Argument $value is missing from the Docblock of saveSessionVar()</error>
+      <error line="843" code="50012">No short description for method getSessionVar()</error>
+      <error line="843" code="50015">Argument $title is missing from the Docblock of getSessionVar()</error>
+      <error line="876" code="50012">No short description for method deleteUser()</error>
+      <error line="908" code="50012">No short description for method activateEmail()</error>
+      <error line="908" code="50015">Argument $activationCode is missing from the Docblock of activateEmail()</error>
+      <error line="943" code="50012">No short description for method getEmailactivated()</error>
+      <error line="943" code="50015">Argument $echo is missing from the Docblock of getEmailactivated()</error>
+      <error line="952" code="50012">No short description for method getAllOnlineIds()</error>
+      <error line="977" code="50012">No short description for method openOnlineId()</error>
+      <error line="977" code="50015">Argument $onlineId is missing from the Docblock of openOnlineId()</error>
+      <error line="991" code="50012">No short description for method create()</error>
+      <error line="991" code="50015">Argument $loginname is missing from the Docblock of create()</error>
+      <error line="991" code="50015">Argument $username is missing from the Docblock of create()</error>
+      <error line="991" code="50015">Argument $password is missing from the Docblock of create()</error>
+      <error line="991" code="50015">Argument $email is missing from the Docblock of create()</error>
+      <error line="991" code="50015">Argument $emailActivated is missing from the Docblock of create()</error>
+      <error line="991" code="50015">Argument $approved is missing from the Docblock of create()</error>
+      <error line="991" code="50015">Argument $userid is missing from the Docblock of create()</error>
+      <error line="991" code="50015">Argument $check is missing from the Docblock of create()</error>
+      <error line="1027" code="50012">No short description for method register()</error>
+      <error line="1027" code="50015">Argument $loginname is missing from the Docblock of register()</error>
+      <error line="1027" code="50015">Argument $username is missing from the Docblock of register()</error>
+      <error line="1027" code="50015">Argument $password is missing from the Docblock of register()</error>
+      <error line="1027" code="50015">Argument $email is missing from the Docblock of register()</error>
+      <error line="1027" code="50015">Argument $emailtext is missing from the Docblock of register()</error>
+      <error line="1027" code="50015">Argument $emailsubject is missing from the Docblock of register()</error>
+      <error line="1027" code="50015">Argument $userid is missing from the Docblock of register()</error>
+      <error line="1061" code="50012">No short description for method getAllUsers()</error>
+      <error line="1061" code="50015">Argument $limit is missing from the Docblock of getAllUsers()</error>
+      <error line="1061" code="50015">Argument $skip is missing from the Docblock of getAllUsers()</error>
+      <error line="1095" code="50012">No short description for method getAllOnlineUsers()</error>
+      <error line="1095" code="50015">Argument $limit is missing from the Docblock of getAllOnlineUsers()</error>
+      <error line="1095" code="50015">Argument $skip is missing from the Docblock of getAllOnlineUsers()</error>
+      <error line="1129" code="50012">No short description for method appendHook()</error>
+      <error line="1129" code="50015">Argument $hookClass is missing from the Docblock of appendHook()</error>
+      <error line="1139" code="50012">No short description for method addCustomField()</error>
+      <error line="1139" code="50015">Argument $name is missing from the Docblock of addCustomField()</error>
+      <error line="1139" code="50015">Argument $type is missing from the Docblock of addCustomField()</error>
+      <error line="1156" code="50015">Argument $name is missing from the Docblock of removeCustomField()</error>
+      <error line="1172" code="50015">Argument $name is missing from the Docblock of saveCustomField()</error>
+      <error line="1172" code="50015">Argument $value is missing from the Docblock of saveCustomField()</error>
+      <error line="1198" code="50015">Argument $name is missing from the Docblock of getCustomField()</error>
+      <error line="1225" code="50010">No DocBlock was found for method getOnlineId()</error>
+      <error line="1235" code="50010">No DocBlock was found for method encodePassword()</error>
+      <error line="1268" code="50010">No DocBlock was found for method genCode()</error>
+      <error line="1280" code="50010">No DocBlock was found for method checkUsername()</error>
+      <error line="1303" code="50010">No DocBlock was found for method checkLoginname()</error>
+      <error line="1326" code="50010">No DocBlock was found for method checkEmail()</error>
+      <error line="1349" code="50010">No DocBlock was found for method preCheck()</error>
+      <error line="1378" code="50010">No DocBlock was found for method passwordCheck()</error>
+      <error line="1385" code="50010">No DocBlock was found for method finishFaiLogin()</error>
+      <error line="1396" code="50010">No DocBlock was found for method postCheck()</error>
+      <error line="1407" code="50010">No DocBlock was found for method finishUnaLogin()</error>
+      <error line="1415" code="50010">No DocBlock was found for method finishSucLogin()</error>
+      <error line="1436" code="50010">No DocBlock was found for method getIp()</error>
+      <error line="1444" code="50010">No DocBlock was found for method getRawStatus()</error>
+      <error line="1461" code="50010">No DocBlock was found for method convertPermissionTitleToId()</error>
+      <error line="1483" code="50010">No DocBlock was found for method getOnlineIdFromDatabase()</error>
+      <error line="1510" code="50010">No DocBlock was found for method checkCookieString()</error>
+      <error line="1529" code="50010">No DocBlock was found for method writeUserIntoDatabase()</error>
+      <error line="1553" code="50010">No DocBlock was found for method sendMail()</error>
+      <error line="1557" code="50010">No DocBlock was found for method getLatestId()</error>
+      <error line="1573" code="50010">No DocBlock was found for method callPostLoginHooks()</error>
+      <error line="1579" code="50010">No DocBlock was found for method callPreLogoutHooks()</error>
+      <error line="1585" code="50010">No DocBlock was found for method callPostLogoutHooks()</error>
+      <error line="1593" code="50010">No DocBlock was found for method insertInOnlineTable()</error>
+      <error line="1612" code="50010">No DocBlock was found for method updateOnlineTable()</error>
+      <error line="1630" code="50010">No DocBlock was found for method deleteFromOnlineTable()</error>
+      <error line="1634" code="50010">No DocBlock was found for method cleanOnlineTable()</error>
+      <error line="1654" code="50010">No DocBlock was found for method deleteAllUserDataFromOnlineTable()</error>
+      <error line="1671" code="50010">No DocBlock was found for method isUserInDataBase()</error>
+    </parse_markers>
+  </file>
+  <file path="settings.php" hash="5ab37dfa3699d1ad6cc5b1ef584251eb" package="Default">
+    <class final="false" abstract="false" namespace="global" line="6" package="userlib">
+      <extends/>
+      <name>UserLibrarySettings</name>
+      <full_name>\UserLibrarySettings</full_name>
+      <docblock line="2">
+        <description><![CDATA[In dieser Klasse werden alle Einstellungen der User Library gespeichert.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="2" name="package" description="userlib"/>
+      </docblock>
+      <constant namespace="global" line="10" package="userlib">
+        <name>DB_server</name>
+        <full_name>DB_server</full_name>
+        <value><![CDATA["localhost"]]></value>
+        <docblock line="7">
+          <description><![CDATA[Server, auf dem die Datenbank liegt.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="15" package="userlib">
+        <name>DB_database</name>
+        <full_name>DB_database</full_name>
+        <value><![CDATA["userlib"]]></value>
+        <docblock line="12">
+          <description><![CDATA[Die Datenbank, die die User Library zum Speichern von Daten nutzen soll.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="20" package="userlib">
+        <name>DB_user</name>
+        <full_name>DB_user</full_name>
+        <value><![CDATA["root"]]></value>
+        <docblock line="17">
+          <description><![CDATA[Der Nutzer, mit dem sich die User Library auf der Datenbank einloggt.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="25" package="userlib">
+        <name>DB_password</name>
+        <full_name>DB_password</full_name>
+        <value><![CDATA["waterford3user4"]]></value>
+        <docblock line="22">
+          <description><![CDATA[Das Passwort, das die User Library zum Einloggen auf der Datenbank benutzen soll.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="30" package="userlib">
+        <name>DB_prefix</name>
+        <full_name>DB_prefix</full_name>
+        <value><![CDATA["test_"]]></value>
+        <docblock line="27">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="36" package="userlib">
+        <name>login_enabled</name>
+        <full_name>login_enabled</full_name>
+        <value><![CDATA[true]]></value>
+        <docblock line="33">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="42" package="userlib">
+        <name>register_enabled</name>
+        <full_name>register_enabled</full_name>
+        <value><![CDATA[true]]></value>
+        <docblock line="38">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="47" package="userlib">
+        <name>need_approval</name>
+        <full_name>need_approval</full_name>
+        <value><![CDATA[false]]></value>
+        <docblock line="44">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="52" package="userlib">
+        <name>password_algorithm</name>
+        <full_name>password_algorithm</full_name>
+        <value><![CDATA['bcrypt']]></value>
+        <docblock line="49">
+          <description><![CDATA[Password algorithm and options]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="54" package="userlib">
+        <name>password_salt_length</name>
+        <full_name>password_salt_length</full_name>
+        <value><![CDATA[20]]></value>
+      </constant>
+      <constant namespace="global" line="56" package="userlib">
+        <name>password_cpu_difficulty</name>
+        <full_name>password_cpu_difficulty</full_name>
+        <value><![CDATA[16384]]></value>
+      </constant>
+      <constant namespace="global" line="58" package="userlib">
+        <name>password_mem_difficulty</name>
+        <full_name>password_mem_difficulty</full_name>
+        <value><![CDATA[8]]></value>
+      </constant>
+      <constant namespace="global" line="60" package="userlib">
+        <name>password_parallel_difficulty</name>
+        <full_name>password_parallel_difficulty</full_name>
+        <value><![CDATA[1]]></value>
+      </constant>
+      <constant namespace="global" line="62" package="userlib">
+        <name>password_key_length</name>
+        <full_name>password_key_length</full_name>
+        <value><![CDATA[32]]></value>
+      </constant>
+      <constant namespace="global" line="64" package="userlib">
+        <name>password_rounds</name>
+        <full_name>password_rounds</full_name>
+        <value><![CDATA[10]]></value>
+      </constant>
+      <constant namespace="global" line="69" package="userlib">
+        <name>length_activationcode</name>
+        <full_name>length_activationcode</full_name>
+        <value><![CDATA[20]]></value>
+        <docblock line="66">
+          <description><![CDATA[Wie lang soll der Aktivierungscode sein, der in der Email durch {@link User::register()} verschickt wird?]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="74" package="userlib">
+        <name>send_mailaddress</name>
+        <full_name>send_mailaddress</full_name>
+        <value><![CDATA["noreply@localhost"]]></value>
+        <docblock line="71">
+          <description><![CDATA[Von welcher Email Adresse sollen Emails verschickt werden?]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="79" package="userlib">
+        <name>autologouttime</name>
+        <full_name>autologouttime</full_name>
+        <value><![CDATA[50000]]></value>
+        <docblock line="76">
+          <description><![CDATA[Nach wie vielen Sekunden wird ein Benutzer automatisch ausgeloggt?]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="84" package="userlib">
+        <name>maxloginattempts</name>
+        <full_name>maxloginattempts</full_name>
+        <value><![CDATA[5]]></value>
+        <docblock line="81">
+          <description><![CDATA[Wie viele fehlerhafte Loginversuche darf ein Benutzer machen, ohne das sein Account gesperrt wird?]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="89" package="userlib">
+        <name>loginblocktime</name>
+        <full_name>loginblocktime</full_name>
+        <value><![CDATA[3600]]></value>
+        <docblock line="86">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="97" package="userlib">
+        <name>securesessions</name>
+        <full_name>securesessions</full_name>
+        <value><![CDATA[false]]></value>
+        <docblock line="91">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+    </class>
+    <parse_markers>
+      <error line="0" code="50007">No page-level DocBlock was found in file settings.php</error>
+    </parse_markers>
+  </file>
+  <file path="class.databaseconnection.php" hash="37348bfe4d0ae7645c42bdbfb5388d33" package="userlib">
+    <docblock line="17">
+      <description><![CDATA[Die Klasse DatabaseConnection wird von der User Library benutzt, um Datenbank Verbindungen zu verwalten.]]></description>
+      <long-description><![CDATA[<p>Die Klasse Cache wird von der User Library benutzt um Datenbank Abfragen cachen zu k�nnen.</p>]]></long-description>
+      <tag line="17" name="package" description="userlib"/>
+    </docblock>
+    <include line="24" type="Require Once" package="Default">
+      <name>settings.php</name>
+    </include>
+    <class final="false" abstract="false" namespace="global" line="26" package="Default">
+      <extends/>
+      <name>DatabaseConnection</name>
+      <full_name>\DatabaseConnection</full_name>
+      <property final="false" static="false" visibility="private" line="27" namespace="global" package="Default">
+        <name>$mysqliObj</name>
+        <default><![CDATA[]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="28" namespace="global" package="Default">
+        <name>$statements</name>
+        <default><![CDATA[array()]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="29" namespace="global" package="Default">
+        <name>$dbPrefix</name>
+        <default><![CDATA[]]></default>
+      </property>
+      <property final="false" static="true" visibility="private" line="30" namespace="global" package="Default">
+        <name>$connections</name>
+        <default><![CDATA[array()]]></default>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="32" package="Default">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <argument line="32">
+          <name>$settings</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="41" package="Default">
+        <name>getConnection</name>
+        <full_name>getConnection</full_name>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="48" package="Default">
+        <name>prepare</name>
+        <full_name>prepare</full_name>
+        <argument line="48">
+          <name>$sql</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="58" package="Default">
+        <name>close</name>
+        <full_name>close</full_name>
+        <argument line="58">
+          <name>$freeResult</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="62" package="Default">
+        <name>affected_rows</name>
+        <full_name>affected_rows</full_name>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="66" package="Default">
+        <name>insert_id</name>
+        <full_name>insert_id</full_name>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="70" package="Default">
+        <name>getDatabaseConnection</name>
+        <full_name>getDatabaseConnection</full_name>
+        <argument line="70">
+          <name>$settings</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <class final="false" abstract="false" namespace="global" line="100" package="Default">
+      <extends/>
+      <name>Cache</name>
+      <full_name>\Cache</full_name>
+      <property final="false" static="false" visibility="private" line="101" namespace="global" package="Default">
+        <name>$cache</name>
+        <default><![CDATA[array()]]></default>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="103" package="Default">
+        <name>inCache</name>
+        <full_name>inCache</full_name>
+        <argument line="103">
+          <name>$field</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="107" package="Default">
+        <name>setField</name>
+        <full_name>setField</full_name>
+        <argument line="107">
+          <name>$field</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="107">
+          <name>$value</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="111" package="Default">
+        <name>getField</name>
+        <full_name>getField</full_name>
+        <argument line="111">
+          <name>$field</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="111">
+          <name>$default</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="118" package="Default">
+        <name>unsetField</name>
+        <full_name>unsetField</full_name>
+        <argument line="118">
+          <name>$field</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <class final="false" abstract="false" namespace="global" line="123" package="Default">
+      <extends/>
+      <name>DatabaseSettings</name>
+      <full_name>\DatabaseSettings</full_name>
+      <constant namespace="global" line="124" package="Default">
+        <name>DB_server</name>
+        <full_name>DB_server</full_name>
+        <value><![CDATA[null]]></value>
+      </constant>
+      <constant namespace="global" line="125" package="Default">
+        <name>DB_user</name>
+        <full_name>DB_user</full_name>
+        <value><![CDATA[null]]></value>
+      </constant>
+      <constant namespace="global" line="126" package="Default">
+        <name>DB_password</name>
+        <full_name>DB_password</full_name>
+        <value><![CDATA[null]]></value>
+      </constant>
+      <constant namespace="global" line="127" package="Default">
+        <name>DB_database</name>
+        <full_name>DB_database</full_name>
+        <value><![CDATA[null]]></value>
+      </constant>
+      <constant namespace="global" line="128" package="Default">
+        <name>DB_prefix</name>
+        <full_name>DB_prefix</full_name>
+        <value><![CDATA[null]]></value>
+      </constant>
+    </class>
+    <parse_markers>
+      <error line="26" code="50000">No DocBlock was found for \DatabaseConnection</error>
+      <error line="27" code="50018">No DocBlock was found for property $mysqliObj</error>
+      <error line="28" code="50018">No DocBlock was found for property $statements</error>
+      <error line="29" code="50018">No DocBlock was found for property $dbPrefix</error>
+      <error line="30" code="50018">No DocBlock was found for property $connections</error>
+      <error line="32" code="50010">No DocBlock was found for method __construct()</error>
+      <error line="41" code="50010">No DocBlock was found for method getConnection()</error>
+      <error line="48" code="50010">No DocBlock was found for method prepare()</error>
+      <error line="58" code="50010">No DocBlock was found for method close()</error>
+      <error line="62" code="50010">No DocBlock was found for method affected_rows()</error>
+      <error line="66" code="50010">No DocBlock was found for method insert_id()</error>
+      <error line="70" code="50010">No DocBlock was found for method getDatabaseConnection()</error>
+      <error line="100" code="50000">No DocBlock was found for \Cache</error>
+      <error line="101" code="50018">No DocBlock was found for property $cache</error>
+      <error line="103" code="50010">No DocBlock was found for method inCache()</error>
+      <error line="107" code="50010">No DocBlock was found for method setField()</error>
+      <error line="111" code="50010">No DocBlock was found for method getField()</error>
+      <error line="118" code="50010">No DocBlock was found for method unsetField()</error>
+      <error line="123" code="50000">No DocBlock was found for \DatabaseSettings</error>
+    </parse_markers>
+  </file>
+  <package name="Default" full_name="Default"/>
+  <package name="userlib" full_name="userlib"/>
+  <namespace name="global" full_name="global"/>
+  <marker count="1">todo</marker>
+  <marker count="0">fixme</marker>
+  <deprecated count="0"/>
+</project>

@@ -1,3 +1,13 @@
+User Library - 0.72 (Released 2012-08-12)
+======================================
+- 0000061: [General] Installation script for 0.72 - closed.
+- 0000060: [General] New password encryption algorithms - closed.
+- 0000059: [General] Add .htaccess - closed.
+- 0000058: [General] Methods for managing User sessions - closed.
+- 0000057: [General] New hook class - closed.
+[5 issues]
+
+
 User Library - 0.7 (Released 2011-12-31)
 ========================================
 - 0000045: [General] Registrations and users in different tables - closed.

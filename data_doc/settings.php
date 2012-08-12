@@ -22,12 +22,13 @@ class UserLibrarySettings {
 	/**
 	* Das Passwort, das die User Library zum Einloggen auf der Datenbank benutzen soll.
 	*/
-	const DB_password = "root";
+	const DB_password = "waterford3user4";
 	
 	/**
 	* Das Präfix, das vor die Tabellen der User Library gestellt wird.
 	*/
-	const DB_prefix = "userlib_";
+	const DB_prefix = "test_";
+	// const DB_prefix = "userlib_";
 	
 	/**
 	* Soll ein Login möglich sein?
