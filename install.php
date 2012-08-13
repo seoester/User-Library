@@ -308,7 +308,7 @@ function convStringToBool($string) {
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
-  <h1>User Library Installation Assistent (0.72)</h1>
+  <h1>User Library Installation Assistent (0.73)</h1>
 
   <?php
 if (! empty($error))
