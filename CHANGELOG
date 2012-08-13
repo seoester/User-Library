@@ -1,3 +1,10 @@
+User Library - 0.73 (Released 2012-08-13)
+=========================================
+- 0000062: [General] User isn't removed from registrations table after email activation - closed.
+- 0000063: [General] Use Mail class - closed.
+[2 issues]
+
+
 User Library - 0.72 (Released 2012-08-12)
 ======================================
 - 0000061: [General] Installation script for 0.72 - closed.
