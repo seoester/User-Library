@@ -41,7 +41,7 @@ class Group {
 	}
 	
 	/**
-	* Ã–ffnet eine Gruppe mithilfe ihrer ID in der Datenbank. Gibt es keine Gruppe mit der angegebenen ID, wird false zurÃ¼ckgegeben.
+	* Öffnet eine Gruppe mithilfe ihrer ID in der Datenbank. Gibt es keine Gruppe mit der angegebenen ID, wird false zurückgegeben.
 	*
 	*/
 	public function openWithId($groupId) {
@@ -69,7 +69,7 @@ class Group {
 	//######################    Public methods    ######################
 	//##################################################################
 	/**
-	* Gibt die ID der aktuellen Gruppe zurÃ¼ck.
+	* Gibt die ID der aktuellen Gruppe zurück.
 	* 
 	*/
 	public function getId() {
@@ -77,7 +77,7 @@ class Group {
 	}
 	
 	/**
-	* Gibt true zurÃ¼ck, wenn die Gruppe die Permission $name hat, ansonsten false.
+	* Gibt true zurück, wenn die Gruppe die Permission $name hat, ansonsten false.
 	* 
 	*/
 	public function hasPermission($name) {
@@ -108,8 +108,8 @@ class Group {
 	}
 	
 	/**
-	* FÃ¼gt der Gruppe die Permission $name hinzu.
-	* Wenn die Gruppe die Permission mit dem Titel $name bereits hat, wird false zurÃ¼ckgegeben.
+	* Fügt der Gruppe die Permission $name hinzu.
+	* Wenn die Gruppe die Permission mit dem Titel $name bereits hat, wird false zurückgegeben.
 	*
 	*/
 	public function addPermission($name) {
@@ -136,7 +136,7 @@ class Group {
 	
 	/**
 	* Entzieht der Gruppe die Permission $name wieder.
-	* Wenn die Gruppe die Permission mit dem Titel $name nicht hat, wird false zurÃ¼ckgegeben.
+	* Wenn die Gruppe die Permission mit dem Titel $name nicht hat, wird false zurückgegeben.
 	*
 	*/
 	public function removePermission($name) {
@@ -162,7 +162,7 @@ class Group {
 	}
 	
 	/**
-	* Gibt den Namen der Gruppe zurÃ¼ck.
+	* Gibt den Namen der Gruppe zurück.
 	*
 	*/
 	public function getName() {
@@ -208,8 +208,8 @@ class Group {
 	}
 	
 	/**
-	* Gibt alle Benutzer zurÃ¼ck, die in der aktuellen Gruppe sind.
-	* Diese werden als ein Array von User Objekten zurÃ¼ckgegeben.
+	* Gibt alle Benutzer zurück, die in der aktuellen Gruppe sind.
+	* Diese werden als ein Array von User Objekten zurückgegeben.
 	*
 	* @NOCACHING
 	*/
@@ -241,7 +241,7 @@ class Group {
 	}
 	
 	/**
-	* LÃ¶scht die Gruppe.
+	* Löscht die Gruppe.
 	*
 	*/
 	public function deleteGroup() {
@@ -287,8 +287,8 @@ class Group {
 	}
 	
 	/**
-	* Gibt alle existierenden Gruppen zurÃ¼ck.
-	* Diese werden als ein Array von Group Objekten zurÃ¼ckgegeben.
+	* Gibt alle existierenden Gruppen zurück.
+	* Diese werden als ein Array von Group Objekten zurückgegeben.
 	*
 	* @static
 	*/
@@ -322,7 +322,7 @@ class Group {
 	}
 	
 	/**
-	* FÃ¼gt ein benutzerdefiniertes Feld mit dem Namen $name und dem $type zu der _groups Tabelle hinzu.
+	* Fügt ein benutzerdefiniertes Feld mit dem Namen $name und dem $type zu der _groups Tabelle hinzu.
 	* $type ist dabei reines SQL.
 	*
 	*/

@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>phpDocumentor » \DatabaseConnection</title>
+<title>phpDocumentor » \Mail</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -59,146 +59,123 @@
 <ul class="side-nav nav nav-list">
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods</li>
-<li class="method public "><a href="#__construct" title="__construct :: "><span class="description">__construct()
-        </span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#affected_rows" title="affected_rows :: "><span class="description">affected_rows()
-        </span><pre>affected_rows()</pre></a></li>
-<li class="method public "><a href="#close" title="close :: "><span class="description">close()
-        </span><pre>close()</pre></a></li>
-<li class="method public "><a href="#getConnection" title="getConnection :: "><span class="description">getConnection()
-        </span><pre>getConnection()</pre></a></li>
-<li class="method public "><a href="#getDatabaseConnection" title="getDatabaseConnection :: "><span class="description">getDatabaseConnection()
-        </span><pre>getDatabaseConnection()</pre></a></li>
-<li class="method public "><a href="#insert_id" title="insert_id :: "><span class="description">insert_id()
-        </span><pre>insert_id()</pre></a></li>
-<li class="method public "><a href="#prepare" title="prepare :: "><span class="description">prepare()
-        </span><pre>prepare()</pre></a></li>
+<li class="method public "><a href="#send" title="send :: Sends the mail(s) configured with the class attributes."><span class="description">Sends the mail(s) configured with the class attributes.</span><pre>send()</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties</li>
-<li class="nav-header private">» Private</li>
-<li class="property private "><a href="#%24connections" title="$connections :: "><span class="description">$connections</span><pre>$connections</pre></a></li>
-<li class="property private "><a href="#%24dbPrefix" title="$dbPrefix :: "><span class="description">$dbPrefix</span><pre>$dbPrefix</pre></a></li>
-<li class="property private "><a href="#%24mysqliObj" title="$mysqliObj :: "><span class="description">$mysqliObj</span><pre>$mysqliObj</pre></a></li>
-<li class="property private "><a href="#%24statements" title="$statements :: "><span class="description">$statements</span><pre>$statements</pre></a></li>
+<li class="property public "><a href="#%24bcc" title="$bcc :: "><span class="description">$bcc</span><pre>$bcc</pre></a></li>
+<li class="property public "><a href="#%24body" title="$body :: "><span class="description">$body</span><pre>$body</pre></a></li>
+<li class="property public "><a href="#%24cc" title="$cc :: "><span class="description">$cc</span><pre>$cc</pre></a></li>
+<li class="property public "><a href="#%24from" title="$from :: "><span class="description">$from</span><pre>$from</pre></a></li>
+<li class="property public "><a href="#%24fromName" title="$fromName :: "><span class="description">$fromName</span><pre>$fromName</pre></a></li>
+<li class="property public "><a href="#%24html" title="$html :: "><span class="description">$html</span><pre>$html</pre></a></li>
+<li class="property public "><a href="#%24oneMailToEach" title="$oneMailToEach :: "><span class="description">$oneMailToEach</span><pre>$oneMailToEach</pre></a></li>
+<li class="property public "><a href="#%24replyTo" title="$replyTo :: "><span class="description">$replyTo</span><pre>$replyTo</pre></a></li>
+<li class="property public "><a href="#%24replyToName" title="$replyToName :: "><span class="description">$replyToName</span><pre>$replyToName</pre></a></li>
+<li class="property public "><a href="#%24subject" title="$subject :: "><span class="description">$subject</span><pre>$subject</pre></a></li>
+<li class="property public "><a href="#%24to" title="$to :: "><span class="description">$to</span><pre>$to</pre></a></li>
 </ul>
 </div>
 <div class="span8">
-<a name="%5CDatabaseConnection" id="\DatabaseConnection"></a><ul class="breadcrumb">
+<a name="%5CMail" id="\Mail"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
 <li><a href="../namespaces/global.html">global</a></li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/DatabaseConnection.html">DatabaseConnection</a>
+<span class="divider">\</span><a href="../classes/Mail.html">Mail</a>
 </li>
 </ul>
-<div href="../classes/DatabaseConnection.html" class="element class"><div class="details">
+<div href="../classes/Mail.html" class="element class">
+<p class="short_description">The mail class helps abstracting a mail functionality, this basic class provides abstraction for the php mail() function.</p>
+<div class="details">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/utils.html">utils</a></td>
+</tr></table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
-<a name="__construct" id="__construct"></a><div class="element clickable method public __construct" data-toggle="collapse" data-target=".__construct .collapse">
-<h2>__construct()
-        </h2>
-<pre>__construct($settings) </pre>
+<a name="send" id="send"></a><div class="element clickable method public send" data-toggle="collapse" data-target=".send .collapse">
+<h2>Sends the mail(s) configured with the class attributes.</h2>
+<pre>send() : boolean</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <p class="long_description"></p>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$settings</h4>
-<code></code>
-</div>
-</div></div>
-</div>
-<a name="affected_rows" id="affected_rows"></a><div class="element clickable method public affected_rows" data-toggle="collapse" data-target=".affected_rows .collapse">
-<h2>affected_rows()
-        </h2>
-<pre>affected_rows() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
-</div>
-<a name="close" id="close"></a><div class="element clickable method public close" data-toggle="collapse" data-target=".close .collapse">
-<h2>close()
-        </h2>
-<pre>close($freeResult) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<p class="long_description"></p>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$freeResult</h4>
-<code></code>
-</div>
-</div></div>
-</div>
-<a name="getConnection" id="getConnection"></a><div class="element clickable method public getConnection" data-toggle="collapse" data-target=".getConnection .collapse">
-<h2>getConnection()
-        </h2>
-<pre>getConnection() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
-</div>
-<a name="getDatabaseConnection" id="getDatabaseConnection"></a><div class="element clickable method public getDatabaseConnection" data-toggle="collapse" data-target=".getDatabaseConnection .collapse">
-<h2>getDatabaseConnection()
-        </h2>
-<pre>getDatabaseConnection($settings) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<p class="long_description"></p>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$settings</h4>
-<code></code>
-</div>
-</div></div>
-</div>
-<a name="insert_id" id="insert_id"></a><div class="element clickable method public insert_id" data-toggle="collapse" data-target=".insert_id .collapse">
-<h2>insert_id()
-        </h2>
-<pre>insert_id() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
-</div>
-<a name="prepare" id="prepare"></a><div class="element clickable method public prepare" data-toggle="collapse" data-target=".prepare .collapse">
-<h2>prepare()
-        </h2>
-<pre>prepare($sql) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<p class="long_description"></p>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$sql</h4>
-<code></code>
-</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>boolean</code>Whether all mails were be sent successfully</div>
 </div></div>
 </div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
-<a name="%24connections" id="$connections"> </a><div class="element clickable property private $connections" data-toggle="collapse" data-target=".$connections .collapse">
-<h2>$connections</h2>
-<pre>$connections </pre>
+<a name="%24bcc" id="$bcc"> </a><div class="element clickable property public $bcc" data-toggle="collapse" data-target=".$bcc .collapse">
+<h2>$bcc</h2>
+<pre>$bcc </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
 </div>
-<a name="%24dbPrefix" id="$dbPrefix"> </a><div class="element clickable property private $dbPrefix" data-toggle="collapse" data-target=".$dbPrefix .collapse">
-<h2>$dbPrefix</h2>
-<pre>$dbPrefix </pre>
+<a name="%24body" id="$body"> </a><div class="element clickable property public $body" data-toggle="collapse" data-target=".$body .collapse">
+<h2>$body</h2>
+<pre>$body </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
 </div>
-<a name="%24mysqliObj" id="$mysqliObj"> </a><div class="element clickable property private $mysqliObj" data-toggle="collapse" data-target=".$mysqliObj .collapse">
-<h2>$mysqliObj</h2>
-<pre>$mysqliObj </pre>
+<a name="%24cc" id="$cc"> </a><div class="element clickable property public $cc" data-toggle="collapse" data-target=".$cc .collapse">
+<h2>$cc</h2>
+<pre>$cc </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
 </div>
-<a name="%24statements" id="$statements"> </a><div class="element clickable property private $statements" data-toggle="collapse" data-target=".$statements .collapse">
-<h2>$statements</h2>
-<pre>$statements </pre>
+<a name="%24from" id="$from"> </a><div class="element clickable property public $from" data-toggle="collapse" data-target=".$from .collapse">
+<h2>$from</h2>
+<pre>$from </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
 </div>
-</div></div>
+<a name="%24fromName" id="$fromName"> </a><div class="element clickable property public $fromName" data-toggle="collapse" data-target=".$fromName .collapse">
+<h2>$fromName</h2>
+<pre>$fromName </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24html" id="$html"> </a><div class="element clickable property public $html" data-toggle="collapse" data-target=".$html .collapse">
+<h2>$html</h2>
+<pre>$html </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24oneMailToEach" id="$oneMailToEach"> </a><div class="element clickable property public $oneMailToEach" data-toggle="collapse" data-target=".$oneMailToEach .collapse">
+<h2>$oneMailToEach</h2>
+<pre>$oneMailToEach </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24replyTo" id="$replyTo"> </a><div class="element clickable property public $replyTo" data-toggle="collapse" data-target=".$replyTo .collapse">
+<h2>$replyTo</h2>
+<pre>$replyTo </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24replyToName" id="$replyToName"> </a><div class="element clickable property public $replyToName" data-toggle="collapse" data-target=".$replyToName .collapse">
+<h2>$replyToName</h2>
+<pre>$replyToName </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24subject" id="$subject"> </a><div class="element clickable property public $subject" data-toggle="collapse" data-target=".$subject .collapse">
+<h2>$subject</h2>
+<pre>$subject </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24to" id="$to"> </a><div class="element clickable property public $to" data-toggle="collapse" data-target=".$to .collapse">
+<h2>$to</h2>
+<pre>$to </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="row"><footer class="span12">
