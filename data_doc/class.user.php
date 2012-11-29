@@ -491,7 +491,8 @@ class User {
 		
 		if ($this->dbCache->inCache("checkpassword_$password"))
 			return $this->dbCache->getField("checkpassword_$password");
-		
+		if (! (isset($password) && strlen($password) > 0))
+			return false;
 		$dbCon = DatabaseConnection::getDatabaseConnection();
 		$table = ($this->getEmailactivated())? "users" : "registrations";
 		$stmt = $dbCon->prepare("SELECT `password` FROM `{dbpre}$table` WHERE id=? LIMIT 1");
