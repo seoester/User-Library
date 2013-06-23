@@ -491,7 +491,8 @@ class User {
 		
 		if ($this->dbCache->inCache("checkpassword_$password"))
 			return $this->dbCache->getField("checkpassword_$password");
-		
+		if (! (isset($password) && strlen($password) > 0))
+			return false;
 		$dbCon = DatabaseConnection::getDatabaseConnection();
 		$table = ($this->getEmailactivated())? "users" : "registrations";
 		$stmt = $dbCon->prepare("SELECT `password` FROM `{dbpre}$table` WHERE id=? LIMIT 1");
@@ -1414,7 +1415,9 @@ class User {
 	private function finishUnaLogin($db_userid) {
 		$dbCon = DatabaseConnection::getDatabaseConnection();
 		$stmt = $dbCon->prepare("UPDATE `{dbpre}users` SET `loginattempts`=?, `blockeduntil`=? WHERE `id`=?");
-		$stmt->bind_param("iii", $loginattempts = 0, $blockeduntil = 0, $db_userid);
+		$loginattempts = 0;
+		$blockeduntil = 0;
+		$stmt->bind_param("iii", $loginattempts, $blockeduntil, $db_userid);
 		$stmt->execute();
 		$stmt->close();
 	}
@@ -1422,7 +1425,9 @@ class User {
 	private function finishSucLogin($db_userid, $db_cookieString) {
 		$dbCon = DatabaseConnection::getDatabaseConnection();
 		$stmt = $dbCon->prepare("UPDATE `{dbpre}users` SET `loginattempts`=?, `blockeduntil`=? WHERE `id`=?");
-		$stmt->bind_param("iii", $loginattempts = 0, $blockeduntil = 0, $db_userid);
+		$loginattempts = 0;
+		$blockeduntil = 0;
+		$stmt->bind_param("iii", $loginattempts, $blockeduntil, $db_userid);
 		$stmt->execute();
 		$stmt->close();
 		
