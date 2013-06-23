@@ -1028,7 +1028,7 @@ class User {
 				$finalStatus = 1;
 		}
 		
-		$userid = self::writeUserIntoDatabase($loginname, $username, $password, $email, $finalStatus, $emailActivated);
+		$userid = self::writeUserIntoDatabase($loginname, $username, $password, $email, $finalStatus, $emailActivated, $activationCode);
 	}
 	
 	/**
