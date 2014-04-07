@@ -1285,7 +1285,7 @@ class User {
 		return $code;
 	}
 	
-	private static function checkUsername($username) {
+	public static function checkUsername($username) {
 		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
 		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}users` WHERE `username`=?");
@@ -1308,7 +1308,7 @@ class User {
 		return true;
 	}
 	
-	private static function checkLoginname($loginname) {
+	public static function checkLoginname($loginname) {
 		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
 		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}users` WHERE `login`=?");
@@ -1331,7 +1331,7 @@ class User {
 		return true;
 	}
 	
-	private static function checkEmail($email) {
+	public static function checkEmail($email) {
 		$dbCon = DatabaseConnection::getDatabaseConnection();
 		
 		$stmt = $dbCon->prepare("SELECT `id` FROM `{dbpre}users` WHERE `email`=?");
